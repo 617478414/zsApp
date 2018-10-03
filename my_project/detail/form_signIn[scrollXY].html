@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link href="../../css/icons-extra.css" rel="stylesheet" type="text/css" />
+		<!--self-->
+		<link href="../../css/PageSignIn.css" rel="stylesheet" />
+		<style>
+		    .mui-scroll-wrapper {
+                /*top: 45px;*/
+                bottom: 50px;
+                left: 1px;
+                overflow: auto;
+                height: 300px;
+            }
+            .PlaceSvg{
+                position: absolute;
+                z-index: 10 !important;
+            }
+            .pane{
+                position: relative;
+                display: inline-block;
+            }
+		</style>
+	</head>
+    
+	<body>
+	    <header class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left " id='back' href="#"></a>
+            <a class="mui-icon mui-icon-bars mui-pull-right" href="#ShowList"></a>
+            <h1 class="mui-title"><span id="CName"></span></h1>
+        </header>
+        <div class="mui-content mui-scroll-wrapper mui-slider-indicator mui-segmented-control mui-segmented-control-inverted">
+            <div class="mui-scroll panes wrapper" id="ImgDiv" style="top: 45;">
+                <div class="pinch-zoom" id="ImgPack">
+                    <div class="panes" id="ImgPlace">
+                        <!--<div class="pane">
+                            <img class='paneImg' src='http://112.74.34.150:8080/TongXinweb/images/0b5c5b47-0927-48ec-a336-9b925881ec54/fcc99838-b70d-4e5f-a270-7ef508d4e1f3/(1).png' />
+                            <img class="PlaceSvg" style="width:20%;top:100px;left:50px;" src="http://192.168.0.199:8081/zsPC/signUpload/55/1537326518620.svg" />
+                        </div>-->
+                        <!--<div class="pane">
+                            <img class='paneImg' src='http://112.74.34.150:8080/TongXinweb/images/0b5c5b47-0927-48ec-a336-9b925881ec54/fcc99838-b70d-4e5f-a270-7ef508d4e1f3/(1).png' />
+                            <img class='PlaceSvg' style='width:25.64102564102564px;height:15.384615384615383px;top:328.2051282051282px;left:191.79487179487177px;' src='http://192.168.0.199:8081/zsPC/signUpload/55/1537326518620.svg' />
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+            <!--驳回原因输入块-->
+            <div id="ShowList" class="mui-popover mui-popover-action mui-popover-bottom">
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell">
+                        <a href="#" style="color: #FF3B30;">驳回</a>
+                    </li>
+                    <li class="mui-table-view-cell">
+                        <a href="#" style="color: #FF3B30;">提交</a>
+                    </li>
+                </ul>
+                <ul class="mui-table-view">
+                    <li class="mui-table-view-cell">
+                        <a href="#delete"><b>取消</b></a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <footer>
+            <!--手写输入切换-->
+            <div class="footer-left">
+            	<!--<a href="../../excel_form/formtest.html" class="mui-tab-item mui-active" ><img src="../../images/keyboard.png" width="20px" height="20px" style="display: none;"/></a>-->
+                <img src="../../images/SignIn.png" width="20px" height="20px" id="SignIn" />
+            </div>
+            <!--输入框-->
+            <div class="footer-center">
+                <input id='msg-text' type="text" class='input-text' list='SignElse'>
+                <datalist id="SignElse">
+                    <option>备注1</option>
+                    <option>备注2</option>
+                    <option>备注3</option>
+                    <option>备注4</option>
+                </datalist>
+            </div>
+            <!--查看/发送-->
+            <label for="" class="footer-right">
+                <img id="msg-check" class="footer-right-page" src="../../images/CheckOut.png" width="10px" height="10px" />
+                <button type="button" class="mui-btn mui-btn-success footer-right-post" id="postMes" style="display: none;">提交</button>
+            </label>
+        </footer>
+        
+        <!--script-->
+        <script src="../../js/mui.min.js"></script>
+        <script src="../../js/jquery-1.11.0.min.js"></script>
+        <script src="../../js/service.js"></script>
+        <script src="../../js/signature/hammer.js"></script>
+        <script src="../../js/self/SignShow.js"></script>
+		<script type="text/javascript">
+		    mui('.mui-scroll-wrapper').scroll({
+		        scrollX: true, //是否横向滚动
+		        scrollY: true, //是否竖向滚动
+                
+                startX: 0, //初始化时滚动至x
+                startY: 0, //初始化时滚动至y
+                deceleration: 0.0005, //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+            });
+		    /*
+		     * get pro Mes
+		     */
+		    var projectId = localStorage.getItem('projectId');
+            var projectName = localStorage.getItem('projectName');
+            var TypeName = localStorage.getItem('TypeName');
+            var CId = localStorage.getItem('CId');
+//          var CId = '55'
+//          canvasWidth = 385
+//          canvasHeight = 458
+            canvasWidth = 0
+            canvasHeight = 0
+            /*
+             * load form mes
+             */
+            $.ajax({
+                type:"post",
+                url:url+"action_sign/MesShow_form.php",
+                async:true,
+                dataType:'json',
+                data:{
+                    CId:CId
+                },
+                success:function(data){
+//                  console.log(data)
+                    //表单信息处理
+                    $('#CName').text(data['data']['TabNam']);
+                    localStorage.setItem('page',data['data']['page']);
+                    var filePicArr = data['data']['imgurl'].split('(');
+                    var imgDataText = urlAPI + filePicArr[0]+'(1)'+'.png';
+                    localStorage.setItem('imgUrl',imgDataText);
+                    //显示表单
+                    var ImgSize = showTab(data['data']['imgurl'],data['data']['page']);
+                    var ImgSizeArr = ImgSize.split('/',ImgSize);
+                    canvasWidth = ImgSizeArr[0]+0;
+                    canvasHeight = ImgSizeArr[1]+0;
+                    $('.paneImg').attr('width',canvasWidth)
+                    $('.paneImg').attr('height',canvasHeight)
+
+                },
+                error:function(s,e,t){
+                    alert('出现错误，错误类型：'+e);
+                }
+            });
+            mui.init({
+                swipeBack:false,
+                statusBarBackground: '#f7f7f7',
+            });
+            mui('body').on('tap', '.mui-popover-action li>a', function() {
+                var a = this,parent;
+                //根据点击按钮，反推当前是哪个actionsheet
+                for (parent = a.parentNode; parent != document.body; parent = parent.parentNode) {
+                    if (parent.classList.contains('mui-popover-action')) {
+                        break;
+                    }
+                }
+                //关闭actionsheet
+                mui('#' + parent.id).popover('toggle');
+                //驳回
+                if(a.innerHTML == '驳回'){
+                    var btnArray = ['取消', '确定'];
+                    mui.prompt('请输入审批意见：', '或驳回原因', '建筑文件审批系统', btnArray, function(e) {
+                        if (e.index == 1) {
+                            alert('审批意见:' + e.value);
+                        }
+                    });
+                };
+                //提交
+                if(a.innerHTML == '提交'){
+                    $.ajax({
+                        type:"post",
+                        url:url+"action_sign/MesSave_Img.php",
+                        async:true,
+                        dataType:'json',
+                        data:{
+                            //UseMes
+                            UseIdS:localStorage.getItem('AccId'),
+                            RolIdS:localStorage.getItem('RolId'),
+                            //FormMes
+                            formId:CId,
+                            //SignMes
+                                //位置等信息
+                                SignPX : localStorage.getItem('SignPX'),
+                                SignPY : localStorage.getItem('SignPY'),
+                                FormW : localStorage.getItem('FormX'),
+                                FormH : localStorage.getItem('FormY'),
+                                SignW : localStorage.getItem('SignWidth'),
+                                SignH : localStorage.getItem('SignHeight'),
+                                //页数信息
+                                PageFinal : localStorage.getItem('PageFinal'),
+                                //签名信息
+                                SignFinal : localStorage.getItem('SignUrl'),
+                        },
+                        success:function(data){
+                            if(data['ErrorMes']){
+                                alert(data['ErrorMes']+'请及时联系管理员')
+                                return;
+                            }
+                            alert('签名提交成功')
+                            //返回父页面刷新
+                            var target = plus.webview.getWebviewById("project_type_list");
+                            target.reload(true);
+                            mui.back();
+                        },
+                        error:function(s,e,t){
+                            alert('出现错误，错误类型：'+e);
+                        }
+                    })
+                }
+            })
+            mui.plusReady(function(){
+                var val='';
+                //检测，显示提交按钮【键盘输入】
+                $('#msg-text').on('input',function() {
+                    document.getElementById("postMes").style.display = 'block';
+                    document.getElementById("msg-check").style.display = 'none';
+                })
+                //提交信息之后【键盘输入】
+                $('#postMes').on('tap',function() {
+                    alert('你刚输入了:'+$('#msg-text').val());
+                    document.getElementById("postMes").style.display = 'none';
+                    document.getElementById("msg-check").style.display = 'block';
+                    $('#msg-text').val('');
+                })
+                //显示键盘
+                var showKeyboard = function() {
+                    if (mui.os.ios) {
+                        var webView = plus.webview.currentWebview().nativeInstanceObject();
+                        webView.plusCallMethod({
+                            "setKeyboardDisplayRequiresUserAction": false
+                        });
+                    } else {
+                        var Context = plus.android.importClass("android.content.Context");
+                        var InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
+                        var main = plus.android.runtimeMainActivity();
+                        var imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
+                        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+                        imm.showSoftInput(main.getWindow().getDecorView(), InputMethodManager.SHOW_IMPLICIT);
+                    }
+                };
+                //打开详情
+                $('#msg-check').on('tap',function() {
+                    localStorage.setItem('PageStaMes','1');
+                    mui.openWindow({
+                        url: 'form_mes.html',
+                        id: 'form_mes.html',
+                        extras: {
+                            imgData : val
+                        }
+                    });
+                });
+                //打开签名页面
+                $('#SignIn').on('tap',function() {
+                    mui.openWindow({
+                        url:'SignView.html',
+                        id:'SignView.html',
+                        extras: {
+                            fatherPage : 'form_signIn.html'
+                        }
+                    })
+                })
+            });
+            //show tab
+            function showTab(filePic,page){
+                var filePicArr = filePic.split('(');
+                var imgDataText = urlAPI + filePicArr[0]+'(1)'+'.png';
+                var img = new Image();
+                img.src = imgDataText;
+                img.onload = function()
+                {
+                    //控制背景宽度
+                    var imgWidth  = img.width;
+                    var imgHeight = img.height;
+                    canvasWidth = Math.min(imgWidth , $(window).width()-2);
+                    //计算缩放比
+                    var scale = canvasWidth/imgWidth;
+//                  var canvasHeight = Math.min(imgHeight*scale , $(window).height()-155 );
+                    canvasHeight = imgHeight*scale;
+                    for (var i=0;i<(page);i++) {
+                        var imgText = new Image();
+                        imgText.src = urlAPI + filePicArr[0]+'('+(i+1)+')'+'.png';
+                        var EleText = "<div class='pane'><img class='paneImg' src='"+imgText.src+"' /></div>";
+                        $('#ImgPlace').append(EleText);
+                    }
+                    //显示签名【前期签批的】
+                    
+                    //显示签名【本次签批后】
+                        //如果存在FormX此属性的值则表示是本次已经签批
+                    try{
+                        //获取采集数据
+                           //位置信息
+                        var SignPX = localStorage.getItem('SignPX')
+                        var SignPY = localStorage.getItem('SignPY')
+                        var FormW = localStorage.getItem('FormX')
+                        var FormH = localStorage.getItem('FormY')
+                        var SignW = localStorage.getItem('SignWidth')
+                        var SignH = localStorage.getItem('SignHeight')
+                            //页数信息
+                        var PageFinal = localStorage.getItem('PageFinal')
+                            //表单id
+                        var CIdFinal = localStorage.getItem('CIdFinal')
+                            //签名信息
+                        var SignFinal = localStorage.getItem('SignUrl')
+                        
+//                      console.log(CIdFinal)
+//                      console.log(CId)
+                        //显示签名
+                        if(CIdFinal == CId)
+                        {
+                            showSignSvg(SignPX,SignPY,FormW,FormH,SignW,SignH,PageFinal,SignFinal,'ImgPlace')
+                        }
+//                      showSignSvg('187','320','351','497','25','15','1','http://192.168.0.199:8081/zsPC/signUpload/55/1537326518620.svg','ImgPlace')
+                    }catch(e){
+                        
+                    }
+                }
+                return canvasWidth+'/'+canvasHeight;
+            }
+            //获取坐标
+            function windowToCanvas(x,y){
+                var bbox = document.getElementById("ImgPlace").getBoundingClientRect()
+                return {x:Math.round(x-bbox.left),y:Math.round(y-bbox.top)}
+            }
+            
+            /*
+             * HAMMER
+             */
+            //定义实例
+            var el = document.querySelector("#ImgPlace");
+            var transform = {
+                translate: {
+                    x: 0,
+                },
+                scale: 1,
+            };
+            //添加事件
+            var mc = new Hammer.Manager(el);
+            mc.add(new Hammer.Pinch({
+                threshold: 0
+            }));
+            mc.get('pinch').set({ enable: true });
+            mc.add(new Hammer.Pan({
+                threshold: 0,
+                pointers: 0
+            }));
+            var ImgScale = 1;
+            //捏放后
+            mc.on("pinchstart pinchmove", function(ev) {
+                //获取原放大比例
+                var ImgScaleOld = ImgScale
+                
+                if(canvasWidth*ev.scale < canvasWidth){
+                    $('#ImgPack').addClass('pinch-zoom')
+                    ImgScale = 1;
+                }else{
+                    ImgScale = ev.scale;
+                    $('#ImgPack').removeClass('pinch-zoom')
+                }
+                transform.scale = ImgScale;
+                //表单变化
+                $('.paneImg').attr('width',canvasWidth*ImgScale)
+                $('.paneImg').attr('height',canvasHeight*ImgScale)
+//              console.log(document.getElementById("ImgDiv").style.width)
+                $('#ImgDiv').attr('width',canvasWidth*ImgScale)
+//              console.log($('#ImgDiv').attr('width'))
+                
+                //签名变化
+                var PlaceSvg = document.getElementsByClassName("PlaceSvg")
+                for (var i=0;i<PlaceSvg.length;i++) {
+                	var PlaceSvgW = document.getElementsByClassName('PlaceSvg')[i].width/ImgScaleOld
+                    var PlaceSvgH = document.getElementsByClassName('PlaceSvg')[i].height/ImgScaleOld
+                    var PlaceSvgT = document.getElementsByClassName('PlaceSvg')[i].offsetTop/ImgScaleOld
+                    var PlaceSvgL = document.getElementsByClassName('PlaceSvg')[i].offsetLeft/ImgScaleOld
+                    document.getElementsByClassName('PlaceSvg')[i].style.width = PlaceSvgW*ImgScale +'px'
+                    document.getElementsByClassName('PlaceSvg')[i].style.height = PlaceSvgH*ImgScale +'px'
+                    document.getElementsByClassName('PlaceSvg')[i].style.top = PlaceSvgT*ImgScale +'px'
+                    document.getElementsByClassName('PlaceSvg')[i].style.left = PlaceSvgL*ImgScale +'px'
+                }
+            });
+            
+        </script>
+	</body>
+</html>

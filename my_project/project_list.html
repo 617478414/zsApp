@@ -1,0 +1,117 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>建筑文件流转系统-工程列表</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/my_css.css">
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+		    <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left " href="../index.html"></a>
+		    <h1 class="mui-title" id="refresh">我的工程</h1>
+		</header>
+		<div  class="mui-scroll-wrapper">
+    	    <div class="mui-content mui-scroll rwdiv">
+    	        
+    	    </div>
+    	</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/self/creat_card.js"></script>
+		<script src="../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript">
+			mui('.mui-scroll-wrapper').scroll({
+                deceleration: 0.0005, //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+			mui.init({
+                gestureConfig:{
+                    doubletap: true
+                }
+            });
+            //page refresh
+            var refresh = document.getElementById("refresh");
+            refresh.addEventListener('doubletap',function () {
+                window.location.reload();
+            });
+            mui.plusReady(function(){
+                var dataPho = localStorage.getItem('AccPh')
+                $.ajax({
+                	type:"get",
+                	url:urlAPI+"TongXinweb/project/AllPro",
+                	async:true,
+                	dataType:'json',
+                	success:function(data){
+                	    //check status
+                	    if(data['success'])
+                	    {
+                	        //check UsePhone
+                	        var Mes  = '['
+                            for (var i=0;i<data['data'].length;i++) {
+                                if(data['data'][i]['mobile'] == dataPho)
+                                {
+                                    Mes += JSON.stringify(data['data'][i])
+                                    Mes += ','
+                                }
+                            }
+                            Mes = Mes.substr(0,Mes.length-1)
+                            Mes += ']'
+                            var MesObj = eval('(' + Mes + ')');
+
+                            //show Card
+                	        for (var i=0;i<MesObj.length;i++) {
+                                var ProId = MesObj[i]['projectId'];
+                                var ProName = MesObj[i]['projectName'];
+                                var ProCTm = MesObj[i]['createTime'];
+                                var ProSTm = MesObj[i]['startDate'];
+                                var ProUTm = MesObj[i]['uploadTime'];
+                                var ProSupunits = MesObj[i]['supUnits'];
+                                var ProBuild = MesObj[i]['builder'];
+                                var ProMobile = MesObj[i]['mobile'];
+                                var ProCCode = MesObj[i]['prjNo'];
+                                var ProCName = MesObj[i]['cityName'];
+                                var Phone = MesObj[i]['mobile'];
+                                var DateBegin = MesObj[i]['startDate'];
+                                ListShow_Project(ProId,ProName,ProCName,ProCCode,DateBegin,Phone,ProBuild,ProSupunits);
+                    	    }
+                	        return 0;
+                	    }
+                	    alert('出现错误，错误类型：'+e+'位置：success');
+                	},
+                	error:function(s,e,t){
+                	    alert('出现错误，错误类型：'+e);
+                	}
+                });
+            });
+//          function GetCountResult(type,ProId){
+//              $.ajax({
+//                  type:"post",
+//                  url:url+'action_ins/ProCount.php',
+//                  async:false,
+//                  dataType:'json',
+//                  data:{
+//                      ProId:ProId,
+//                      type:type
+//                  },
+//                  success:function(data){
+//                      if(data['statua']){
+//                          return data['row'];
+//                      }else{
+//                          alert('出现错误，错误类型：'+e);
+//                      }
+//                  },
+//                  error:function(s,e,t){
+//                      alert('出现错误，错误类型：'+e);
+//                  }
+//              });
+//          }
+            
+//          ListShow_Project('xmid','xmmc','xmdq','xmlb','fgNormal','fgSame','sgdw','kldw');
+		</script>
+	</body>
+
+</html>

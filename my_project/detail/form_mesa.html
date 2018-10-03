@@ -1,0 +1,101 @@
+<!doctype html>
+<html>
+
+    <head>
+        <meta charset="UTF-8">
+        <title></title>
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <link href="../../css/muiList.min.css" rel="stylesheet" />
+        <link rel="stylesheet" type="text/css" href="../../css/app.css" />
+        <style>
+            .mui-row.mui-fullscreen>[class*="mui-col-"] {
+                height: 100%;
+            }
+            /*.mui-table-view{
+                bottom: -20px;
+            }*/
+            .mui-col-xs-3,
+            .mui-control-content {
+                height: 100%;
+                overflow-y: auto;
+                
+            }
+            .mui-segmented-control .mui-control-item {
+                line-height: 50px;
+                width: 100%;
+            }
+            .mui-segmented-control.mui-segmented-control-inverted .mui-control-item.mui-active {
+                background-color: #fff;
+            }
+            /*.description{
+                height: auto;
+            }*/
+            .my-remind {
+                text-align:center;
+            }
+            
+            .mui-card .mui-input-row label{
+                word-break: keep-all;
+            }
+            
+            .cir-pass {
+                background-color: limegreen;
+            }
+            .cir-reject {
+                background-color: red;
+            }
+            .cir-outdate {
+                background-color: blue;
+            }
+            .mui-scroll-wrapper{
+                top: 55px;
+                /*height: 100%;*/
+            }
+        </style>
+    </head>
+
+    <body>
+        <div class="mui-content mui-row mui-fullscreen">
+            <div class="mui-col-xs-3">
+                <div id="segmentedControls" class="mui-segmented-control mui-segmented-control-inverted mui-segmented-control-vertical">
+                </div>
+            </div>
+            <div id="segmentedControlContents" class="mui-col-xs-9" style="border-left: 1px solid #c8c7cc;">
+            </div>
+        </div>
+        <script src="../../js/mui.min.js"></script>
+        <script src="../../js/jquery-1.11.0.min.js"></script>
+        <script src="../../js/service.js"></script>
+        <script src="../../js/ListCreat.js"></script>
+        <script type="text/javascript">
+            
+            mui.init();
+            var controls = document.getElementById("segmentedControls");
+            var contents = document.getElementById("segmentedControlContents");
+            
+            html = [];
+            html = CreatNodeLeft('施工单位',1)
+            html = CreatNodeLeft('监理单位',2)
+            html = CreatNodeLeft('总经办',3)
+            controls.innerHTML = html.join('');
+            
+            html = [];
+            html.push(CreatNodeRight('cir-pass','UploadTime','CheMan','CheTim','CheEls','CheRes','施工单位',1))
+            html.push(CreatNodeRight('cir-pass','UploadTime','CheMan','CheTim','CheEls','CheRes','监理单位',2))
+            html.push(CreatNodeRight('cir-pass','UploadTime','CheMan','CheTim','CheEls','CheRes','总经办',3))
+            contents.innerHTML = html.join('');
+            
+             //默认选中第一个
+            controls.querySelector('.mui-control-item').classList.add('mui-active');
+            contents.querySelector('.mui-control-content').classList.add('mui-active');
+            
+            mui.plusReady(function(){
+                mui('.mui-scroll-wrapper').scroll({
+                    deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+                });
+            })
+            
+        </script>
+    </body>
+
+</html>

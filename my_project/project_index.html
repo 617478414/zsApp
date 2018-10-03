@@ -1,0 +1,93 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>建筑文件流转系统-工程详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--css-->
+        <link rel="stylesheet" href="../css/mui.min.css">
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left "></a>
+            <h1 class="mui-title"><span id="ProNam"></span></h1>
+        </header>
+		<div class="mui-content">
+	        <ul class="mui-table-view mui-grid-view mui-grid-9">
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+	            	<a href="project_type.html">
+	                    <span class="mui-icon mui-icon-location"></span>
+	                    <div class="mui-media-body">表单签收</div>
+	                    <span class="href" hidden="hidden">project_type.html</span>
+	            	</a>
+	            </li>
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+	            	<a href="project_form_select.html">
+	            	<!--<a href="project_form_select.html">-->
+	                    <span class="mui-icon mui-icon-search"></span>
+	                    <div class="mui-media-body">表单查询</div>
+	                    <span class="href" hidden="hidden">project_form_select.html</span>
+	            	</a>
+	            </li>
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+	            	<a href="project_form_count.html">
+	                    <span class="mui-icon mui-icon-phone"></span>
+	                    <div class="mui-media-body">表单统计</div>
+	                    <span class="href" hidden="hidden">project_form_count.html</span>
+	            	</a>
+	            </li>
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+	            	<a href="project_document_list.html">
+	                    <span class="mui-icon mui-icon-home"></span>
+	                    <div class="mui-media-body">文档答复</div>
+	                    <span class="href" hidden="hidden">project_document_list.html</span>
+	            	</a>
+	            </li>
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+	            	<a href="project_document_select.html">
+	                    <span class="mui-icon mui-icon-email"></span><!--<span class="mui-badge">5</span>-->
+	                    <div class="mui-media-body">文档查询</div>
+	                    <span class="href" hidden="hidden">project_document_select.html</span>
+	            	</a>
+	            </li>
+	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+	            	<a href="project_document_count.html">
+	                    <span class="mui-icon mui-icon-chatbubble"></span>
+	                    <div class="mui-media-body">文档记录</div>
+	                    <span class="href" hidden="hidden">project_document_count.html</span>
+	            	</a>
+	            </li>
+	        </ul>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript">
+		    mui.init();
+		    mui.plusReady(function() {
+		        //get pro Mes
+		        var projectId = localStorage.getItem('projectId');
+		        var projectName = localStorage.getItem('projectName');
+		        $('#ProNam').text(projectName);
+		        
+//		        $('.mui-media').on('tap',function(){
+//  			    var PageUrl = $(this).find('.href').text();
+//  			    var PageId = PageUrl.split('.');
+//  //			    alert(PageUrl)
+//  //			    alert(PageId[0])
+//  			    mui.openWindow({
+//  			        url:PageUrl,
+//  			        id:PageId['0'],
+//  			    })
+//  			})
+		    })
+		    
+			
+		</script>
+	</body>
+
+</html>
