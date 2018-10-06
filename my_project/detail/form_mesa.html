@@ -68,26 +68,45 @@
         <script src="../../js/service.js"></script>
         <script src="../../js/ListCreat.js"></script>
         <script type="text/javascript">
-            
             mui.init();
+            var CId = localStorage.getItem('CId');
             var controls = document.getElementById("segmentedControls");
-            var contents = document.getElementById("segmentedControlContents");
+                    var contents = document.getElementById("segmentedControlContents");
+                    
+                    html = [];
+                    //创建左节点
+                    html = CreatNodeLeft('施工单位',1)
+                    html = CreatNodeLeft('监理单位',2)
+                    html = CreatNodeLeft('总经办',3)
+                    controls.innerHTML = html.join('');
+                    
+                    html = [];
+                    html.push(CreatNodeRight('cir-pass','UploadTime','CheMan','CheTim','CheEls','CheRes','施工单位',1))
+                    html.push(CreatNodeRight('cir-pass','UploadTime','CheMan','CheTim','CheEls','CheRes','监理单位',2))
+                    html.push(CreatNodeRight('cir-pass','UploadTime','CheMan','CheTim','CheEls','CheRes','总经办',3))
+                    contents.innerHTML = html.join('');
+                    
+                     //默认选中第一个
+                    controls.querySelector('.mui-control-item').classList.add('mui-active');
+                    contents.querySelector('.mui-control-content').classList.add('mui-active');
             
-            html = [];
-            html = CreatNodeLeft('施工单位',1)
-            html = CreatNodeLeft('监理单位',2)
-            html = CreatNodeLeft('总经办',3)
-            controls.innerHTML = html.join('');
-            
-            html = [];
-            html.push(CreatNodeRight('cir-pass','UploadTime','CheMan','CheTim','CheEls','CheRes','施工单位',1))
-            html.push(CreatNodeRight('cir-pass','UploadTime','CheMan','CheTim','CheEls','CheRes','监理单位',2))
-            html.push(CreatNodeRight('cir-pass','UploadTime','CheMan','CheTim','CheEls','CheRes','总经办',3))
-            contents.innerHTML = html.join('');
-            
-             //默认选中第一个
-            controls.querySelector('.mui-control-item').classList.add('mui-active');
-            contents.querySelector('.mui-control-content').classList.add('mui-active');
+            $.ajax({
+                url:url+'action_sign/MesShow_His.php',
+                type:'post',
+                async:true,
+//              dataType:'json',
+                data:{
+                    CId:CId
+                },
+                success:function(data){
+                    console.log(data)
+                    
+                },
+                error:function(s,e,t){
+                    alert('123')
+                    alert('出现错误，错误类型：'+e)
+                }
+            })
             
             mui.plusReady(function(){
                 mui('.mui-scroll-wrapper').scroll({
