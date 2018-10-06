@@ -55,111 +55,213 @@
             <h1 class="mui-title">同欣科技大厦A区项目-表单统计</h1>
         </header>
         <div class="mui-content">
-            <div class="mui-content-padded">
-                <div class="mui-input-row">
-                    <label>提交时间</label>
-                    <input class="TimeBgn" type="text" placeholder="未选择提交时间" readonly="readonly">
-                </div>
-                <button data-options='{"type":"date"}' class="btn mui-btn mui-btn-block" id="TimeBgn">选择提交时间</button>
-                
-                <div class="mui-input-row">
-                    <label>截止时间</label>
-                    <input class="TimeEnd" type="text" placeholder="未选择截止时间" readonly="readonly">
-                </div>
-                <button data-options='{"type":"date"}' class="btn mui-btn mui-btn-block" id="TimeEnd">选择截止时间</button>
-                <div style="float: right;"><button>统计</button></div>
-            </div>
-            <br /><br />
-            <div class="mui-content-padded">
-                <div class="chart" id="pieChart"></div>
-            </div>
-        </div>
+
+			
+			<!-- 时间选择器 -->
+			<div class="my_margin" style="padding-top: 10px;">
+				<form class="mui-input-group">					
+					<div class="mui-input-row">
+						<label>起始日期：</label>
+						<input id='starttime' type="text" placeholder="起始日期" readonly="readonly">						
+					</div>	
+					<div class="mui-input-row">
+						<label>结束日期：</label>
+						<input id='endtime' type="text" placeholder="结束日期" readonly="readonly">						
+					</div>
+				</form>				
+	        </div>
+	        <!-- 时间选择器 -->
+	        
+	        <!-- 按钮事件 -->
+	        <div class="mui-button-row">
+				<button id="statistics" type="button" class="mui-btn mui-btn-primary" disabled="disabled">统计</button>
+			</div>
+	        <!-- 按钮事件 -->
+	        
+	        <!-- 按钮事件响应标题 -->
+	        <div style="padding: 4px 10px;">
+				<div style="padding: 10px 10px;">
+					<div id="segmentedControl" class="mui-segmented-control">
+						<a id="hzjg" class="mui-control-item mui-active" href="">
+							统计结果
+						</a>					
+					</div>
+				</div>
+			</div>
+			<!-- 按钮事件响应标题 -->
+			
+			<!-- 饼图呈现 -->
+			<div class="mui-content-padded">
+				<div class="chart" id="pieChart">&nbsp;&nbsp;&nbsp;&nbsp;无汇总结果！</div>
+			</div>
+			<!-- 饼图呈现 -->
+			
+		</div>		
 		<script src="../js/mui.min.js"></script>
-		<script src="../js/mui.picker.min.js"></script><!--日期选择-->
+		<script src="../js/service.js" ></script>
+<!--		<script src="../js/mui.picker.min.js"></script>日期选择-->
 		<!--<script src="../libs/echarts-all.js"></script><!--饼状图-->
-		<script src="../js/echarts.js"></script>
+		<!--<script src="../js/echarts.js"></script>-->
+		<script src="../js/chart.js"></script>
 		<script type="text/javascript">
+			mui.init({
+				swipeBack:true //启用右滑关闭功能
+			});		
+			//区域滚动,需手动初始化scroll控件
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
 			(function($) {
-                $.init();
-                var btns = $('.btn');
-                btns.each(function(i, btn) {
-                    btn.addEventListener('tap', function() {
-                        var optionsJson = this.getAttribute('data-options') || '{}';
-                        var options = JSON.parse(optionsJson);
-                        var id = this.getAttribute('id');
-                        var picker = new $.DtPicker(options);
-                        picker.show(function(rs) {
-//                          alert(id);
-                            var result = document.getElementsByClassName(id);
-                            result[0].value = rs.text;
-                            picker.dispose();
-                        });
-                    }, false);
-                });
-            })(mui);
-		</script>
-		<!--这是mui集成百度ECharts的图表示例，ECharts的详细用法及 API 请参考其官方网站: http://echarts.baidu.com-->
-		<script>
-		    pieChart(9,8,3,5);
-            //饼图生成
-            function pieChart(sign,reject,dateOut,pack){
-                 // 基于准备好的dom，初始化echarts实例
-                var pieChart = echarts.init(document.getElementById('pieChart'));
-                //饼图
-                option = {
-                    title : {
-                        text: '',
-                        subtext: '',
-                        x:'center'
-                    },
-                    tooltip : {
-                        trigger: 'item',
-                        formatter: "{a} <br/>{b} : {c} ({d}%)"
-                    },
-                     color:['#0CAF2D','#FF0000','orange','blue'],
-                    legend: {
-                        orient: 'vertical',
-                        left: 'left',
-                        data: [
-                        {value:sign, name:'待签批'},
-                        {value:reject, name:'驳回'},
-                        {value:dateOut, name:'逾期'},
-                        {value:pack, name:'归集'},],
-                    },
-                    series : [
-                        {
-                            name: '访问来源',
-                            type: 'pie',
-                            radius : '55%',
-                            center: ['50%', '60%'],
-                            data:[
-                                {value:sign, name:'待签批'},
-                                {value:reject, name:'驳回'},
-                                {value:dateOut, name:'逾期'},
-                                {value:pack, name:'归集'},
-                            ],
-                            itemStyle: {
-                                emphasis: {
-                                    shadowBlur: 10,
-                                    shadowOffsetX: 0,
-                                    shadowColor: 'rgba(0, 0, 0, 0.5)'
-                                }
-                            }
-                        }
-                    ],
-//                  pieselected : {
-//                      type: 'pieselectchanged',
-//                      // 系列 ID，可以在 option 中传入
-//                      seriesId: string
-//                      // 数据名称
-//                      name: name,
-//                      // 所有数据的选中状态表。
-//                      selected: Object
-//                  }
-                };
-                // 使用刚指定的配置项和数据显示图表。
-                pieChart.setOption(option);
-            }
+				$('#scroll').scroll({
+					indicators: true //是否显示滚动条
+				});					
+			})(mui);		
+            
+			mui.plusReady(function(){
+				//获取项目id、Name值
+				var self = plus.webview.currentWebview();
+//				document.getElementById('xmmc').innerText=self.gcmc;
+//				userid=self.userid;
+				
+				var starttime=document.getElementById('starttime');
+				var endtime=document.getElementById('endtime');
+				
+				starttime.addEventListener('tap', function() {
+					var dDate = new Date();
+					plus.nativeUI.pickDate(function(e) {
+						var d = e.date;
+						starttime.value=d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+						if (starttime.value&&endtime.value) {
+							var gksrq=starttime.value;
+							var gendtime=endtime.value;
+							var xgksrq = new Date(Date.parse(gksrq.replace(/-/g, "/")));
+							var xgksrq = xgksrq.getTime();
+							var xgendtime = new Date(Date.parse(gendtime.replace(/-/g, "/")));
+							var xgendtime = xgendtime.getTime();
+							if (xgendtime>=xgksrq) {
+								statistics.disabled=false;
+							}else{
+								alert('起始日期不能大于结束日期！');
+								statistics.disabled=true;
+							}
+						}
+						
+					}, function(e) {
+						//alert(e);
+					}, {
+						title: "请选择日期",
+					});
+				});
+				endtime.addEventListener('tap', function() {
+					var dDate = new Date();
+					plus.nativeUI.pickDate(function(e) {
+						var d = e.date;
+						endtime.value=d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+						if (starttime.value&&endtime.value) {
+							var gksrq=starttime.value;
+							var gendtime=endtime.value;
+							var xgksrq = new Date(Date.parse(gksrq.replace(/-/g, "/")));
+							var xgksrq = xgksrq.getTime();
+							var xgendtime = new Date(Date.parse(gendtime.replace(/-/g, "/")));
+							var xgendtime = xgendtime.getTime();
+							if (xgendtime>=xgksrq) {
+								statistics.disabled=false;
+							}else{
+								alert('起始日期不能大于结束日期！');
+								statistics.disabled=true;
+							}
+						}
+						
+					}, function(e) {
+						//alert(e);
+					}, {
+						title: "请选择日期",
+					});
+				});
+
+				
+			});
+			
+			//异步获取数字
+			var starttime = document.getElementById("starttime");
+			var endtime = document.getElementById("endtime");
+			var statistics = document.getElementById("statistics");
+			
+			//统计事件				
+			statistics.addEventListener('tap', function() {
+				var starttimevalue=starttime.value;
+				var endtimevalue=endtime.value;
+				//异步获取数据
+				mui.ajax(url+'action_ins/my_project_zhcx.php',{
+					data:{
+						starttimevalue:starttimevalue, //起始日期
+						endtimevalue:endtimevalue, //截止日期
+//						gcmc:xmmcValue //工程名称
+					},
+					dataType:'json',
+					type:'post',
+					timeout:10000,
+					success:function(data){							
+						//alert(data);							
+						var length=data.length;
+						if (length>0) {
+							var sign=data[length-1].countsign;
+							var overdue=data[length-1].countoverdue;
+							var reject=data[length-1].countreject;
+							var countImputation=data[length-1].countImputation;
+							
+							if(sign=="0"&&overdue=="0"&&reject=="0"&&countImputation=="0"){
+								alert("无汇总结果！");
+								var pieChart=document.getElementById("pieChart");
+								pieChart.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;无汇总结果！';
+							}else{
+								hzbt(sign,overdue,reject,countImputation);
+							}
+							
+						}							
+					},
+					error:function(xhr,type,errorThrown){
+						alert('ajax错误'+type);
+					}
+				});
+			});
+			
+			var hzbt=function(sign,overdue,reject,countImputation){
+				//饼图
+				var getOption = function(chartType) {
+					var chartOption = chartType == 'pie' ? {
+						calculable: false,
+						series: [{
+							name: '访问来源',
+							type: 'pie',
+							radius: '50%',
+							center: ['50%', '50%'],
+							data:[{
+								value: sign,
+								name: '待审批 '+sign+' 份'
+							}, { 
+								value: overdue,
+								name: '延期 '+overdue+' 份'
+							}, {
+								value: reject,
+								name: '驳回 '+reject+' 份'
+							}, {
+								value: countImputation,
+								name: '归集'+countImputation +' 份'
+							}]
+						}]
+					} : {
+					}
+					return chartOption; 
+				};
+				
+				var byId = function(id) {
+					return document.getElementById(id);
+				};
+				var pieChart = echarts.init(byId('pieChart'));
+				pieChart.setOption(getOption('pie'));
+			};
+			
         </script>
 	</body>
 </html>

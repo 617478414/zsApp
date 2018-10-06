@@ -1,211 +1,285 @@
 <!DOCTYPE html>
 <html>
 
-    <head>
-        <meta charset="utf-8">
-        <title>表单签批-查询</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+	<head>
+		<meta charset="utf-8">
+		<title>表单签批-查询</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
 
-        <link rel="stylesheet" href="../css/mui.min.css">
-        <link rel="stylesheet" href="../css/my_css.css" />
-    </head>
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/my_css.css" />
+	</head>
 
-    <body>
-        <header class="mui-bar mui-bar-nav">
-            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-            <h1 class="mui-title">同欣科技大厦A区项目-表单查询</h1>
-        </header>
-        <div class="mui-content">
-            <div style="padding-bottom: 10px;">
-                <div id="segmentedControl" class="mui-segmented-control">
-                    <div class="mui-slider">
-                        <div id="xuanxiangka" class="mui-slider-group mui-slider-loop ">
-                            <div class="mui-slider-item">
-                                <a id="a1" class="mui-control-item mui-active" href="#item1">
-                                    <span>签批</span>
-                                </a>
-                                <a id="a2" class="mui-control-item"  href="#item2">
-                                    <span>驳回</span>
-                                </a>
-                                <a id="a5" class="mui-control-item"  href="#item3">
-                                    <span>逾期</span>
-                                </a>
-                                <a id="a4" class="mui-control-item "  href="#item4">
-                                    <span>归集</span>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-                </div> 
-            </div>
-            
-            <div id="item1" class="mui-control-content mui-active">
-                <div class="mui-scroll-wrapper">
-                    <div class="mui-scroll rwdiv">
-                        <div class="mui-input-row mui-search">
-                            <input type="search" class="mui-input-clear" placeholder="">
-                        </div>
-                        
-                        <ul class="mui-table-view mui-card my_list my_marginbottom10px">
-                            <li class="mui-table-view-cell my_backgroundcolor_green2">
-                                <a class="a_color" href="detail/form_signIn.html">
-                                 <span class="mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white"></span>
-                                    <p class="mui-ellipsis my_style2">待签批表单</p>
-                                </a>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">提交日期：</p>
-                                </li>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">签批状态：</p>
-                                </li>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">截止日期：</p>
-                                </li>
-                            </li>
-                        </ul>   
-                        <ul class="mui-table-view mui-card my_list my_marginbottom10px">
-                            <li class="mui-table-view-cell my_backgroundcolor_blue2">
-                                <a class="a_color" href="detail/form_signIn.html">
-                                    <span class="mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white"></span>
-                                    <p class="mui-ellipsis my_style2">已签批表单</p>
-                                </a>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">提交日期：</p>
-                                </li>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">签批状态：</p>
-                                </li>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">截止日期：</p>
-                                </li>
-                            </li>
-                        </ul>   
-                        <ul class="mui-table-view mui-card my_list my_marginbottom10px">
-                            <li class="mui-table-view-cell my_backgroundcolor_red">
-                                <a class="a_color" href="detail/form_signIn.html">
-                                 <span class="mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white"></span>
-                                    <p class="mui-ellipsis my_style2">重新提交表单</p>
-                                </a>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">提交日期：</p>
-                                </li>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">签批状态：</p>
-                                </li>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">截止日期：</p>
-                                </li>
-                            </li>
-                        </ul>
-                        
-                    </div>
-                </div>
-            </div>
-            <div id="item2" class="mui-control-content">
-                <div  class="mui-scroll-wrapper">
-                    <div class="mui-scroll rwdiv">
-                        <div class="mui-input-row mui-search">
-                            <input type="search" class="mui-input-clear" placeholder="">
-                        </div>
-                        
-                        <ul class="mui-table-view mui-card my_list my_marginbottom10px">
-                            <li class="mui-table-view-cell my_backgroundcolor_blue2">
-                                <a class="a_color" href="">
-                                 <span class="mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white">
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">同欣科技大厦A区项目-表单查询</h1>
+		</header>
+		<div class="mui-content">
+			<div style="padding-top: 10px;">
+				<div id="segmentedControl" class="mui-segmented-control">
+					<div class="mui-slider">
+						<div id="xuanxiangka" class="mui-slider-group mui-slider-loop ">
+							<div class="mui-slider-item">
+								<a id="a1" class="mui-control-item mui-active" href="#item1">
+									<span>签批</span>
+								</a>
+								<a id="a2" class="mui-control-item" href="#item2">
+									<span>驳回</span>
+								</a>
+								<a id="a5" class="mui-control-item" href="#item3">
+									<span>逾期</span>
+								</a>
+								<a id="a4" class="mui-control-item " href="#item4">
+									<span>归集</span>
+								</a>
+							</div>
+						</div>
+					</div>
+				</div>
+				<br />
+				<div id="search" class="mui-input-row mui-search">
+					<input type="search" class="mui-input-clear" readonly="readonly" placeholder="">
+				</div>
+			</div>
+
+			<div id="item1" class="mui-control-content mui-active">
+				<div class="mui-scroll-wrapper">
+					<div id="ulContent" class="mui-control-content-body"></div>
+				</div>
+			</div>
+			<div id="item2" class="mui-control-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll rwdiv">
+						<!--<div class="mui-input-row mui-search">
+							<input type="search" class="mui-input-clear" placeholder="">
+						</div>-->
+
+						<ul class="mui-table-view mui-card my_list my_marginbottom10px">
+							<li class="mui-table-view-cell my_backgroundcolor_blue2">
+								<a class="a_color" href="">
+									<span class="mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white">
                                     </span>
-                                    <p class="mui-ellipsis my_style2">表单名称02</p>
-                                </a>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">提交日期：</p>
-                                </li>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">签批状态：</p>
-                                </li>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">截止日期：</p>
-                                </li>
-                            </li>
-                        </ul>
-                        
-                    </div>
-                </div>
-            </div>
-            <div id="item3" class="mui-control-content">
-                <div  class="mui-scroll-wrapper">
-                    <div class="mui-scroll rwdiv">
-                        <div class="mui-input-row mui-search">
-                            <input type="search" class="mui-input-clear" placeholder="">
-                        </div>
-                        
-                        <ul class="mui-table-view mui-card my_list my_marginbottom10px">
-                            <li class="mui-table-view-cell my_backgroundcolor_red">
-                                <a class="a_color" href="">
-                                 <span class="mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white">
+									<p class="mui-ellipsis my_style2">表单名称02</p>
+								</a>
+								<li class="mui-table-view-cell">
+									<p class="mui-ellipsis my_style1">提交日期：</p>
+								</li>
+								<li class="mui-table-view-cell">
+									<p class="mui-ellipsis my_style1">签批状态：</p>
+								</li>
+								<li class="mui-table-view-cell">
+									<p class="mui-ellipsis my_style1">截止日期：</p>
+								</li>
+							</li>
+						</ul>
+
+					</div>
+				</div>
+			</div>
+			<div id="item3" class="mui-control-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll rwdiv">
+						<!--<div class="mui-input-row mui-search">
+							<input type="search" class="mui-input-clear" placeholder="">
+						</div>-->
+
+						<ul class="mui-table-view mui-card my_list my_marginbottom10px">
+							<li class="mui-table-view-cell my_backgroundcolor_red">
+								<a class="a_color" href="">
+									<span class="mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white">
                                     </span>
-                                    <p class="mui-ellipsis my_style2">表单名称03</p>
-                                </a>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">提交日期：</p>
-                                </li>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">签批状态：</p>
-                                </li>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">截止日期：</p>
-                                </li>
-                            </li>
-                        </ul>
-                        
-                    </div>
-                </div>
-            </div>
-            <div id="item4" class="mui-control-content">
-                <div  class="mui-scroll-wrapper">
-                    <div class="mui-scroll rwdiv">
-                        <div class="mui-input-row mui-search">
-                            <input type="search" class="mui-input-clear" placeholder="">
-                        </div>
-                        
-                        <ul class="mui-table-view mui-card my_list my_marginbottom10px">
-                            <li class="mui-table-view-cell my_backgroundcolor_grey">
-                                <a class="a_color" href="">
-                                 <span class="mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white">
+									<p class="mui-ellipsis my_style2">表单名称03</p>
+								</a>
+								<li class="mui-table-view-cell">
+									<p class="mui-ellipsis my_style1">提交日期：</p>
+								</li>
+								<li class="mui-table-view-cell">
+									<p class="mui-ellipsis my_style1">签批状态：</p>
+								</li>
+								<li class="mui-table-view-cell">
+									<p class="mui-ellipsis my_style1">截止日期：</p>
+								</li>
+							</li>
+						</ul>
+
+					</div>
+				</div>
+			</div>
+			<div id="item4" class="mui-control-content">
+				<div class="mui-scroll-wrapper">
+					<div class="mui-scroll rwdiv">
+						<!--<div class="mui-input-row mui-search">
+							<input type="search" class="mui-input-clear" placeholder="">
+						</div>-->
+
+						<ul class="mui-table-view mui-card my_list my_marginbottom10px">
+							<li class="mui-table-view-cell my_backgroundcolor_grey">
+								<a class="a_color" href="">
+									<span class="mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white">
                                     </span>
-                                    <p class="mui-ellipsis my_style2">表单名称04</p>
-                                </a>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">提交日期：</p>
-                                </li>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">签批状态：</p>
-                                </li>
-                                <li class="mui-table-view-cell">
-                                    <p class="mui-ellipsis my_style1">截止日期：</p>
-                                </li>
-                            </li>
-                        </ul>
-                        
-                    </div>
-                </div>
-            </div>
-        </div>
-        <script src="../js/mui.min.js"></script>
-        <script src="../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
-        <script src="../js/jquery-1.11.0.min.js"></script>
-        <script>
-            //区域滚动,需手动初始化scroll控件
-            mui('.mui-scroll-wrapper').scroll({
-                deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
-            });
-            mui.init();
-            
-            mui.plusReady(function() {
-                
-            });
-            
-        </script>
-    </body>
+									<p class="mui-ellipsis my_style2">表单名称04</p>
+								</a>
+								<li class="mui-table-view-cell">
+									<p class="mui-ellipsis my_style1">提交日期：</p>
+								</li>
+								<li class="mui-table-view-cell">
+									<p class="mui-ellipsis my_style1">签批状态：</p>
+								</li>
+								<li class="mui-table-view-cell">
+									<p class="mui-ellipsis my_style1">截止日期：</p>
+								</li>
+							</li>
+						</ul>
+
+					</div>
+				</div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../js/jquery-1.11.0.min.js"></script>
+		<script src="../js/self/creat_card.js"></script>
+		<script>
+			//区域滚动,需手动初始化scroll控件
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+			mui.init();
+
+			mui.plusReady(function() {
+				//get pro Mes
+				var projectId = localStorage.getItem('projectId');
+				var projectName = localStorage.getItem('projectName');
+				var TypeName = localStorage.getItem('TypeName');
+				var TypeId = plus.storage.getItem("TypeId")
+				//              var TypeId = getQueryString('TypeId')
+				$('#TypeName').text(TypeName);
+				localStorage.setItem('PageSta', '0');
+				//              console.log(projectId)
+				//show type mes
+				$.ajax({
+					type: "post",
+					url: url + 'action_ins/ListShow.php',
+					async: true,
+					dataType: 'json',
+					data: {
+						falg: 'listMesType_detail',
+						TypeId: TypeId,
+						projectId: projectId,
+					},
+					success: function(data) {
+						//                      console.log(data)
+						if(data['status'] == 'success') {
+							if(data['row'] == 0) {
+								alert('无相关数据')
+							}
+							for(var i = 0; i < data['row']; i++) {
+								var CId = data['data'][i]['id'];
+								var CType = 0;
+								var CUrl = '#';
+								//                          	var CUrl = 'detail/form_list.html';
+								var CName = data['data'][i]['TabNam'];
+								var CSUTm = data['data'][i]['TabCTm'];
+								var CSSta = '待签';
+								var CSDLine = data['data'][i]['TabDTm'];
+								ListShow(CId, CType, CUrl, CName, CSUTm, CSSta, CSDLine);
+							}
+							$('.mui-card').on('tap', function() {
+								localStorage.setItem('CId', $(this).find('.CId').text());
+								localStorage.setItem('PageSta', '0');
+								mui.openWindow({
+									url: 'detail/form_signIn.html',
+									id: 'detail/form_signIn',
+								})
+							})
+						} else {
+							alert('无相关数据')
+						}
+					},
+					error: function(s, e, t) {
+						alert('出现错误，错误类型：' + e);
+					}
+				});
+
+				//返回父页面刷新
+				//              var old_back = mui.back;   
+				//              mui.back = function() {   
+				//                  var target = plus.webview.getWebviewById("project_type");
+				//                  target.reload(true);
+				//                  old_back()
+				//              }
+
+				//监听搜索按钮
+				var ulContent = document.getElementById("ulContent");
+				var search = document.getElementById("search");
+				search.addEventListener('click', function() {
+					//alert("搜索");
+					var bts = ["确认", "取消"];
+					plus.nativeUI.prompt(" ", function(e) {
+						var i = e.index;
+//						alert(e.value);
+						if(i == 0) {
+							searchDate(e.value);
+							//alert(mobile);
+						}
+					}, "请输入表单名称", "内容", bts);
+				});
+				//获取搜索后内容
+				var searchDate = function(SearchVal) {
+					ulContent.innerHTML = "";
+					$.ajax({
+						type: "post",
+						url: url + 'action_ins/ListShow.php',
+						async: true,
+						dataType: 'json',
+						data: {
+							falg: 'listMesType_search',
+							SearchVal: SearchVal,
+							TypeId: TypeId,
+							projectId: projectId,
+						},
+						success: function(data) {
+							//                      console.log(data)
+							if(data['status'] == 'success') {
+								if(data['row'] == 0) {
+									alert('无相关数据')
+								}
+								for(var i = 0; i < data['row']; i++) {
+									var CId = data['data'][i]['id'];
+									var CType = 0;
+									var CUrl = '#';
+									//                          	var CUrl = 'detail/form_list.html';
+									var CName = data['data'][i]['TabNam'];
+									var CSUTm = data['data'][i]['TabCTm'];
+									var CSSta = '待签';
+									var CSDLine = data['data'][i]['TabDTm'];
+									ListShow(CId, CType, CUrl, CName, CSUTm, CSSta, CSDLine);
+								}
+								$('.mui-card').on('tap', function() {
+									localStorage.setItem('CId', $(this).find('.CId').text());
+									localStorage.setItem('PageSta', '0');
+									mui.openWindow({
+										url: 'detail/form_signIn.html',
+										id: 'detail/form_signIn',
+									})
+								})
+							} else {
+								alert('无相关数据')
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//alert('ajax错误'+type+'---'+errorThrown);
+							return callback('ajax错误' + type + errorThrown);
+						}
+					});
+				};
+
+			});
+		</script>
+	</body>
 
 </html>
