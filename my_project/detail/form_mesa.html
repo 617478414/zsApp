@@ -38,6 +38,9 @@
                 word-break: keep-all;
             }
             
+            .cir-waitSign {
+                background-color: papayawhip;
+            }
             .cir-pass {
                 background-color: limegreen;
             }
@@ -71,39 +74,49 @@
             mui.init();
             var CId = localStorage.getItem('CId');
             var controls = document.getElementById("segmentedControls");
-                    var contents = document.getElementById("segmentedControlContents");
-                    
-                    html = [];
-                    //创建左节点
-                    html = CreatNodeLeft('施工单位',1)
-                    html = CreatNodeLeft('监理单位',2)
-                    html = CreatNodeLeft('总经办',3)
-                    controls.innerHTML = html.join('');
-                    
-                    html = [];
-                    html.push(CreatNodeRight('cir-pass','UploadTime','CheMan','CheTim','CheEls','CheRes','施工单位',1))
-                    html.push(CreatNodeRight('cir-pass','UploadTime','CheMan','CheTim','CheEls','CheRes','监理单位',2))
-                    html.push(CreatNodeRight('cir-pass','UploadTime','CheMan','CheTim','CheEls','CheRes','总经办',3))
-                    contents.innerHTML = html.join('');
-                    
-                     //默认选中第一个
-                    controls.querySelector('.mui-control-item').classList.add('mui-active');
-                    contents.querySelector('.mui-control-content').classList.add('mui-active');
+            var contents = document.getElementById("segmentedControlContents");
             
             $.ajax({
                 url:url+'action_sign/MesShow_His.php',
                 type:'post',
                 async:true,
-//              dataType:'json',
+                dataType:'json',
                 data:{
                     CId:CId
                 },
                 success:function(data){
-                    console.log(data)
-                    
+                    if(data['status'] == 'success'){
+                        html = [];
+                        htmlDetail = [];
+                        //创建左节点
+                        for (var i=0;i<data['his'].length;i++) {
+                            var TabUDa = data['his'][i]['TabUDa']
+                            var RolNam = data['his'][i]['RolNam']
+                            var SigSta = data['his'][i]['SigSta']
+                            
+                            
+                            //左边
+                        	html = CreatNodeLeft((i+1)+'.'+RolNam,i)
+                        	//右边
+                    	    
+                        	var SignPa = data['signMes'][i]['SignPa']
+                            var SignDate = data['signMes'][i]['SignDate']
+                            var SignEls = data['signMes'][i]['SignEls']
+                            var SigCTm = data['signMes'][i]['SigCTm']
+                            var UsePeo = data['signMes'][i]['UsePeo']
+                            var CirSta = data['signMes'][i]['CirSta']
+                            htmlDetail.push(CreatNodeRight(0,TabUDa,UsePeo,SigCTm,SignEls,CirSta,RolNam,i))
+                        }
+                        controls.innerHTML = html.join('');
+                        contents.innerHTML = htmlDetail.join('');
+                        //默认选中第一个
+                        controls.querySelector('.mui-control-item').classList.add('mui-active');
+                        contents.querySelector('.mui-control-content').classList.add('mui-active');
+                    }else{
+                        alert('数据查询出现错误，请联系管理员')
+                    }
                 },
                 error:function(s,e,t){
-                    alert('123')
                     alert('出现错误，错误类型：'+e)
                 }
             })
