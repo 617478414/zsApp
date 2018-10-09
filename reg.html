@@ -88,7 +88,9 @@
                     var emailBox = doc.getElementById('email');
                     var phoneBox = doc.getElementById('phone');
                     var nameBox = doc.getElementById('name');
+                    
                     regButton.addEventListener('tap', function(event) {
+                    	
                         var regInfo = {
                             account: accountBox.value,
                             password: passwordBox.value,
@@ -99,6 +101,10 @@
                         var passwordConfirm = passwordConfirmBox.value;
                         var str = accountBox.value.trim();
                         //账号名为中文或为空
+                        if (!str <= 5) {
+							alert('用户名最短需要 5 个字符');
+							return;
+						}
                         if(!str.length){
                             alert("账号为空");
                             return;

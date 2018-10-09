@@ -121,7 +121,7 @@
 				//获取项目id、Name值
 				var self = plus.webview.currentWebview();
 //				document.getElementById('xmmc').innerText=self.gcmc;
-//				userid=self.userid;
+				projectId=self.projectId;
 				
 				var starttime=document.getElementById('starttime');
 				var endtime=document.getElementById('endtime');
@@ -196,6 +196,7 @@
 					data:{
 						starttimevalue:starttimevalue, //起始日期
 						endtimevalue:endtimevalue, //截止日期
+						projectId:projectId//项目id
 //						gcmc:xmmcValue //工程名称
 					},
 					dataType:'json',

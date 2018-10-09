@@ -17,7 +17,7 @@
             <h1 class="mui-title"><span id="ProNam"></span></h1>
         </header>
 		<div class="mui-content">
-	        <ul class="mui-table-view mui-grid-view mui-grid-9">
+	        <ul id="my_list" class="mui-table-view mui-grid-view mui-grid-9">
 	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 	            	<a href="project_type.html">
 	                    <span class="mui-icon mui-icon-location"></span>
@@ -71,6 +71,7 @@
 		    mui.plusReady(function() {
 		        //get pro Mes
 		        var projectId = localStorage.getItem('projectId');
+//		        alert(projectId)
 		        var projectName = localStorage.getItem('projectName');
 		        $('#ProNam').text(projectName);
 		        
@@ -84,8 +85,35 @@
 //  			        id:PageId['0'],
 //  			    })
 //  			})
+
+				 //主列表点击事件 ,把项目id传到所有子页面中
+			mui('#my_list').on('tap', 'a', function() {
+				//alert("测试");
+				var id = this.getAttribute('href');
+				var href = this.href;
+				var webview_style = {
+					popGesture: "close",					
+					hardwareAccelerated:false
+				};
+				mui.openWindow({
+					id: id,
+					url: this.href,
+					styles: webview_style,
+					extras:{
+						projectId:projectId,
+
+					},
+					show: {
+						aniShow:"pop-in"
+					},
+					waiting: {
+						autoShow: false
+					}
+				});
+			});
 		    })
 		    
+		   
 			
 		</script>
 	</body>
