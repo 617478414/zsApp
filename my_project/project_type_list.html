@@ -49,7 +49,6 @@
                 var projectName = localStorage.getItem('projectName');
                 var TypeName = localStorage.getItem('TypeName');
                 var TypeId = plus.storage.getItem("TypeId")
-//              var TypeId = getQueryString('TypeId')
                 $('#TypeName').text(TypeName);
                 localStorage.setItem('PageSta','0');
 //              console.log(projectId)
@@ -93,7 +92,7 @@
                         }
                         else
                         {
-                            alert('无相关数据')
+                            alert('无相关数据，或表单已经逾期')
                         }
                     },
                     error:function(s,e,t){

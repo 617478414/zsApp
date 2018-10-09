@@ -84,7 +84,7 @@
             <!--查看/发送-->
             <label for="" class="footer-right">
                 <img id="msg-check" class="footer-right-page" src="../../images/file.png" style="width: 35px;"  />
-                <button type="button" class="mui-btn mui-btn-success footer-right-post" id="postMes" style="display: none;">提交</button>
+                <button type="button" class="mui-btn mui-btn-success footer-right-post" id="postMes" style="display: none;">确认</button>
             </label>
         </footer>
         
@@ -135,12 +135,6 @@
                     $('.paneImg').attr('width',canvasWidth)
                     $('.paneImg').attr('height',canvasHeight)
                     
-                    //显示签名
-                    try{
-                        
-                    }catch(e){
-                    	//
-                    }
                 },
                 error:function(s,e,t){
                     alert('出现错误，错误类型：'+e);
@@ -165,7 +159,34 @@
                     var btnArray = ['取消', '确定'];
                     mui.prompt('请输入审批意见：', '或驳回原因', '建筑文件审批系统', btnArray, function(e) {
                         if (e.index == 1) {
-                            alert('审批意见:' + e.value);
+//                          alert('审批意见:' + e.value);
+                            $.ajax({
+                                type:"post",
+                                url:url+"action_sign/MesSave_Reject.php",
+                                async:true,
+                                dataType:'json',
+                                data:{
+                                    //FormMes
+                                    formId:CId,
+                                    //Mes
+                                    Mes: e.value,
+                                },
+                                success:function(data){
+//                                  console.log(data)
+                                    if(data['ErrorMes']){
+                                        alert(data['ErrorMes']+'请及时联系管理员')
+                                        return;
+                                    }
+                                    alert('表单已驳回')
+                                    //返回父页面刷新
+                                    var target = plus.webview.getWebviewById("project_type_list");
+                                    target.reload(true);
+                                    mui.back();
+                                },
+                                error:function(s,e,t){
+                                    alert('出现错误，错误类型：'+e);
+                                }
+                            })
                         }
                     });
                 };
@@ -191,6 +212,8 @@
                                 PageFinal : localStorage.getItem('PageFinal'),
                                 //签名信息
                                 SignFinal : localStorage.getItem('SignUrl'),
+                                //备注
+                                msg:$('#msg-text').val()
                         },
                         success:function(data){
                             if(data['ErrorMes']){
