@@ -13,10 +13,10 @@
 		loginInfo.account = loginInfo.account || '';
 		loginInfo.password = loginInfo.password || '';
 		if (loginInfo.account.length < 5) {
-			return callback('账号最短为 5 个字符');
+			return callback('账号需大于 5 个字符');
 		}
 		if (loginInfo.password.length < 6) {
-			return callback('密码最短为 6 个字符');
+			return callback('密码需大于6 个字符');
 		}
 		//判断帐号密码的正确
         mui.ajax(url+'login.php',{
@@ -62,14 +62,22 @@
 		regInfo = regInfo || {};
 		regInfo.account = regInfo.account || '';
 		regInfo.password = regInfo.password || '';
+		console.log(regInfo.account.length)
+		//账号判断
 		if (regInfo.account.length < 5) {
-			return callback('用户名最短需要 5 个字符');
+			return callback('用户名长度需大于 5 个字符');
 		}
+		//密码判断
 		if (regInfo.password.length < 6) {
-			return callback('密码最短需要 6 个字符');
+			return callback('密码长度需大于 6 个字符');
 		}
-		if (!checkEmail(regInfo.email)) {
-			return callback('邮箱地址不合法');
+		//如果有邮箱则进行判断
+		try{
+			if (!checkEmail(regInfo.email)) {
+    			return callback('邮箱地址不合法');
+    		}
+		}catch(e){
+			//TODO handle the exception
 		}
 		var users = JSON.parse(localStorage.getItem('$users') || '[]');
 		users.push(regInfo);

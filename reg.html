@@ -101,12 +101,12 @@
                         var passwordConfirm = passwordConfirmBox.value;
                         var str = accountBox.value.trim();
                         //账号名为中文或为空
-                        if (!str <= 5) {
-							alert('用户名最短需要 5 个字符');
+                        if (str < 5) {
+							alert('用户名长度需大于 5 个字符');
 							return;
 						}
                         if(!str.length){
-                            alert("账号为空");
+                            alert("抱歉，账号不能为空，请核实后提交");
                             return;
                         //判断账号是否包含中文
                         }else if(/.*[\u4e00-\u9fa5]+.*$/.test(str)){
@@ -122,11 +122,11 @@
                             return;
                         //判断手机号 
                         }else if(regInfo.mobile.length!=11){
-                            alert('手机号有误');
+                            alert('手机号长度不合法，请核实后提交');
                             return;
                         //判断姓名是否输入  
                         }else if(!regInfo.my_name.length){
-                            alert('请输入姓名');
+                            alert('抱歉姓名不得为空，请输入您的真实姓名');
                             return;
                         }
                         //单位未选择
