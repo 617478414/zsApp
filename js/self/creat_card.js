@@ -193,7 +193,7 @@ function ListShow(CId, CType, CUrl, CName, CSUTm, CSSta, CSDLine) {
 	//      </li>
 	//  </ul>"
 	
-	if(CSSta == "待签") {
+	if(CSSta == "1") {
 	var EleText = "<ul class='mui-table-view mui-card my_list my_marginbottom10px'><li class='mui-table-view-cell " + CType + "'><a class='a_color' href='" + CUrl + "'><span class='mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white'></span><p class='mui-ellipsis my_style2'>" + "<span class='CName'>" + CName + "</span>" + "<span class='CId' hidden='hidden'>" + CId + "</span>" + "</p></a><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>提交日期：" + CSUTm + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>签批状态：" + CSSta + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>截止日期：" + CSDLine + "</p></li></li></ul>"
 	$('.mui-control-content-body').append(EleText);
 		}

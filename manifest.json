@@ -255,7 +255,9 @@
 					"images/qihoo.png",
 					"images/qq.png",
 					"images/sinaweibo.png",
-					"images/weixin.png"
+					"images/weixin.png",
+					"js/service.js",
+					"css/my_css.css"
 				],
 				"refer": [
 					"unlock.html",
@@ -268,7 +270,13 @@
 			},
 			"index.html": {
 				"resources": [
-					"homepage.html"
+					"homepage.html",
+					"js/service.js",
+					"js/mui.min.js",
+					"css/my_css.css",
+					"fonts/mui.ttf",
+					"css/iconfont.css",
+					"css/mui.min.css"
 				],
 				"refer": [
 					"setting.html",

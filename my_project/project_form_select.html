@@ -47,94 +47,22 @@
 
 			<div id="item1" class="mui-control-content mui-active">
 				<div class="mui-scroll-wrapper">
-					<div id="ulContent" class="mui-control-content-body"></div>
+					<div id="ulContent" class="mui-control-content-body-a"></div>
 				</div>
 			</div>
 			<div id="item2" class="mui-control-content">
 				<div class="mui-scroll-wrapper">
-					<div class="mui-scroll rwdiv">
-						<!--<div class="mui-input-row mui-search">
-							<input type="search" class="mui-input-clear" placeholder="">
-						</div>-->
-
-						<ul class="mui-table-view mui-card my_list my_marginbottom10px">
-							<li class="mui-table-view-cell my_backgroundcolor_blue2">
-								<a class="a_color" href="">
-									<span class="mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white">
-                                    </span>
-									<p class="mui-ellipsis my_style2">表单名称02</p>
-								</a>
-								<li class="mui-table-view-cell">
-									<p class="mui-ellipsis my_style1">提交日期：</p>
-								</li>
-								<li class="mui-table-view-cell">
-									<p class="mui-ellipsis my_style1">签批状态：</p>
-								</li>
-								<li class="mui-table-view-cell">
-									<p class="mui-ellipsis my_style1">截止日期：</p>
-								</li>
-							</li>
-						</ul>
-
-					</div>
+					<div id="ulContent" class="mui-control-content-body-b"></div>
 				</div>
 			</div>
 			<div id="item3" class="mui-control-content">
 				<div class="mui-scroll-wrapper">
-					<div class="mui-scroll rwdiv">
-						<!--<div class="mui-input-row mui-search">
-							<input type="search" class="mui-input-clear" placeholder="">
-						</div>-->
-
-						<ul class="mui-table-view mui-card my_list my_marginbottom10px">
-							<li class="mui-table-view-cell my_backgroundcolor_red">
-								<a class="a_color" href="">
-									<span class="mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white">
-                                    </span>
-									<p class="mui-ellipsis my_style2">表单名称03</p>
-								</a>
-								<li class="mui-table-view-cell">
-									<p class="mui-ellipsis my_style1">提交日期：</p>
-								</li>
-								<li class="mui-table-view-cell">
-									<p class="mui-ellipsis my_style1">签批状态：</p>
-								</li>
-								<li class="mui-table-view-cell">
-									<p class="mui-ellipsis my_style1">截止日期：</p>
-								</li>
-							</li>
-						</ul>
-
-					</div>
+					<div id="ulContent" class="mui-control-content-body-c"></div>
 				</div>
 			</div>
 			<div id="item4" class="mui-control-content">
 				<div class="mui-scroll-wrapper">
-					<div class="mui-scroll rwdiv">
-						<!--<div class="mui-input-row mui-search">
-							<input type="search" class="mui-input-clear" placeholder="">
-						</div>-->
-
-						<ul class="mui-table-view mui-card my_list my_marginbottom10px">
-							<li class="mui-table-view-cell my_backgroundcolor_grey">
-								<a class="a_color" href="">
-									<span class="mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white">
-                                    </span>
-									<p class="mui-ellipsis my_style2">表单名称04</p>
-								</a>
-								<li class="mui-table-view-cell">
-									<p class="mui-ellipsis my_style1">提交日期：</p>
-								</li>
-								<li class="mui-table-view-cell">
-									<p class="mui-ellipsis my_style1">签批状态：</p>
-								</li>
-								<li class="mui-table-view-cell">
-									<p class="mui-ellipsis my_style1">截止日期：</p>
-								</li>
-							</li>
-						</ul>
-
-					</div>
+					<div id="ulContent" class="mui-control-content-body-d"></div>
 				</div>
 			</div>
 		</div>
@@ -167,13 +95,14 @@
 					async: true,
 					dataType: 'json',
 					data: {
-						falg: 'listMesType_detail',
+						falg: 'listMesType_deta',
 						TypeId: TypeId,
 						projectId: projectId,
 					},
 					success: function(data) {
 						//                      console.log(data)
 						if(data['status'] == 'success') {
+//							alert(data['data'][0]['TabSta'])
 							if(data['row'] == 0) {
 								alert('无相关数据')
 							}
@@ -184,7 +113,7 @@
 								//                          	var CUrl = 'detail/form_list.html';
 								var CName = data['data'][i]['TabNam'];
 								var CSUTm = data['data'][i]['TabCTm'];
-								var CSSta = '待签';
+								var CSSta = data['data'][i]['TabSta'];
 								var CSDLine = data['data'][i]['TabDTm'];
 								ListShow(CId, CType, CUrl, CName, CSUTm, CSSta, CSDLine);
 							}
@@ -273,7 +202,7 @@
 						},
 						error: function(xhr, type, errorThrown) {
 							//alert('ajax错误'+type+'---'+errorThrown);
-							return callback('ajax错误' + type + errorThrown);
+							alert('ajax错误' + type + errorThrown);
 						}
 					});
 				};
