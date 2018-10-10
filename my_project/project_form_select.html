@@ -121,8 +121,8 @@
 								localStorage.setItem('CId', $(this).find('.CId').text());
 								localStorage.setItem('PageSta', '0');
 								mui.openWindow({
-									url: 'detail/form_signIn.html',
-									id: 'detail/form_signIn',
+									url: 'detail/form_mes.html',
+									id: 'detail/form_mes',
 								})
 							})
 						} else {
@@ -184,7 +184,7 @@
 									//                          	var CUrl = 'detail/form_list.html';
 									var CName = data['data'][i]['TabNam'];
 									var CSUTm = data['data'][i]['TabCTm'];
-									var CSSta = '待签';
+									var CSSta = data['data'][i]['TabSta'];
 									var CSDLine = data['data'][i]['TabDTm'];
 									ListShow(CId, CType, CUrl, CName, CSUTm, CSSta, CSDLine);
 								}
