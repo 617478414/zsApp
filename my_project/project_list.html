@@ -61,26 +61,53 @@
                             Mes = Mes.substr(0,Mes.length-1)
                             Mes += ']'
                             var MesObj = eval('(' + Mes + ')');
-
-                            //show Card
-                	        for (var i=0;i<MesObj.length;i++) {
-                                var ProId = MesObj[i]['projectId'];
-                                var ProName = MesObj[i]['projectName'];
-                                var ProCTm = MesObj[i]['createTime'];
-                                var ProSTm = MesObj[i]['startDate'];
-                                var ProUTm = MesObj[i]['uploadTime'];
-                                var ProSupunits = MesObj[i]['supUnits'];
-                                var ProBuild = MesObj[i]['builder'];
-                                var ProMobile = MesObj[i]['mobile'];
-                                var ProCCode = MesObj[i]['prjNo'];
-                                var ProCName = MesObj[i]['cityName'];
-                                var Phone = MesObj[i]['mobile'];
-                                var DateBegin = MesObj[i]['startDate'];
-                                ListShow_Project(ProId,ProName,ProCName,ProCCode,DateBegin,Phone,ProBuild,ProSupunits);
-                    	    }
-                	        return 0;
+                            
+                            //get proId 
+                            var arrProId = new Array()
+                            $.ajax({
+                            	type:"post",
+                            	url:url+"action_ins/GetProId.php",
+                            	async:true,
+                            	dataType:'json',
+                            	success:function(data){
+                            	    if(data['status'] == 'success'){
+                            	        for(var i=0;i<data['data'].length;i++){
+                            	            arrProId[i] = data['data'][i]
+//                          	            console.log(arrProId[i])
+                            	        }
+                            	        //show Card
+                            	        for (var i=0;i<MesObj.length;i++) {
+                            	            var ProId = MesObj[i]['projectId'];
+                            	            if($.inArray(ProId, arrProId) >= 0){
+                            	                var ProName = MesObj[i]['projectName'];
+                                                var ProCTm = MesObj[i]['createTime'];
+                                                var ProSTm = MesObj[i]['startDate'];
+                                                var ProUTm = MesObj[i]['uploadTime'];
+                                                var ProSupunits = MesObj[i]['supUnits'];
+                                                var ProBuild = MesObj[i]['builder'];
+                                                var ProMobile = MesObj[i]['mobile'];
+                                                var ProCCode = MesObj[i]['prjNo'];
+                                                var ProCName = MesObj[i]['cityName'];
+                                                var Phone = MesObj[i]['mobile'];
+                                                var DateBegin = MesObj[i]['startDate'];
+                                                ListShow_Project(ProId,ProName,ProCName,ProCCode,DateBegin,Phone,ProBuild,ProSupunits);
+                            	            }
+                                	    }
+                            	        return 0;
+                            	    }
+                            	    if(data['status'] == 'none'){
+                            	        alert('暂无需签批工程')
+                            	        return 0;
+                            	    }
+                        	        alert('出现错误，请联系管理员；错误类型：获取数据出现错误')
+                            	},
+                            	error:function(s,e,t){
+                            	    alert('出现错误，请联系管理员；错误类型：'+e)
+                            	}
+                            });
+                            return 0
                 	    }
-                	    alert('出现错误，错误类型：'+e+'位置：success');
+                	    alert('出现错误，错误类型：连接数据出现错误');
                 	},
                 	error:function(s,e,t){
                 	    alert('出现错误，错误类型：'+e);
