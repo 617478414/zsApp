@@ -71,8 +71,14 @@
             	<!--<a href="../../excel_form/formtest.html" class="mui-tab-item mui-active" ><img src="../../images/keyboard.png" width="20px" height="20px" style="display: none;"/></a>-->
                 <img src="../../images/SignIn.png" width="20px" height="20px" id="SignIn" />
             </div>
+            <div class="" style="margin-left: 25%;margin-top: 10px;">
+                <span class="mui-icon mui-icon-map" id="Nail"></span>
+            </div>
+            <div class="" style="margin-left: 65%;margin-top: -25px;">
+                <span class="mui-icon mui-icon-mic" id="Recoder"></span>
+            </div>
             <!--输入框-->
-            <div class="footer-center">
+            <!--<div class="footer-center">
                 <input id='msg-text' type="text" class='input-text' list='SignElse'>
                 <datalist id="SignElse">
                     <option>备注1</option>
@@ -80,7 +86,7 @@
                     <option>备注3</option>
                     <option>备注4</option>
                 </datalist>
-            </div>
+            </div> -->
             <!--查看/发送-->
             <label for="" class="footer-right">
                 <img id="msg-check" class="footer-right-page" src="../../images/file.png" style="width: 35px;"  />
@@ -105,6 +111,7 @@
             var projectName = localStorage.getItem('projectName');
             var TypeName = localStorage.getItem('TypeName');
             var CId = localStorage.getItem('CId');
+//          console.log(CId)
 //          var CId = '55'
             canvasWidth = 385
             canvasHeight = 458
@@ -198,6 +205,7 @@
                         async:true,
                         dataType:'json',
                         data:{
+                        	
                             //FormMes
                             formId:CId,
                             //SignMes
@@ -213,9 +221,10 @@
                                 //签名信息
                                 SignFinal : localStorage.getItem('SignUrl'),
                                 //备注
-                                msg:$('#msg-text').val()
+//                              msg:$('#msg-text').val()
                         },
                         success:function(data){
+//                      	alert(data)
                             if(data['ErrorMes']){
                                 alert(data['ErrorMes']+'请及时联系管理员')
                                 return;
@@ -235,33 +244,33 @@
             mui.plusReady(function(){
                 var val='';
                 //检测，显示提交按钮【键盘输入】
-                $('#msg-text').on('input',function() {
-                    document.getElementById("postMes").style.display = 'block';
-                    document.getElementById("msg-check").style.display = 'none';
-                })
-                //提交信息之后【键盘输入】
-                $('#postMes').on('tap',function() {
-                    alert('你刚输入了:'+$('#msg-text').val());
-                    document.getElementById("postMes").style.display = 'none';
-                    document.getElementById("msg-check").style.display = 'block';
-                    $('#msg-text').val('');
-                })
-                //显示键盘
-                var showKeyboard = function() {
-                    if (mui.os.ios) {
-                        var webView = plus.webview.currentWebview().nativeInstanceObject();
-                        webView.plusCallMethod({
-                            "setKeyboardDisplayRequiresUserAction": false
-                        });
-                    } else {
-                        var Context = plus.android.importClass("android.content.Context");
-                        var InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
-                        var main = plus.android.runtimeMainActivity();
-                        var imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
-                        imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-                        imm.showSoftInput(main.getWindow().getDecorView(), InputMethodManager.SHOW_IMPLICIT);
-                    }
-                };
+//              $('#msg-text').on('input',function() {
+//                  document.getElementById("postMes").style.display = 'block';
+//                  document.getElementById("msg-check").style.display = 'none';
+//              })
+//              //提交信息之后【键盘输入】
+//              $('#postMes').on('tap',function() {
+//                  alert('你刚输入了:'+$('#msg-text').val());
+//                  document.getElementById("postMes").style.display = 'none';
+//                  document.getElementById("msg-check").style.display = 'block';
+//                  $('#msg-text').val('');
+//              })
+//              //显示键盘
+//              var showKeyboard = function() {
+//                  if (mui.os.ios) {
+//                      var webView = plus.webview.currentWebview().nativeInstanceObject();
+//                      webView.plusCallMethod({
+//                          "setKeyboardDisplayRequiresUserAction": false
+//                      });
+//                  } else {
+//                      var Context = plus.android.importClass("android.content.Context");
+//                      var InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
+//                      var main = plus.android.runtimeMainActivity();
+//                      var imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
+//                      imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
+//                      imm.showSoftInput(main.getWindow().getDecorView(), InputMethodManager.SHOW_IMPLICIT);
+//                  }
+//              };
                 //打开详情
                 $('#msg-check').on('tap',function() {
                     localStorage.setItem('PageStaMes','1');
@@ -280,6 +289,26 @@
                         id:'SignView.html',
                         extras: {
                             fatherPage : 'form_signIn.html'
+                        }
+                    })
+                })
+                //打开语音
+                $('#Recoder').on('tap',function() {
+                    mui.openWindow({
+                        url:'sign_audio.html',
+                        id:'sign_audio.html',
+                        extras: {
+                            
+                        }
+                    })
+                })
+                //打开钉钉
+                $('#Nail').on('tap',function() {
+                    mui.openWindow({
+                        url:'sign_nail.html',
+                        id:'sign_nail.html',
+                        extras: {
+                            
                         }
                     })
                 })

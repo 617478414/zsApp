@@ -85,7 +85,8 @@
                             	var CSUTm = data['data'][i]['TabCTm'];
                             	var CSSta = '待签';
                             	var CSDLine = data['data'][i]['TabDTm'];
-                            	ListShow(CId,CType,CUrl,CName,CSUTm,CSSta,CSDLine);
+                            	var TabMNa = data['data'][i]['TabMNa'];
+                            	ListShow(CId,CType,CUrl,CName,CSUTm,CSSta,CSDLine,TabMNa);
                             }
                             $('.mui-card').on('tap',function(){
                                 localStorage.setItem('CId',$(this).find('.CId').text());

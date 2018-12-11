@@ -144,7 +144,7 @@ function ListShow_Type(TypeName, TypeUrl, TypeId, TypeNum) {
 }
 
 //creat crad tab&doc
-function ListShow(CId, CType, CUrl, CName, CSUTm, CSSta, CSDLine) {
+function ListShow(CId, CType, CUrl, CName, CSUTm, CSSta, CSDLine, TabMNa) {
 	switch(CType) {
 		case 0:
 			CType = 'my_backgroundcolor_green2';
@@ -194,27 +194,27 @@ function ListShow(CId, CType, CUrl, CName, CSUTm, CSSta, CSDLine) {
 	//  </ul>"
 	
 	if(CSSta == "待签") {
-	var EleText = "<ul class='mui-table-view mui-card my_list my_marginbottom10px'><li class='mui-table-view-cell " + CType + "'><a class='a_color' href='" + CUrl + "'><span class='mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white'></span><p class='mui-ellipsis my_style2'>" + "<span class='CName'>" + CName + "</span>" + "<span class='CId' hidden='hidden'>" + CId + "</span>" + "</p></a><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>提交日期：" + CSUTm + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>签批状态：" + CSSta + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>截止日期：" + CSDLine + "</p></li></li></ul>"
+		var EleText = "<ul class='mui-table-view mui-card my_list my_marginbottom10px'><li class='mui-table-view-cell " + CType + "'><a class='a_color' href='" + CUrl + "'><span class='mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white'></span><p class='mui-ellipsis my_style2'>" + "<span class='CName'>" + TabMNa + "</span>" + "<span class='CId' hidden='hidden'>" + CId + "</span>" + "</p></a><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>表单名称：" + CName + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>提交日期：" + CSUTm + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>签批状态：" + CSSta + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>截止日期：" + CSDLine + "</p></li></li></ul>"
 	$('.mui-control-content-body').append(EleText);
 		}
 	if(CSSta=="1"){
 //		var CSSta = "待签";
-			var EleText = "<ul class='mui-table-view mui-card my_list my_marginbottom10px'><li class='mui-table-view-cell " + CType + "'><a class='a_color' href='" + CUrl + "'><span class='mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white'></span><p class='mui-ellipsis my_style2'>" + "<span class='CName'>" + CName + "</span>" + "<span class='CId' hidden='hidden'>" + CId + "</span>" + "</p></a><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>提交日期：" + CSUTm + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>签批状态：" + CSSta + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>截止日期：" + CSDLine + "</p></li></li></ul>"
+		var EleText = "<ul class='mui-table-view mui-card my_list my_marginbottom10px'><li class='mui-table-view-cell " + CType + "'><a class='a_color' href='" + CUrl + "'><span class='mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white'></span><p class='mui-ellipsis my_style2'>" + "<span class='CName'>" + TabMNa + "</span>" + "<span class='CId' hidden='hidden'>" + CId + "</span>" + "</p></a><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>表单名称：" + CName + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>提交日期：" + CSUTm + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>签批状态：" + CSSta + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>截止日期：" + CSDLine + "</p></li></li></ul>"
 	$('.mui-control-content-body-a').append(EleText);
 		}
 	if(CSSta=="2"){
 //		var CSSta = "驳回";
-			var EleText = "<ul class='mui-table-view mui-card my_list my_marginbottom10px'><li class='mui-table-view-cell " + CType + "'><a class='a_color' href='" + CUrl + "'><span class='mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white'></span><p class='mui-ellipsis my_style2'>" + "<span class='CName'>" + CName + "</span>" + "<span class='CId' hidden='hidden'>" + CId + "</span>" + "</p></a><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>提交日期：" + CSUTm + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>签批状态：" + CSSta + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>截止日期：" + CSDLine + "</p></li></li></ul>"
+			var EleText = "<ul class='mui-table-view mui-card my_list my_marginbottom10px'><li class='mui-table-view-cell " + CType + "'><a class='a_color' href='" + CUrl + "'><span class='mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white'></span><p class='mui-ellipsis my_style2'>" + "<span class='CName'>" + TabMNa + "</span>" + "<span class='CId' hidden='hidden'>" + CId + "</span>" + "</p></a><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>表单名称：" + CName + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>提交日期：" + CSUTm + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>签批状态：" + CSSta + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>截止日期：" + CSDLine + "</p></li></li></ul>"
 	$('.mui-control-content-body-b').append(EleText);
 		}
 	if(CSSta=="3"){
 //		var CSSta = "逾期";
-			var EleText = "<ul class='mui-table-view mui-card my_list my_marginbottom10px'><li class='mui-table-view-cell " + CType + "'><a class='a_color' href='" + CUrl + "'><span class='mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white'></span><p class='mui-ellipsis my_style2'>" + "<span class='CName'>" + CName + "</span>" + "<span class='CId' hidden='hidden'>" + CId + "</span>" + "</p></a><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>提交日期：" + CSUTm + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>签批状态：" + CSSta + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>截止日期：" + CSDLine + "</p></li></li></ul>"
+			var EleText = "<ul class='mui-table-view mui-card my_list my_marginbottom10px'><li class='mui-table-view-cell " + CType + "'><a class='a_color' href='" + CUrl + "'><span class='mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white'></span><p class='mui-ellipsis my_style2'>" + "<span class='CName'>" + TabMNa + "</span>" + "<span class='CId' hidden='hidden'>" + CId + "</span>" + "</p></a><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>表单名称：" + CName + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>提交日期：" + CSUTm + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>签批状态：" + CSSta + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>截止日期：" + CSDLine + "</p></li></li></ul>"
 	$('.mui-control-content-body-c').append(EleText);
 		}
 	if(CSSta=="4"){
 //		var CSSta = "归集";
-			var EleText = "<ul class='mui-table-view mui-card my_list my_marginbottom10px'><li class='mui-table-view-cell " + CType + "'><a class='a_color' href='" + CUrl + "'><span class='mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white'></span><p class='mui-ellipsis my_style2'>" + "<span class='CName'>" + CName + "</span>" + "<span class='CId' hidden='hidden'>" + CId + "</span>" + "</p></a><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>提交日期：" + CSUTm + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>签批状态：" + CSSta + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>截止日期：" + CSDLine + "</p></li></li></ul>"
+			var EleText = "<ul class='mui-table-view mui-card my_list my_marginbottom10px'><li class='mui-table-view-cell " + CType + "'><a class='a_color' href='" + CUrl + "'><span class='mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white'></span><p class='mui-ellipsis my_style2'>" + "<span class='CName'>" + TabMNa + "</span>" + "<span class='CId' hidden='hidden'>" + CId + "</span>" + "</p></a><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>表单名称：" + CName + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>提交日期：" + CSUTm + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>签批状态：" + CSSta + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>截止日期：" + CSDLine + "</p></li></li></ul>"
 	$('.mui-control-content-body-d').append(EleText);
 		}
 }

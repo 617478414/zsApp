@@ -1,0 +1,265 @@
+﻿<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+		<title>录制MP3音频</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+		<meta name="viewport" content="user-scalable=no, width=device-width, initial-scale=1, maximum-scale=1">
+		<meta charset="utf-8" />
+		<link href="../../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../../css/common.css" type="text/css" charset="utf-8" />
+		<style type="text/css">
+			.rp {
+				width: 100%;
+				height: 100%;
+				display: none;
+				text-align: center;
+				position: fixed;
+				top: 0;
+				background: rgba(0, 0, 0, 0.8);
+				z-index: 9999;
+				overflow: hidden;
+			}
+			
+			.aname {
+				font-size: 16px;
+			}
+			
+			.ainf {
+				font-size: 12px;
+			}
+			
+			.rtime {
+				font-size: 22px;
+				color: #FF0000;
+			}
+			
+			.ptime {
+				margin-top: 40%;
+				font-size: 22px;
+				color: #FFFFFF;
+			}
+			
+			.rprogress {
+				background: url(../img/arecord.png) no-repeat center center;
+				background-size: 32px 32px;
+			}
+			
+			.rschedule {
+				background-color: rgba(0, 0, 0, 0);
+				border: 5px solid rgba(0, 183, 229, 0.9);
+				opacity: .9;
+				border-left: 5px solid rgba(0, 0, 0, 0);
+				border-right: 5px solid rgba(0, 0, 0, 0);
+				border-radius: 50px;
+				box-shadow: 0 0 15px #2187e7;
+				width: 36px;
+				height: 36px;
+				margin: 0 auto;
+				-webkit-animation: spin 1s infinite linear;
+				animation: spin 1s infinite linear;
+			}
+			
+			@-webkit-keyframes spin {
+				0% {
+					-webkit-transform: rotate(0deg);
+				}
+				100% {
+					-webkit-transform: rotate(360deg);
+				}
+			}
+			
+			@keyframes spin {
+				0% {
+					transform: rotate(0deg);
+				}
+				100% {
+					transform: rotate(360deg);
+				}
+			}
+			
+			.progress {
+				width: 90%;
+				background-color: #666;
+				margin: 0 5%;
+				border: 1px solid #222;
+				-webkit-border-radius: 5px;
+				border-radius: 5px;
+			}
+			
+			.schedule {
+				width: 8px;
+				height: 8px;
+				margin: 1px 0;
+				background-color: #FFCC33;
+				-webkit-border-radius: 4px;
+				border-radius: 4px;
+				-webkit-transition: all 1s linear;
+				transition: all 1s linear;
+			}
+			
+			.stop {
+				width: 72px;
+				height: 72px;
+				background: url(../img/astop.png) center center;
+				background-size: 72px 72px;
+				margin: auto;
+				-webkit-border-radius: 72px;
+				border-radius: 72px;
+			}
+			
+			.stop:active {
+				-webkit-box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5) inset;
+				box-shadow: 0 3px 8px rgba(0, 0, 0, 0.5) inset;
+			}
+			
+			.iplay {
+				display: block;
+				background: no-repeat right center url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAGQAAABYCAYAAAADWlKCAAAABHNCSVQICAgIfAhkiAAAAAlwSFlzAAAKwwAACsMBNCkkqwAAABZ0RVh0Q3JlYXRpb24gVGltZQAwOS8xMi8xM5w+I3MAAAAcdEVYdFNvZnR3YXJlAEFkb2JlIEZpcmV3b3JrcyBDUzVxteM2AAAD9UlEQVR4nO2b3XETMRRGDwzvoYOkg5hRAVkqiKmAdIA7wHSQVECoALsC1gXciV0BTge4gvCwgnHk9d/+WF8m97ztxrlXs8fS1Urym6enJxwd3uZugPMcFyKGCxHDhYjhQsRwIWK4EDFciBguRAwXIoYLEcOFiOFCxHAhYrgQMVyIGC5EDBcihgsRw4WI4ULEcCFiuBAx3uVuwDGY2XtgCBTAALjc8tEFMAdKYBJC+HOK9nXBm5dwUM7MCmAEXDcMMQVuQwhlV23qC2khZjYAboGrjkLOgFEIYd5RvM6RrSFmdgs80J0MYqyHGFsSuR4S60TJ9vrwCEziZ+YhhGXy/xdU9aWgqjfnW+IsgEKtvkgJiUPUPfUyZsD42DoQ68+Y+p62AG6UhjAZITt6xopq3L9vGf+Gqh6dJX+S6ilKNaRkU8YCGLSVARBjDGLMdS5jbgkkhMQiWyejSGtEG2KsghopKoU++5AV68ZDcrvXYWTH8Pghdz1R6CHpN3MFDPsc02PsYcy1qy0nJ6uQOANKZz+jfcOUmd3H6W1jYo5RcvsqtikbuXtI+kBmBxbwz8DczMZtksdcsz1tOinZhMRxPF2bGh8R4gz4amZLMxu2aEqa8zq2LQs5e0j6EB8bLv6dAz/NrGwyjMWcj3vadjJyCimS60nLeFfAbzO7bfANT3MXLdvSmJxCBsl12VHcL8AyvpkfSpo7bdvJyCkkfQfocv5/Bnw3s/mBs6Y097aFzd7JPcv6T5dv5GtcAr/2TZN7yt0IGSE908k0+RS8FiEvhhd1yKEFUw5YAVBApoe0XQrZwgL4GEIY7pLRU+5G5OwhC57PZgbAsqPYK6rdxUMXC9Npbro8fzJy9pB0qll0FPcOuDhCRl3ubEvwOYWUyXXb5YoZ1X7GqMHSfZq7bNmWxuQUki5XnDdc+n4EPoUQiiabSzFnejKl7TJOY7IJid/iaXJ7fESIFfCNas+9zQNMc05zHnjIPctKx/mrA9egflCJGLd5eDFXukGWdddQYU+95PlDWVE97GXPeS+oivf6saBZCKHoM+8+cvcQ2NyhOwMmfW4SxdgTNs9oZd0tBAEhsRDfJbcvgbIPKTtOnNzlPnECAkPWP8xsTv3ZrJ1v2UfmuKDqGRt5QgjZ9kDWyd5D1iioP1U4P3KzqZYYY5v0om38rpDpIeCHrUFMCPjPEeSE/COetf3SU/i7EEL2GVUdSjXkGfGBfWDzIFsb/q93dRizU2R7yDr+o09R/GfRzsmRrSGvFRcihgsRw4WI4ULEcCFiuBAxXIgYLkQMFyKGCxHDhYjhQsRwIWK4EDFciBguRAwXIoYLEcOFiOFCxHAhYrgQMf4CVuqCm+17t3sAAAAASUVORK5CYII=);
+				background-size: 50px 44px;
+				-ms-touch-action: auto;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left " id='back' href="#"></a>
+			<!--<a class="mui-icon mui-icon-bars mui-pull-right" href="#ShowList"></a>-->
+			<h1 class="mui-title"><span id="CName">录制MP3音频</span></h1>
+		</header>
+		<br /><br />
+		<div class="button" onclick="funStart(this);" id="btnStart" disabled>录制</div>
+		<div class="button" onclick="funStop(this);" id="btnStop" disabled>停止</div>
+		<div class="button" onclick="funUpload(this);" id="btnUpload" disabled>上传</div>
+		<!--<a href="plus/audio.html">
+			<div class="button">demo</div>
+		</a>-->
+		<div style="margin-left: 20px;">
+			<h4>调试信息：</h4>
+			<div id="recordingslist"></div>
+		</div>
+		
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/jquery-3.2.1.js"></script>
+		<script src="../../js/recordmp3.js"></script>
+		<script src="../../js/service.js"></script>
+		<script>
+			var CId = localStorage.getItem('CId');
+//			console.log(projectId)
+           	
+			var recorder = new MP3Recorder({
+				debug: true,
+				funOk: function() {
+					btnStart.disabled = false;
+					log('初始化成功');
+				},
+				funCancel: function(msg) {
+					log(msg);
+					recorder = null;
+				}
+			});
+			var mp3Blob;
+
+			function funStart(button) {
+				btnStart.disabled = true;
+				btnStop.disabled = false;
+				btnUpload.disabled = true;
+				log('录音开始...');
+				recorder.start();
+			}
+
+			function funStop(button) {
+				recorder.stop();
+				btnStart.disabled = false;
+				btnStop.disabled = true;
+				btnUpload.disabled = false;
+				log('录音结束，MP3导出中...');
+				recorder.getMp3Blob(function(blob) {
+					log('MP3导出成功');
+					//              console.log(blob)
+
+					mp3Blob = blob;
+					var url = URL.createObjectURL(mp3Blob);
+					var div = document.createElement('div');
+					var au = document.createElement('audio');
+					var hf = document.createElement('span');
+
+					au.controls = true;
+					au.src = url;
+					//              hf.href = url;
+					//              hf.download = new Date().toISOString() + '.mp3';
+					var storage=window.localStorage;
+	            	//写入mp3名称
+	            	var mp3=storage["mp3"];
+					storage.mp3 = new Date() + '.mp3';
+//					console.log(b);
+//					alert(hf.innerHTML)
+					div.appendChild(au);
+					div.appendChild(hf);
+					recordingslist.appendChild(div);
+				});
+			}
+
+			//音频可流畅播放时，播放；PC上可以，移动端不行。
+			//      audio.addEventListener("canplaythrough", function({
+			//          audio.play();
+			//          document.addEventListener('touchstart',function(){
+			//              //增加一个touchstart交互事件，触屏后播放音乐 
+			//              audio.play(); 
+			//              //播放音频后移除touchstart事件的当前匿名函数 
+			//              document.removeEventListener('touchstart',arguments.callee,false);
+			//          }, false); 
+			//      });
+
+			$('audio').on('canplaythrough', function() {
+				audio.play();
+				document.addEventListener('touchstart', function() {
+					//增加一个touchstart交互事件，触屏后播放音乐 
+					audio.play();
+					//播放音频后移除touchstart事件的当前匿名函数 
+					document.removeEventListener('touchstart', arguments.callee, false);
+				}, false);
+			})
+
+			function log(str) {
+				recordingslist.innerHTML += str + '<br/>';
+			}
+
+			function funUpload() {
+				
+				var fd = new FormData();
+				var mp3Name = encodeURIComponent('audio_recording_' + new Date().getTime() + '.mp3');
+				fd.append('mp3Name', mp3Name);
+				fd.append('file', mp3Blob);
+				fd.append('CId', CId);
+
+				$.ajax({
+					type: "post",
+					url: "http://192.168.0.141:8082/zsPC/root/recoder/upload.php",
+					processData: false,
+					contentType: false,
+					data: fd,
+					success: function(data) {
+						console.log(data)
+						alert("上传成功")
+						//返回父页面刷新
+                        var target = plus.webview.getWebviewById("sign_audio.html");
+                        target.reload(true);
+                        mui.back();
+					},
+					complete: function(xml, sta) {
+						//          	    console.log(sta)
+					},
+					error: function(s, e, t) {
+						console.log(e)
+					}
+				});
+
+
+			}
+		</script>
+	</body>
+
+</html>

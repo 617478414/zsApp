@@ -67,6 +67,12 @@
                     <label>邮箱</label>
                     <input id='email' type="email" class="mui-input-clear mui-input" placeholder="请输入邮箱">
                 </div>
+                <div class="mui-input-row">
+                    <label>部门</label>
+                    <select id="Role">
+                    	<option disabled="disabled" value ="" selected="selected">请点击选择部门</option>
+                    </select>
+                </div>
                 
             </form>
             <div class="mui-content-padded">
@@ -88,15 +94,16 @@
                     var emailBox = doc.getElementById('email');
                     var phoneBox = doc.getElementById('phone');
                     var nameBox = doc.getElementById('name');
+                    var roleBox = doc.getElementById('Role');
                     
                     regButton.addEventListener('tap', function(event) {
-                    	
                         var regInfo = {
                             account: accountBox.value,
                             password: passwordBox.value,
                             email: emailBox.value,
                             mobile: phoneBox.value,
                             my_name: nameBox.value,
+                            role_name: roleBox.value,
                         };
                         var passwordConfirm = passwordConfirmBox.value;
                         var str = accountBox.value.trim();
@@ -129,11 +136,11 @@
                             alert('抱歉姓名不得为空，请输入您的真实姓名');
                             return;
                         }
-                        //单位未选择
-//                      else if(!regInfo.units.length){
-//                          alert('请选择单位');
-//                          return;
-//                      }
+                        //部门未选择
+                        else if(!regInfo.role_name.length){
+                            alert('请选择部门');
+                            return;
+                        }
                         //单位名称为空
 //                      else if(!regInfo.unitName.length){
 //                          alert('请输入单位名称');
@@ -148,6 +155,7 @@
                                 email:regInfo.email,
                                 mobile:regInfo.mobile,
                                 my_name:regInfo.my_name,
+                                role_name:regInfo.role_name,
                             },
                             dataType:'json',
                             type:'POST', 
@@ -164,7 +172,42 @@
                                 alert('ajax错误'+type+'---'+errorThrown);
                             }
                         });
+                        
                     });
+                    //注册账号异步
+                    $.ajax(url+'RolNam.php',{
+                        data:{
+                        	
+                        },
+                        dataType:'json',
+                        type:'POST', 
+                        timeout:10000,
+                        success:function(data){
+//						alert(count);
+//						for(ky in data.data){
+//							alert(data.data[ky]["id"])
+//						}
+						var length=data.length;
+						for (var i=0;i<length-1;i++) {
+							RolNam=data[i].RolNam;
+							Rolids=data[i].id;
+							RolNamF(RolNam,Rolids);
+						}  
+					},
+                        error:function(xhr,type,errorThrown){
+                            alert('ajax错误'+type+'---'+errorThrown);
+                        }
+                    });
+                    
+                   	function RolNamF(RolNam,Rolids){
+//						alert(typeof(RolNam));
+						var Role = document.getElementById("Role");
+						var option = document.createElement("option");
+						option.value = Rolids;
+						option.innerHTML= RolNam;
+						Role.appendChild(option);
+					};
+                        
                 });
             }(mui, document));
         </script>

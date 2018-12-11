@@ -380,7 +380,11 @@
 					"my_project/detail/pic_show.html",
 					"my_project/project_form_list.html",
 					"my_project/project_document_list.html",
-					"my_project/project_form_select.html"
+					"my_project/project_form_select.html",
+					"my_project/detail/recoder.html",
+					"my_project/detail/sign_recoder.html",
+					"my_project/detail/sign_nail.html",
+					"my_project/detail/sign_audio.html"
 				],
 				"priority": 0
 			},
@@ -401,7 +405,8 @@
 					"my_project/pro-form-subpage-2.html",
 					"my_project/pro-form-subpage-4.html",
 					"my_project/detail/form_signIn.html",
-					"my_project/project_type.html"
+					"my_project/project_type.html",
+					"my_project/detail/form_mes.html"
 				],
 				"priority": 0
 			},
@@ -423,7 +428,8 @@
 				],
 				"refer": [
 					"my_project/detail/form_mesb.html",
-					"my_project/detail/form_mesa01.html"
+					"my_project/detail/form_mesa01.html",
+					"my_project/detail/sign_audio.html"
 				],
 				"priority": 0
 			},
@@ -584,6 +590,36 @@
 				"resources": [],
 				"refer": [
 					"my_project/project_type_list.html"
+				],
+				"priority": 0
+			},
+			"my_project/detail/sign_nail.html": {
+				"resources": [
+					"css/default.css",
+					"css/jquery.hotspot.css"
+				],
+				"refer": [],
+				"priority": 0
+			},
+			"my_project/detail/sign_audio.html": {
+				"resources": [],
+				"refer": [
+					"my_project/detail/sign_recoder.html",
+					"my_project/detail/form_mes.html"
+				],
+				"priority": 0
+			},
+			"my_project/detail/sign_recoder.html": {
+				"resources": [],
+				"refer": [
+					"my_project/detail/sign_audio.html"
+				],
+				"priority": 0
+			},
+			"my_project/detail/form_mesa.html": {
+				"resources": [],
+				"refer": [
+					"my_project/detail/sign_audio.html"
 				],
 				"priority": 0
 			}

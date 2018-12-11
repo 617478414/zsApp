@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>jQuery</title>
+		<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../css/default.css">
+		<link rel="stylesheet" type="text/css" href="../../css/jquery.hotspot.css">
+		<link rel="stylesheet" type="text/css" href="../../css/style.css">
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../css/my_css.css">
+		<!--[if IE]>
+		<script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
+	<![endif]-->
+		<style type="text/css">
+			#imgss {
+				width: 320px;
+				height: 498px;
+				margin: auto;
+				border: 1px #C6C6C6 solid;
+				/*background-size: 100% 100%;*/
+				/*背景图片充满div*/
+			}
+			/*body{
+				text-align: center;
+			}*/
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="text-decoration:none;"></a>
+			<h1 class="mui-title">危险源管控清单</h1>
+		</header>
+		<div class="htmleaf-container">
+			<div class="container"style = "padding-top: 40px;">
+				<div id="">
+					<!--<br />-->
+				</div>
+				<!--<div class="" id="example-admin" style="border: 1px #C6C6C6 solid;">-->
+					<div class="panel-body" style="padding-left: 0px;padding-right: 0px;">
+						<div class="col-md-6" style="padding-left: 0px;padding-right: 0px;">
+							<div id="theElement-a">
+								<img id="imgss" name="imgss" src="../../images/muwu.jpg" style="width: 335px;">
+								<div class="HotspotPlugin_Hotspot" style="top: 140px; left: 215px;">
+									<div class="">
+										<div class="Hotspot_content">山东i哈斯发动哈德发哈德发的那句客房内阿巴斯短萼汝拉省的吧山东i哈斯发动哈德发哈德发的那句客房内阿巴斯短萼汝拉省的吧山东i哈斯发动哈德发哈德发的那句客房内阿巴斯短萼汝拉省的吧</div>
+									</div>
+								</div>
+							</div>
+							<button id="save_xy"> 保存</button>
+						</div>
+					</div>
+				<!--</div>-->
+
+			</div>
+
+		</div>
+
+		<script type="text/javascript" src="../../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery.hotspot.js"></script>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>	
+		<script type="text/javascript" src="../../js/service.js"></script>
+		<script type="text/javascript">
+			mui.init()
+
+			$("#theElement-a").hotspot({
+				mode: "admin",
+				// uncomment
+				/*ajax: true,
+				ajaxOptions: {
+					'url': 'links.to.server'
+				},*/
+				LS_Variable: "HotspotPlugin-a",
+				done_btnId: 'done-a',
+				remove_btnId: 'remove-a',
+				server_btnId: 'server-a',
+
+				done_btnClass: 'btn btn-success controls',
+				remove_btnClass: 'btn btn-danger controls',
+				sync_btnClass: 'btn btn-info controls',
+
+				afterSave: function(message) {
+					alert(message);
+				},
+				afterRemove: function(message) {
+					alert(message);
+					window.location.reload();
+				},
+				afterSyncToServer: function(message) {
+					alert(message);
+				}
+			});
+
+			$("#theElement-b").hotspot({});
+			
+			var save_xy = document.getElementById("save_xy");
+			save_xy.addEventListener('tap',function(){
+//				var name = localStorage["HotspotPlugin-a"]
+//				var books = localStorage.getItem("HotspotPlugin-a","x");
+//				var qie = (books.split("},{"))
+//				console.log(qie)
+				var userCmsData=localStorage.getItem("HotspotPlugin-a");
+				userCmsData=JSON.parse(userCmsData);
+				var length = userCmsData.length;
+				var content = ""
+				var x = ""
+				var y = ""
+				for (var i = 0 ; i < length ; i++ ) {
+					var content = content + userCmsData[i]['content']+ '/'
+					var x = x + userCmsData[i]['x']+ '/'
+					var y = y + userCmsData[i]['y']+ '/'
+					
+				}
+				console.log(content)
+				console.log(x)
+				console.log(y)
+//				alert(userCmsData[1].toString())
+//				console.log(userCmsData) 
+				
+				mui.ajax(url + 'control/control_cool_sign.php', {
+					data: {
+						x:x,
+						y:y,
+						content:content 
+					},
+					dataType: 'json',
+					type: 'POST',
+					timeout: 10000,
+					success: function(data) {
+//						alert(data);
+//						if (data.result=='success') {
+//							return callback();
+//						} else{
+//							return callback('服务器返回error');	
+//						}
+					}
+				})
+			});
+			
+		</script>
+	</body>
+
+</html>
