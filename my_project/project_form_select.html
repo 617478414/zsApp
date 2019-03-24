@@ -84,7 +84,8 @@
 				var projectName = localStorage.getItem('projectName');
 				var TypeName = localStorage.getItem('TypeName');
 				var TypeId = plus.storage.getItem("TypeId")
-				//              var TypeId = getQueryString('TypeId')
+
+				//var TypeId = getQueryString('TypeId')
 				$('#TypeName').text(TypeName);
 				localStorage.setItem('PageSta', '0');
 				//              console.log(projectId)
@@ -97,10 +98,10 @@
 					data: {
 						falg: 'listMesType_deta',
 						TypeId: TypeId,
-						projectId: projectId,
+						projectId: projectId, 
 					},
 					success: function(data) {
-						//                      console.log(data)
+//						console.log(data)
 						if(data['status'] == 'success') {
 //							alert(data['data'][0]['TabSta'])
 							if(data['row'] == 0) {

@@ -23,6 +23,14 @@
 		<script src="js/tabbar.js"></script>
 		<script type="text/javascript">
 			mui.init()
+			mui.plusReady(function() { 
+      		//获取传值
+      		var self = plus.webview.currentWebview();
+      		mobile = self.mobile; 
+      		userid = self.userid;
+      		bumen = self.bumen;
+//    		alert(mobile)
+      	});
 		</script>
 	</body>
 

@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>同欣</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<!--标准mui.css-->
+		<link rel="stylesheet" href="../css/mui.min_1.css">
+		<!--App自定义的css-->
+		<!--<link rel="stylesheet" type="text/css" href="../css/app.css"/>-->
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">签名记录</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded" style="margin: 5px;">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-media" style="font-size:14px">
+						<a id="jcrq" href="#">
+							起始日期：2018年1月1日-2018年12月31日
+						</a>
+					</li>
+				</ul>
+			</div>
+			<!--<form class="mui-input-group" style="margin-top: 5px;">					
+				<div class="mui-input-row">
+					<label> 检查日期：</label>
+					<input id='jcrq2' type="text" value=""  readonly="readonly" style="padding-left: 4px;">													
+					<input id='jcrq' class="my_none" type="text" style="padding-left: 4px;" placeholder="检查日期"  readonly="readonly">						
+				</div>	
+			</form>-->
+			<div id="xxx" class="mui-table-view">
+				<li class="mui-table-view-cell" style="font-size:14px">
+					<div style="margin: 0 0;margin-left: 2%;">签名时间</div>
+					<div style="margin-top: -21px;margin-left: 40%;">工程名称</div>
+					<div style="margin-top: -21px;margin-left: 80%;">表单名称</div>					
+				</li>
+				<!--<li class="mui-table-view-cell">
+					 	<div style="margin: 0 0;">2018-7-20</div>
+					 	<div style="margin-top: -21px;margin-left: 30%;">18</div>
+					 	<div style="margin-top: -21px;margin-left: 56%;">B</div>
+					 	<div style="margin-top: -21px;margin-left: 80%;">已完成</div>
+				</li>-->
+			</div>
+			
+			<!--A级 -->
+			<div class="mui-control-content mui-active">
+				<div id="xxxx" class="mui-scroll-wrapper">
+					<div class="mui-scroll">
+
+					</div>
+				</div>
+			</div>
+			<!--A级 -->
+		</div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+	<script src="../js/service.js"></script>
+	<script src="../js/jquery-1.11.0.min.js"></script>
+	<!--<script src="https://code.jquery.com/jquery-3.2.1.min.js"></script>-->
+	<script>
+		mui.init({
+			swipeBack: true //启用右滑关闭功能
+		});
+
+		mui.plusReady(function() {
+
+			var self = plus.webview.currentWebview();
+			
+
+			function geturl(name) {
+				var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+				var r = window.location.search.substr(1).match(reg);
+				if(r != null) return unescape(r[2]);
+				return null;
+			}
+			//基本信息异步获取
+			
+				
+			//获取当前时间
+				var date=new Date();    
+				var year=date.getFullYear(); //获取当前年份
+				var mon=date.getMonth()+1; //获取当前月份    
+				var da=date.getDate(); //获取当前日
+				
+				//判断月份和天数字符串的长度
+				if(String(mon).length==1){
+					var month="0"+String(mon);
+				}else{
+					var month=String(mon);
+				}
+				if(String(da).length==1){
+					var day="0"+String(da);
+				}else{
+					var day=String(da);
+				}
+				var time01=String(year)+month+day;
+//				qdTime.value=time01;
+   			var jcrq = document.getElementById("jcrq");
+			//打开原生日期
+				jcrq.addEventListener('tap', function() {
+					var dDate = new Date();
+					plus.nativeUI.pickDate(function(e) {
+						var d = e.date;
+						jcrq.value=d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+					}, function(e) {
+						//alert(e);
+					}, {
+						title: "请选择日期",
+					});	
+				});
+			//动态创建
+			var found = function(TabNam,SignDate,ProName) {
+//				var sjc = sjcCgao;
+				var TabNam = TabNam;
+				var SignDate = SignDate; //签名时间
+				var ProName = ProName;
+//				alert(id); 
+   
+				var xxx = document.getElementById("xxx");
+				var li = document.createElement("li");
+				li.className = "mui-table-view-cell";
+//				ul.id = id + '|' + gcid;
+//				href="../my_project/project_sign_mes.html?SignPeoId='+SignPeoId+'" //暂无要求
+				li.innerHTML = '<a><div style="margin: 0 0;font-size:15px">2019-03-21</div><div style="margin-top: -21px;margin-left: 120px;font-size:14px;width:100px;text-overflow:ellipsis;white-space:nowrap; overflow:hidden;">'+ProName+'</div><div style="margin-top: -21px;margin-left: 80%;font-size:14px;width:100px;text-overflow:ellipsis;white-space:nowrap; overflow:hidden;">'+TabNam+'</div>'; 
+				xxx.appendChild(li);
+			}
+			//异步获取信息 
+			mui.ajax(url + 'action_ins/sign_his.php', {
+				data: {
+//					gcid: gcid, 
+//					wxyid: wxyid
+				},
+				dataType: 'json',  
+				type: 'post', 
+				timeout: 10000,
+				success: function(data) {
+//					alert(data);  
+					var lenght = data.length;
+					if(lenght > 1) {
+						for(var i = 0; i < lenght - 1; i++) {
+							var TabNam = data[i].TabNam;
+							var SignDate = data[i].SignDate;
+							var ProName = data[i].projectName;
+							found(TabNam, SignDate,ProName);
+
+						}
+					}
+				},
+				error: function(xhr, type, errorThrown) {
+					alert('ajax错误' + type + '---' + errorThrown);
+				}
+			});
+		});
+	</script>
+
+</html>

@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="../css/mui.min.css" rel="stylesheet" />
+		<link rel="stylesheet" href="../css/my_css.css">
+		<link href="../css/mui.picker.css" rel="stylesheet" />
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left"></a>
+			<!--<a id="revise" class="mui-icon mui-icon-bars mui-pull-right"></a>-->
+			<h1 class="mui-title">签名详情</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded" style="margin: 5px;">
+				<form id="formAjax" class="mui-input-group">
+					<div class="mui-input-row">
+						<label>签名人：</label>
+						<input id="signpeo" type="text" class="" placeholder="签名人" readonly="readonly" disabled="disabled">
+					</div>
+					<div class="mui-input-row">
+						<label>签名时间：</label>
+						<input id="passWord" type="password" class="" placeholder="签名时间" readonly="readonly" disabled="disabled">
+					</div>
+					<div class="mui-input-row">
+						<label>工程名称：</label>
+						<input id="email" type="text" class="" placeholder="工程名称" readonly="readonly" disabled="disabled">
+					</div>
+					<div class="mui-input-row">
+						<label>表单名称：</label>
+						<input id="Telephone" type="text" class="" placeholder="表单名称" readonly="readonly" disabled="disabled">
+					</div>
+
+					<div class="mui-input-row">
+						<label>签名备注：</label>
+						<input id="Company" type="text" class="" placeholder="签名备注" readonly="readonly" disabled="disabled">
+					</div>
+				</form>
+				<!--<div id="sureButton" class="mui-content-padded">
+					<button id='sureRevise' class="mui-btn mui-btn-block mui-btn-primary">修改</button>
+				</div>-->
+				<!--<div id="sureButton" class="mui-content-padded">
+					<button id="Edit" type="button" class="mui-btn mui-btn-block mui-btn-primary">修改信息</button>
+					<button id="save" type="button" class="mui-btn mui-btn-block mui-btn-primary my_none">保存信息</button>
+				</div>-->
+			</div>
+
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script type="text/javascript">
+			mui.init({});
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+
+				function geturl(name) {
+					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+					var r = window.location.search.substr(1).match(reg);
+					if(r != null) return unescape(r[2]);
+					return null;
+				}
+				var id = geturl("SignPeoId");
+				//alert(id)
+				mui.ajax(url + 'action_ins/sign_his_mes.php',{
+					data:{
+						id:id
+					},
+					dataType:'json',
+					type:'post',
+					timeout:10000,
+					success:function(data) {
+//						alert(data);
+						var length = data.length;
+						if(length>1) {
+							for(var i=0; i<length - 1;i++) {
+								signpeo.value = data[i].UsePeo;
+							}
+						}
+					},
+					error:function(xhr, type, errorThrown) {
+						alert('ajax错误' + type + '---' +errorThrown);
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

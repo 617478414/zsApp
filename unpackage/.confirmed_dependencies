@@ -43,7 +43,9 @@
 			"statistics.html",
 			"my_plus/todo.html",
 			"my_plus/statistics.html",
-			"my_plus/my_setting.html"
+			"my_plus/my_setting.html",
+			"my_project/project_zhenggai.html",
+			"my_project/project_sign_his.html"
 		],
 		"resources": [
 			"images/F\u001a�Q.png"
@@ -71,7 +73,8 @@
 			"my_project/project_document_select.html",
 			"my_project/project_form_list_test.html",
 			"my_project/project_type.html",
-			"my_project/test.html"
+			"my_project/test.html",
+			"my_project/project_sign_his.html"
 		]
 	},
 	"my_project/project_form_list.html": {
@@ -129,7 +132,10 @@
 			"my_project/detail/pic_show.html",
 			"my_project/project_form_list.html",
 			"my_project/project_document_list.html",
-			"my_project/project_form_select.html"
+			"my_project/project_form_select.html",
+			"my_project/detail/sign_nail.html",
+			"my_project/detail/sign_audio.html",
+			"my_project/project_document_select.html"
 		]
 	},
 	"my_project/project_form_select.html": {
@@ -147,7 +153,8 @@
 			"my_project/pro-form-subpage-2.html",
 			"my_project/pro-form-subpage-4.html",
 			"my_project/detail/form_signIn.html",
-			"my_project/project_type.html"
+			"my_project/project_type.html",
+			"my_project/detail/form_mes.html"
 		],
 		"resources": [
 			"my_project/detail/form_sel01.html",
@@ -203,7 +210,8 @@
 			"my_project/pro-doc-subpage-1.html",
 			"my_project/pro-doc-subpage-4.html",
 			"my_project/pro-doc-subpage-2.html",
-			"my_project/pro-doc-subpage-3.html"
+			"my_project/pro-doc-subpage-3.html",
+			"my_project/detail/form_signIn.html"
 		],
 		"resources": [
 			"my_project/pro-doc-subpage-1.html"
@@ -317,6 +325,33 @@
 	"my_project/tab-with-segmented-control-vertical.html": {
 		"refer": [
 			"my_project/project_type_list.html"
+		]
+	},
+	"my_project/project_zhenggai.html": {
+		"refer": [
+			"my_plus/reg.html"
+		]
+	},
+	"my_plus/reg.html": {
+		"refer": [
+			"my_project/project_zhenggai.html"
+		]
+	},
+	"my_project/detail/sign_nail.html": {
+		"refer": [
+			"my_project/detail/my_project_ysjl_xzcd.html",
+			"my_project/detail/my_change_wztmbj2_new.html",
+			"my_project/detail/content.html"
+		]
+	},
+	"my_project/project_sign_his.html": {
+		"refer": [
+			"my_project/project_sign_mes.html"
+		]
+	},
+	"my_project/project_sign_mes.html": {
+		"refer": [
+			"my_project/project_sign_his.html"
 		]
 	}
 }

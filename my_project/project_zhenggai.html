@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>同欣项目巡检系统</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/my_css.css">
+		<style type="text/css">
+			.margintop10px {
+				margin-top: 10px;
+			}
+			
+			.paddingleft34px {
+				padding-left: 34px;
+			}
+			
+			.mui-popover {
+				height: 260px;
+			}
+			
+			#cdbzPopover {
+				min-width: 282px;
+				top: 15% !important;
+				margin-top: 0px;
+				left: 50% !important;
+				margin-left: -141px;
+				position: fixed;
+			}
+			
+			.mui-popover .mui-popover-arrow {
+				display: none !important;
+			}
+			
+			.bgcolors {
+				background-color: #0CAF2D;
+			}
+			
+			#zg {
+				background-color: orangered;
+				color: white;
+			}
+			
+			#yq {
+				background-color: orangered;
+				color: white;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">待办整改</h1>
+		</header>
+		<div class="mui-content">
+			<div>
+				<div id="segmentedControl" class="mui-segmented-control">
+					<a class="mui-control-item mui-active" id="zgspf" href="#item1">
+						<div style="line-height:60px; text-align:center;">待办表单</div>
+					</a>
+					<a class="mui-control-item" id="fgspf" href="#item2">
+						<div style="line-height:60px; text-align:center;">待办文档</div>
+					</a>
+				</div>
+			</div>
+			<div style="margin: 10px;"></div>
+			<div id="search" class="mui-input-row mui-search">
+				<input type="search" class="mui-input-clear" readonly="readonly" placeholder="输入查找信息">
+			</div>
+			<input type="hidden" name="bumen" id="bumen" value="" />
+			
+		</div>
+		<ul class="mui-table-view">
+				<!--<li style="height: 70px;top: 15px;position:relative">
+					<a>
+						<div> 
+							<span style="margin: 10px;">竣工验收备案表</span>
+							<p style="margin: 10px;">王剑 2017-10-10 15：30 </p>
+						</div>
+					</a>
+				</li>-->
+				<!--<li class="mui-table-view-cell mui-media">
+					<a id="pj_list" class="mui-navigate-right" open-type="common" href="#">
+						<div class="mui-media-body" style="height:60px;">
+							<span style="margin: 10px;">沉管灌注桩施工技术交底</span>
+							<p class='mui-ellipsis' style="margin: 10px;">王剑 2017-10-10 09：22 </p>
+						</div>
+					</a>
+				</li>
+				<li class="mui-table-view-cell mui-media">
+					<a id="pj_list" class="mui-navigate-right" open-type="common" href="#">
+						<div class="mui-media-body" style="height:60px;">
+							<span style="margin: 10px;">竣工验收备案表</span>
+							<p class='mui-ellipsis' style="margin: 10px;">王剑 2017-10-10 15：30 </p>
+						</div>
+					</a>
+				</li>-->
+			</ul>
+		<!--待办表单 -->
+		<div id="item1" class="mui-control-content mui-active">
+			<div id="scroll" class="mui-scroll-wrapper">
+				<div id="dbbd" class="mui-table-view mui-grid-view mui-grid-9 my_list">
+
+				</div>
+			</div>
+		</div>
+		<!--待办表单 -->
+
+		<!--待办文档 -->
+		<div id="item2" class="mui-control-content mui-active">
+			<div id="scroll" class="mui-scroll-wrapper">
+				<div id="dbwd" class="mui-table-view mui-grid-view mui-grid-9 my_list">
+
+				</div>
+			</div>
+		</div>
+		<!--待办文档 -->
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				swipeBack: true, //启用右滑关闭功能
+				gestureConfig: {
+					doubletap: true, //默认为false
+					longtap: true, //默认为false
+
+				}
+			});
+
+			//区域滚动,需手动初始化scroll控件
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+			(function($) {
+				$('#scroll').scroll({
+					indicators: true //是否显示滚动条
+				});
+			})(mui);
+
+			mui.plusReady(function() {
+
+				//动态创建待办表单
+				var foundBD = function(id, bdmc, tjrq, bdzt) {
+					//定义函数
+					var id = id; //工程id
+					var bdmc = bdmc; //表单名称
+					var tjrq = tjrq; //提交日期
+					var bdzt = bdzt; //表单状态
+					
+					if(bdzt=="0"){
+					bdzt="待签";					
+					var dbbd = document.getElementById("dbbd");
+					var li = document.createElement("li"); 
+					li.className = "mui-table-view";
+//					ul.id = id;
+					li.innerHTML = '<li style="height: 70px;top: 10px;position:relative"><span style="font-size:17px;margin:15px;">'+bdmc+'</span><p style="padding-left:15px;">王剑&nbsp;&nbsp;'+tjrq+'&nbsp;&nbsp;'+bdzt+'</p></li>';
+					dbbd.appendChild(li); 
+					}
+				}
+				//动态创建待办文档
+				var foundWD = function(id, wdmc, cjrq, wdzt,wdbzr) {
+					//定义函数
+					var id = id; //工程id
+					var wdmc = wdmc; //表单名称
+					var cjrq = cjrq; //提交日期
+					var wdzt = wdzt; //表单状态
+					var wdbzr = wdbzr;//文档编制人
+					if(wdzt=='0'){
+					wdzt="待签";					
+					var dbwd = document.getElementById("dbwd");
+					var ul = document.createElement("ul");
+					ul.className = "mui-table-view mui-content";
+					ul.id = id;
+					ul.innerHTML = '<li style="height: 70px;top: 10px;position:relative"><span style="font-size:17px;margin:15px;">'+wdmc+'</span><p style="padding-left:15px;">'+wdbzr+'&nbsp;&nbsp;'+cjrq+'&nbsp;&nbsp;'+wdzt+'</p></li>';
+					dbwd.appendChild(ul); 
+					}
+				}
+				//异步获取待办表单
+				mui.ajax(url + 'action_ins/dbbd.php', {
+					data: {
+						flag:'1'
+					},
+					dataType: 'json',
+					type: 'POST',
+					timeout: 10000,
+					success: function(data) {
+						//alert(data);
+						var length = data.length;
+						if(length > 1) {
+							for(var i = 0; i < length - 1; i++) {
+								var id = data[i].id;
+								var bdmc = data[i].表单名称;
+								var tjrq = data[i].提交日期;
+								var bdzt = data[i].表单状态;
+								foundBD(id, bdmc, tjrq, bdzt);
+							}
+						} else {
+							//foundBD('', '-----', '-----', '-----', '-----', '-----', '-----', '-----', '-----', '-----', '-----');
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//alert('ajax错误'+type+'---'+errorThrown);
+					}
+				});
+				//异步获取待办文档
+				mui.ajax(url + 'action_ins/dbbd.php', {
+					data: {
+						flag:'2'
+					},
+					dataType: 'json', 
+					type: 'POST',
+					timeout: 10000,
+					success: function(data) {
+//						alert(data);
+						var length = data.length;
+						if(length > 1) {
+							for(var i = 0; i < length - 1; i++) {
+								var id = data[i].id;
+								var wdmc = data[i].文档名称;
+								var cjrq = data[i].创建日期;
+								var wdzt = data[i].文档状态;
+								var wdbzr = data[i].文档编制人;
+								foundWD(id, wdmc, cjrq, wdzt,wdbzr);
+							}
+						} else {
+							//foundWD('', '-----', '-----', '-----', '-----', '-----', '-----', '-----', '-----', '-----', '-----');
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//alert('ajax错误'+type+'---'+errorThrown);
+					}
+				});
+			});
+		</script>
+	</body>
+
+</html>

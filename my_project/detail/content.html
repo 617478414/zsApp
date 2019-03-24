@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>华西巡检系统</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">			
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/my_css.css">
+		<style>
+			/*按钮小样式*/
+			.mui-btn-block_my{
+				font-size:16px;
+				display:block;
+				width:100%;
+				margin-bottom:10px;
+				padding:8px 0;
+			}
+			.button-class{
+				color: #C7C7CC;
+			}
+		</style>
+	</head>
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<!--<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>-->
+			<!--<a id='wchen' class="mui-btn mui-btn-link mui-pull-right mui-btn-blue my_none">完成</a>-->
+			<h1 id="pizhu" class="mui-title">批注内容</h1>
+			<div align="right">
+			<a id="xg"><span class="mui-icon mui-icon-compose"></span></a>
+			</div>
+		</header>
+		<div class="mui-content">
+			<div class="mui-content-padded" style="margin: 5px;">
+				<div class="mui-input-row" style="margin: 10px 5px;">
+					<textarea id="content" readonly="readonly" rows="10" placeholder="多行文本框" onkeyup='this.value=this.value.replace(/[&\|\\\/……*~^<>%$￥@#@\-]/g,"").replace(/\s/g, "")'></textarea>
+				</div>
+			</div>
+			<div class="mui-content-padded my_none" style="margin: 5px;">
+				<div class="mui-input-row" style="margin: 10px 5px;">
+					<textarea id="buwei" rows="1" placeholder="请填写部位"></textarea>
+				</div>
+			</div>
+			<div class="mui-content-padded my_margintop10px">				
+				<div align="center">
+					<button id="confirm" type="button" style="width: 45px;height:35px;position: relative;top: -30px;right: -30px;" disabled="disabled" class="mui-btn mui-btn-primary mui-btn-block_my">确定</button>
+					<button id="close" type="button" style="width: 45px;height:35px;position: relative;top: -75px;left: -30px;" class="mui-btn mui-btn-primary mui-btn-block_my">关闭</button>
+				</div>
+			</div>
+		</div>
+	
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/jquery-1.10.2.min.js" ></script>
+		<script src="../../js/service.js"></script>
+		<script>
+			mui.init({
+				swipeBack:true, //启用右滑关闭功能
+				gestureConfig:{					
+					doubletap: true, //默认为false
+					longtap: true, //默认为false
+					 
+					}
+			});
+			
+			mui.plusReady(function(){
+				//接收上一个页面传递的值
+				var self = plus.webview.currentWebview();
+				var liText = self.liText;
+				var liTextid = self.liTextid;
+				var sjc = self.sjc
+				var mysrc = self.mysrc;
+				var p = self.p;
+				var hehe = self.hehe;
+				var id = self.uid;
+				var xg= document.getElementById("xg");
+//				alert(liTextid);
+//				alert(liText);
+				xg.addEventListener('tap', function() {
+					var xg = document.getElementById("xg");
+					xg.className="button-class";
+					var content = document.getElementById("content");
+					content.readOnly=false;
+					$("#confirm").attr('disabled',false);
+				});
+				mui.ajax(url+'/action_ins/content.php',{
+						data:{
+							id:id
+						},
+						dataType:'json', 
+						type:'post',
+						timeout:10000,
+						success:function(data){
+//							alert(data);
+							content.value = data[0].批注;
+							var bh = data[0].编号;
+							document.getElementById("pizhu").innerHTML = bh+"  批注内容";
+						},
+						error:function(xhr,type,errorThrown){
+						//异常处理；
+						//alert('ajax错误'+type);
+//							return callback('ajax错误'+type+errorThrown);
+						}				
+					});
+				var textareaBianji = document.getElementById("textareaBianji");
+
+				//确定按钮监听
+				var close = document.getElementById("close");
+				close.addEventListener('tap',function(){
+					var hehe=buwei.value;
+//					var wztmbj=textareaBianji.value;
+//					alert(1+wztmbj);
+					var xg = document.getElementById("xg");
+					//违章条目新增
+					
+					//异步传值替换违章条目
+//					mui.ajax(url+'/my_plus/wztm_update.php',{
+//						data:{
+//							wztm:wztmbj,
+//							sjc:sjc,
+//							id:liTextid,
+//							flag:'wztm'
+//						},
+//						dataType:'json',
+//						type:'post',
+//						timeout:10000,
+//						success:function(data){
+////							alert(data);
+//						
+//						},
+//						error:function(xhr,type,errorThrown){
+//						//异常处理；
+//						//alert('ajax错误'+type);
+////							return callback('ajax错误'+type+errorThrown);
+//						}
+//					});
+					//var target=plus.webview.getWebviewById('my_change_tkgl.html');
+					var target=plus.webview.currentWebview().opener();
+					mui.fire(target,'json',{
+//						flag:wztmbj,
+//						flag1:liTextid,
+//						flag2:mysrc, 
+//						flag3:p, 
+//						flag4:hehe
+						flag5:close
+					});
+					mui.back();
+				});
+			});
+		</script>
+	</body>
+</html>

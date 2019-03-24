@@ -111,7 +111,9 @@
             var projectName = localStorage.getItem('projectName');
             var TypeName = localStorage.getItem('TypeName');
             var CId = localStorage.getItem('CId');
-//          console.log(CId)
+            var CSdA = localStorage.getItem('CSdA');
+            var CirSmp = localStorage.getItem('CirSmp');
+//          alert(CirSmp)
 //          var CId = '55'
             canvasWidth = 385
             canvasHeight = 458
@@ -308,7 +310,8 @@
                         url:'sign_nail.html',
                         id:'sign_nail.html',
                         extras: {
-                            
+                            CSdA:CSdA,
+                            CirSmp:CirSmp
                         }
                     })
                 })

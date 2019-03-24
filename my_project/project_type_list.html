@@ -57,7 +57,7 @@
                 var TypeId = plus.storage.getItem("TypeId")
                 $('#TypeName').text(TypeName);
                 localStorage.setItem('PageSta','0');
-//              console.log(projectId)
+//              alert(projectId+'//'+TypeId)
                 //show type mes
                 $.ajax({
                     type:"post",
@@ -70,7 +70,7 @@
                         projectId:projectId,
                     },
                     success:function(data){
-//                      console.log(data)
+//                      alert(data)
                         if(data['status'] == 'success'){
                             if(data['row'] == 0)
                             {
@@ -85,11 +85,15 @@
                             	var CSUTm = data['data'][i]['TabCTm'];
                             	var CSSta = '待签';
                             	var CSDLine = data['data'][i]['TabDTm'];
+                            	var CSdA = data['data'][i]['IntIdA'];
+                            	var CirSmp = data['data'][i]['CirSmp'];
                             	var TabMNa = data['data'][i]['TabMNa'];
-                            	ListShow(CId,CType,CUrl,CName,CSUTm,CSSta,CSDLine,TabMNa);
+                            	ListShow(CId,CType,CUrl,CName,CSUTm,CSSta,CSDLine,CSdA,TabMNa,CirSmp);
                             }
                             $('.mui-card').on('tap',function(){
                                 localStorage.setItem('CId',$(this).find('.CId').text());
+                                localStorage.setItem('CSdA',$(this).find('.CSdA').text());
+                                localStorage.setItem('CirSmp',$(this).find('.CirSmp').text());
                                 localStorage.setItem('PageSta','0');
                                 mui.openWindow({
                                     url:'detail/form_signIn.html',

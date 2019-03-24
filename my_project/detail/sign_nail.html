@@ -1,149 +1,162 @@
-<!doctype html>
-<html lang="zh">
-
-	<head>
-		<meta charset="UTF-8">
-		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<title>jQuery</title>
-		<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
-		<link rel="stylesheet" type="text/css" href="../../css/default.css">
-		<link rel="stylesheet" type="text/css" href="../../css/jquery.hotspot.css">
-		<link rel="stylesheet" type="text/css" href="../../css/style.css">
-		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css">
-		<link rel="stylesheet" type="text/css" href="../../css/my_css.css">
-		<!--[if IE]>
-		<script src="http://libs.useso.com/js/html5shiv/3.7/html5shiv.min.js"></script>
-	<![endif]-->
-		<style type="text/css">
-			#imgss {
-				width: 320px;
-				height: 498px;
-				margin: auto;
-				border: 1px #C6C6C6 solid;
-				/*background-size: 100% 100%;*/
-				/*背景图片充满div*/
-			}
-			/*body{
-				text-align: center;
-			}*/
-		</style>
-	</head>
-
-	<body>
-		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="text-decoration:none;"></a>
-			<h1 class="mui-title">危险源管控清单</h1>
-		</header>
-		<div class="htmleaf-container">
-			<div class="container"style = "padding-top: 40px;">
-				<div id="">
-					<!--<br />-->
-				</div>
-				<!--<div class="" id="example-admin" style="border: 1px #C6C6C6 solid;">-->
-					<div class="panel-body" style="padding-left: 0px;padding-right: 0px;">
-						<div class="col-md-6" style="padding-left: 0px;padding-right: 0px;">
-							<div id="theElement-a">
-								<img id="imgss" name="imgss" src="../../images/muwu.jpg" style="width: 335px;">
-								<div class="HotspotPlugin_Hotspot" style="top: 140px; left: 215px;">
-									<div class="">
-										<div class="Hotspot_content">山东i哈斯发动哈德发哈德发的那句客房内阿巴斯短萼汝拉省的吧山东i哈斯发动哈德发哈德发的那句客房内阿巴斯短萼汝拉省的吧山东i哈斯发动哈德发哈德发的那句客房内阿巴斯短萼汝拉省的吧</div>
-									</div>
-								</div>
-							</div>
-							<button id="save_xy"> 保存</button>
-						</div>
-					</div>
-				<!--</div>-->
-
-			</div>
-
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link rel="stylesheet" href="../../css/mui.min.css" />
+    <title></title>
+    <style>
+    	html,body{
+    		position:relative;
+    		height: 100%;
+    		width:100%; 
+    		overflow:hidden;
+    		margin:0;
+			padding:0;
+    	}
+    	.container{
+    		width: 100%;
+    		height: 100%;
+    		overflow:hidden;
+    		background-color: #F0FFFF;
+    	}
+    	#myCanvas,#my_Canvas{
+    		overflow:hidden;
+    		margin-top: 10px;
+    		border: 1px solid #d3d3d3;
+    		position: absolute;
+    		background-color: #f7f7f7;
+    	}
+    	.port{
+    		position: absolute;
+    		margin-top: 256px;
+    		background-color: #FFFFFF;
+    		margin-left: 5%;
+    		width: 90%;
+    		height: 40px;
+    		border: 1px solid #000000;
+    		word-break: break-all;
+    	}
+    	.point{
+    		width: 60px;
+    		height: 40px;
+    		margin-left: 70px;
+    	}
+    	.bar{
+    		float: left;
+    		margin-left: 5px;
+    	}
+    	.Bar{
+    		position: absolute;
+    		z-index: 99;
+    	}
+    	.box{
+    		position: absolute;
+    		margin-top: 560px;
+    	}
+    </style>
+</head>
+<body>
+	<div class="container">
+		<p id="zb" style="padding: 0;margin: 0;">坐标：</p>
+		<a id="my_popover" style="top:-20px;right:10px;position: relative;" class="mui-icon mui-icon-bars mui-pull-right"></a>
+		<div> 
+			<img id="pic" src="../../images/cad.jpg" width="320.5px" height="226.5px" hidden="hidden" /> 
+			<canvas id="myCanvas" style="margin-left: 10px;"></canvas> 
 		</div>
-
-		<script type="text/javascript" src="../../js/jquery.min.js"></script>
-		<script type="text/javascript" src="../../js/jquery.hotspot.js"></script>
-		<script type="text/javascript" src="../../js/mui.min.js"></script>	
-		<script type="text/javascript" src="../../js/service.js"></script>
-		<script type="text/javascript">
-			mui.init()
-
-			$("#theElement-a").hotspot({
-				mode: "admin",
-				// uncomment
-				/*ajax: true,
-				ajaxOptions: {
-					'url': 'links.to.server'
-				},*/
-				LS_Variable: "HotspotPlugin-a",
-				done_btnId: 'done-a',
-				remove_btnId: 'remove-a',
-				server_btnId: 'server-a',
-
-				done_btnClass: 'btn btn-success controls',
-				remove_btnClass: 'btn btn-danger controls',
-				sync_btnClass: 'btn btn-info controls',
-
-				afterSave: function(message) {
-					alert(message);
-				},
-				afterRemove: function(message) {
-					alert(message);
-					window.location.reload();
-				},
-				afterSyncToServer: function(message) {
-					alert(message);
+		<div class="port" id="dian">
+			<span id="port" class="mui-badge mui-badge-warning bar" style="position: absolute;z-index: -1;">0</span>
+			<!--<span id="F3" title="x" class="mui-badge mui-badge-warning bar" style="display: block;" onclick="put(this)">F3</span>-->
+			<!--<span id="E" title="x" class="mui-badge mui-badge-warning bar" style="display: block;" onclick="put(this)">E</span>
+			<span id="F" title="x" class="mui-badge mui-badge-warning bar" style="display: block;" onclick="put(this)">F</span>-->
+		</div>
+		<div class="">
+			<img id="pic_biger" src="../../images/cad.jpg" width="1602.5px" height="1132.5" hidden="hidden"/>
+			<canvas id="my_Canvas" style="margin-top: 300px;margin-left: 10px;"></canvas>
+		</div>
+		<div id="smalldiv" style="position: absolute; width:30px; background-color: rgba(0,0,0,0.5); height:30px; border:1px solid gray; display: none;" ></div>
+		<div class="box">
+			<button class="point" style="top: -15px;" id="save_point">保存</button>
+			<!--<button class="point">布点</button>-->
+		</div>
+		<div id="middlePopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<textarea id="content" readonly="readonly" rows="10" placeholder="多行文本框" onkeyup='this.value=this.value.replace(/[&\|\\\/……*~^<>%$￥@#@\-]/g,"").replace(/\s/g, "")'></textarea>
+				</div>
+			</div>
+		</div>
+	</div>
+<script src="../../js/mui.min.js"></script>
+<script type="text/javascript" src="../../js/service.js" ></script>
+<script type="text/javascript" src="../../js/jquery-1.10.2.min.js" ></script>
+<script type="text/javascript" src="../../js/picture_biger.js" ></script>
+<script>
+	mui.plusReady(function(){
+		//接收上一个页面的值
+		var self = plus.webview.currentWebview();
+		var sjc = self.CirSmp;
+		var CSdA = self.CSdA;
+		
+//		alert(sjc)
+		ctx.drawImage(img,0,0,img_w,img_h,0,0,300,150);
+		plus.nativeUI.toast("请先创建图钉后进行标注！");
+		
+		//右上角按钮监听
+		my_popover.addEventListener('tap', function() {
+			var btnArray = [{
+				title: "创建图钉"
+			}, ];
+			plus.nativeUI.actionSheet({
+				title: "操作",
+				cancel: "取消",
+				buttons: btnArray
+			}, function(e) {
+				var index = e.index;
+				switch(index) {
+					case 0: //取消								
+						break;
+					case 1: //新增测点
+						//遮罩效果
+						ws = null;
+						ws = plus.webview.currentWebview();
+						// 显示遮罩层
+						ws.setStyle({
+							mask: "rgba(0,0,0,0.7)"
+						});
+						// 点击关闭遮罩层
+						ws.addEventListener("maskClick", function() {
+							ws.setStyle({
+								mask: "none"
+							});
+						}, false);
+						//打开新webview，模仿弹窗
+						mui.openWindow({
+							url: 'my_project_ysjl_xzcd.html',
+							id: 'my_project_ysjl_xzcd',
+							styles: {
+								width: '80%',
+								height: '60%',
+								margin: 'auto'
+							},
+							extras: {
+								sjc:sjc
+							},
+							show: {
+								autoShow: true, //页面loaded事件发生后自动显示
+								aniShow: 'slide-in-right', //页面显示动画
+								duration: '100' //页面动画持续时间
+							},
+							waiting: {
+								autoShow: false, //自动显示等待框
+							},
+						});
+						break;
 				}
 			});
-
-			$("#theElement-b").hotspot({});
-			
-			var save_xy = document.getElementById("save_xy");
-			save_xy.addEventListener('tap',function(){
-//				var name = localStorage["HotspotPlugin-a"]
-//				var books = localStorage.getItem("HotspotPlugin-a","x");
-//				var qie = (books.split("},{"))
-//				console.log(qie)
-				var userCmsData=localStorage.getItem("HotspotPlugin-a");
-				userCmsData=JSON.parse(userCmsData);
-				var length = userCmsData.length;
-				var content = ""
-				var x = ""
-				var y = ""
-				for (var i = 0 ; i < length ; i++ ) {
-					var content = content + userCmsData[i]['content']+ '/'
-					var x = x + userCmsData[i]['x']+ '/'
-					var y = y + userCmsData[i]['y']+ '/'
-					
-				}
-				console.log(content)
-				console.log(x)
-				console.log(y)
-//				alert(userCmsData[1].toString())
-//				console.log(userCmsData) 
-				
-				mui.ajax(url + 'control/control_cool_sign.php', {
-					data: {
-						x:x,
-						y:y,
-						content:content 
-					},
-					dataType: 'json',
-					type: 'POST',
-					timeout: 10000,
-					success: function(data) {
-//						alert(data);
-//						if (data.result=='success') {
-//							return callback();
-//						} else{
-//							return callback('服务器返回error');	
-//						}
-					}
-				})
-			});
-			
-		</script>
-	</body>
-
+		});
+	});
+</script>
+</body>
 </html>
