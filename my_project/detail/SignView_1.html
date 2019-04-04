@@ -277,9 +277,10 @@
 					success: function(data) {
 						if(data['status'] == 'success') {
 							var signUrl = data['path']
+//							alert(signUrl)
 							//将地址存进本地存储
-							localStorage.setItem('SignUrl', UrlImage + signUrl)
-							var Sign_imgurl =  UrlImage + signUrl;
+							localStorage.setItem('SignUrl', signUrl)
+							var Sign_imgurl =  signUrl;
 							if(sqr==""){
 								//未选择授权人
 //								alert("不将签名存到授权人表")
