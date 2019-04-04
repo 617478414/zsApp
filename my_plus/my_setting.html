@@ -237,7 +237,7 @@
 							//console.log(d.filename);
 							//alert( "下载成功: " + path);
 							var btnArray = ['是', '否'];
-							mui.confirm('下载成功：'+path+'是否安装？', '江门市建设工程施工质量管理系统', btnArray, function(e) {
+							mui.confirm('下载成功：'+path+'是否安装？', '同欣文档协同流转App', btnArray, function(e) {
 								if (e.index == 0) {
 									plus.runtime.install(path);  // 安装下载的apk文件
 								} else {
@@ -276,7 +276,7 @@
 									} else {
 										
 									}
-								}, "江门市建设工程施工质量管理系统", ["下载新版","取消"] );
+								}, "同欣文档协同流转App", ["下载新版","取消"] );
 							}else{
 								alert("目前已经是最新版本！");
 							}
