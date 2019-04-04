@@ -103,7 +103,7 @@
 					success: function(data) {
 //						console.log(data)
 						if(data['status'] == 'success') {
-//							alert(data['data'][0]['TabSta'])
+//							alert(data['data'][0]['TabMNa'])
 							if(data['row'] == 0) {
 								alert('无相关数据')
 							}
@@ -111,7 +111,7 @@
 								var CId = data['data'][i]['id'];
 								var CType = 0;
 								var CUrl = '#';
-								//                          	var CUrl = 'detail/form_list.html';
+								//var CUrl = 'detail/form_list.html';
 								var CName = data['data'][i]['TabNam'];
 								var CSUTm = data['data'][i]['TabCTm'];
 								var CSSta = data['data'][i]['TabSta'];

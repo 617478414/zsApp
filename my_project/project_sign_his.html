@@ -117,11 +117,12 @@
 					});	
 				});
 			//动态创建
-			var found = function(TabNam,SignDate,ProName) {
+			var found = function(TabNam,SignDate,ProName,SignPeoId) {
 //				var sjc = sjcCgao;
 				var TabNam = TabNam;
 				var SignDate = SignDate; //签名时间
 				var ProName = ProName;
+				var SignPeoId = SignPeoId;
 //				alert(id); 
    
 				var xxx = document.getElementById("xxx");
@@ -129,7 +130,7 @@
 				li.className = "mui-table-view-cell";
 //				ul.id = id + '|' + gcid;
 //				href="../my_project/project_sign_mes.html?SignPeoId='+SignPeoId+'" //暂无要求
-				li.innerHTML = '<a><div style="margin: 0 0;font-size:15px">2019-03-21</div><div style="margin-top: -21px;margin-left: 120px;font-size:14px;width:100px;text-overflow:ellipsis;white-space:nowrap; overflow:hidden;">'+ProName+'</div><div style="margin-top: -21px;margin-left: 80%;font-size:14px;width:100px;text-overflow:ellipsis;white-space:nowrap; overflow:hidden;">'+TabNam+'</div>'; 
+				li.innerHTML = '<a href="../my_project/project_sign_mes.html?SignPeoId='+SignPeoId+'"><div style="margin: 0 0;font-size:15px">2019-03-21</div><div style="margin-top: -21px;margin-left: 120px;font-size:14px;width:100px;text-overflow:ellipsis;white-space:nowrap; overflow:hidden;">'+ProName+'</div><div style="margin-top: -21px;margin-left: 80%;font-size:14px;width:100px;text-overflow:ellipsis;white-space:nowrap; overflow:hidden;">'+TabNam+'</div>'; 
 				xxx.appendChild(li);
 			}
 			//异步获取信息 
@@ -149,7 +150,8 @@
 							var TabNam = data[i].TabNam;
 							var SignDate = data[i].SignDate;
 							var ProName = data[i].projectName;
-							found(TabNam, SignDate,ProName);
+							var SignPeoId = data[i].SignPeoId;
+							found(TabNam, SignDate,ProName,SignPeoId);
 
 						}
 					}

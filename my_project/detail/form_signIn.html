@@ -57,6 +57,12 @@
                     <li class="mui-table-view-cell">
                         <a href="#" style="color: #FF3B30;">提交</a>
                     </li>
+                    <li class="mui-table-view-cell">
+                        <a href="#" style="color: ;">查看附件</a>
+                    </li>
+                    <!--<li class="mui-table-view-cell">
+                        <a href="#" style="color: ;">授权人签名</a>
+                    </li>-->
                 </ul>
                 <ul class="mui-table-view">
                     <li class="mui-table-view-cell">
@@ -242,6 +248,26 @@
                         }
                     })
                 }
+                //查看附件
+                if(a.innerHTML == '查看附件'){
+                    mui.openWindow({
+                        url:'attachment.html',
+                        id:'attachment.html',
+                        extras: {
+							sjc:CirSmp
+                        }
+                    })
+                }
+                //授权人签名
+//              if(a.innerHTML == '授权人签名'){
+//                  mui.openWindow({
+//                      url:'SignView_1.html',
+//                      id:'SignView_1.html',
+//                      extras: {
+//							sjc:CirSmp
+//                      }
+//                  })
+//              }
             })
             mui.plusReady(function(){
                 var val='';
@@ -287,8 +313,8 @@
                 //打开签名页面
                 $('#SignIn').on('tap',function() {
                     mui.openWindow({
-                        url:'SignView.html',
-                        id:'SignView.html',
+                        url:'SignView_1.html',
+                        id:'SignView_1.html',
                         extras: {
                             fatherPage : 'form_signIn.html'
                         }

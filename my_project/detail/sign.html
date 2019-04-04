@@ -61,7 +61,7 @@
 		<p id="zb" style="padding: 0;margin: 0;">坐标：</p>
 		<a id="my_popover" style="top:-20px;right:10px;position: relative;" class="mui-icon mui-icon-bars mui-pull-right"></a>
 		<div> 
-			<img id="pic" src="../../images/cad.jpg" width="320.5px" height="226.5px" hidden="hidden" /> 
+			<img id="pic" src="../../images/2019.jpg" width="320.5px" height="226.5px" hidden="hidden" /> 
 			<canvas id="myCanvas" style="margin-left: 10px;"></canvas> 
 		</div>
 		<div class="port" id="dian">
@@ -71,7 +71,7 @@
 			<span id="F" title="x" class="mui-badge mui-badge-warning bar" style="display: block;" onclick="put(this)">F</span>-->
 		</div>
 		<div class="">
-			<img id="pic_biger" src="../../images/cad.jpg" width="1602.5px" height="1132.5" hidden="hidden"/>
+			<img id="pic_biger" src="../../images/2019.jpg" width="1602.5px" height="1132.5" hidden="hidden"/>
 			<canvas id="my_Canvas" style="margin-top: 300px;margin-left: 10px;"></canvas>
 		</div>
 		<div id="smalldiv" style="position: absolute; width:30px; background-color: rgba(0,0,0,0.5); height:30px; border:1px solid gray; display: none;" ></div>
@@ -98,9 +98,16 @@
 		var self = plus.webview.currentWebview();
 		var sjc = self.CirSmp;
 		var CSdA = self.CSdA;
+//		var img = document.getElementById("pic").src;
+//		alert(img)
+//		alert(sjc) 
+		ctx.translate(300,150);
+		ctx.rotate(-Math.PI / 1);
 		
-//		alert(sjc+'  '+CSdA)
 		ctx.drawImage(img,0,0,img_w,img_h,0,0,300,150);
+		
+		ctx.translate(-300,-150);
+		ctx.rotate(Math.PI / 1);
 		plus.nativeUI.toast("请先创建图钉后进行标注！");
 		
 		//右上角按钮监听

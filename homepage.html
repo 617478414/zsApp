@@ -43,13 +43,13 @@
 			</ul>
 			<ul class="mui-table-view mui-table-view-chevron my_list" style="margin-top: 20px;">
 				<li class="mui-table-view-cell mui-media">
-					<!--<a id="" class="mui-navigate-right" open-type="common" href="my_plus/my_setting.html">-->
+					<a id="" class="mui-navigate-right" open-type="common" href="my_plus/my_setting.html">
 					<img src="images/gdsz.png" class="mui-media-object mui-pull-left" />
 					<div class="mui-media-body">
 						<span>更多设置</span>
 						<p class='mui-ellipsis'>正在加载...</p>
 					</div>
-					<!--</a>-->
+					</a>
 				</li>
 			</ul>
 		</div>
@@ -76,7 +76,7 @@
 						var n=0;
 						var length = data.length;
 						for(var i=0;i<length-1;i++){
-							var id = data.id;	
+							var id = data.id;	  
 							n++;
 						}
 						if(n==0){
@@ -84,7 +84,7 @@
 						}else{
 							var countCount = n;							
 						}
-//						p[2].firstChild.nodeValue="我有 "+countCount+" 份表单，"+countCount+"项文档需要审批";
+						p[2].firstChild.nodeValue="共有 "+countCount+" 份事项需要审批";
 					},
                     error:function(s,e,t){
                         alert('出现错误，错误类型：'+e);

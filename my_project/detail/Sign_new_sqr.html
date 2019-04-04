@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>华西安检</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/my_css.css">
+		<link rel="stylesheet" href="../../css/modal.css">
+		<link rel="stylesheet" href="../../css/my_project_fhys_xz.css" />
+	</head>
+	<style>
+
+	</style>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a id='my_popover' class="mui-btn mui-btn-link mui-pull-right mui-btn-blue">签名</a>
+			<h1 class="mui-title">新增授权人</h1>
+		</header>
+		<div class="mui-content">
+			<div id="myform" class="">
+				<div class="mui-content-padded" style="margin: 5px;">
+					<form class="mui-input-group">
+						<div class="mui-input-row">
+							<label>工程名称：</label>
+							<select id="ProNam" style="padding-left:4px;font-size: small;">
+								<option disabled="disabled" value="" selected="selected">请选择工程</option>
+								<!--<option value="项目部自检">项目部自检</option>
+								<option value="分公司巡查">分公司巡查</option>
+								<option value="分公司月度检查">分公司月度检查</option>
+								<option value="分公司专项检查">分公司专项检查</option>
+								<option value="总部巡查">总部巡查</option>
+								<option value="总部季度检查">总部季度检查</option>
+								<option value="总部专项检查">总部专项检查</option>-->
+							</select>
+						</div>
+						<div class="mui-input-row my_none">
+							<label> 时间戳：</label>
+							<input id='sjc' type="text" style="" placeholder="时间戳">
+						</div>
+					</form>
+					<form class="mui-input-group" style="margin-top: 5px;">
+						<div class="mui-input-row">
+							<label>姓&nbsp;&nbsp;名：</label>
+							<input id="name" type="text" placeholder="姓名">
+						</div>
+						<div class="mui-input-row">
+							<label>电&nbsp;&nbsp;话：</label>
+							<input id="phone" type="text" placeholder="电话">
+						</div>
+						<div class="mui-input-row">
+							<label>职&nbsp;&nbsp;务：</label>
+							<input id='job' type="text" placeholder="职务">
+						</div>
+					</form>
+				</div>
+				<div class="mui-button-row">
+					<button id="close" type="button" class="mui-btn mui-btn-primary mui-action-back">关闭</button>
+					<button id="bccg" type="button" disabled="disabled" class="mui-btn mui-btn-primary">确定</button>
+				</div>
+			</div>
+		</div>
+
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/service.js"></script>
+		<script src="../../js/common.js"></script>
+		<script src="../../js/immersed.js"></script>
+		<script src="../../js/jquery-1.10.2.min.js"></script>
+		<script>
+			mui.init({
+				swipeBack: true, //启用右滑关闭功能
+				gestureConfig: {
+					doubletap: true, //默认为false
+					longtap: true, //默认为false
+
+				}
+			});
+
+			mui.plusReady(function() {
+				window.addEventListener('json', function(event) {
+
+					ws = null;
+					ws = plus.webview.currentWebview();
+					// 显示遮罩层
+					ws.setStyle({
+						mask: "rgba(0,0,0,0.7)"
+					});
+					//关闭遮罩层
+					ws.setStyle({
+						mask: "none"
+					});
+					//激活确认按钮
+					$("#bccg").attr('disabled', false);
+					//接收返回值
+					var imgurl = event.detail.flag;
+					//保存
+					var flag = "";
+					bccg.addEventListener('tap', function() {
+						//获取input框的值					
+						var name = document.getElementById("name").value;
+						var phone = document.getElementById("phone").value;
+						var job = document.getElementById("job").value;
+						//alert(ProNam.value+''+name+''+job+''+phone)
+						var mydata = {
+							ProNam: ProNam.value,
+							sjc: sjc.value,
+							name: name,
+							phone: phone,
+							job: job,
+							imgurl:imgurl
+						};
+						//console.log(wxylx);
+						ajaxform(mydata, function(err) {
+							if(err) {
+								plus.nativeUI.toast(err);
+								return;
+							}
+							plus.nativeUI.toast('授权成功！');
+							var target = plus.webview.currentWebview().opener();
+							mui.fire(target, 'json', {
+								flag: sjc.value,
+								//panduan:'1'
+							});
+							mui.back();
+						});
+					});
+				});
+				//异步传值
+				var ajaxform = function(mydata, callback) {
+					callback = callback || $.noop;
+					mydata = mydata || {};
+					mydata.ProNam = mydata.ProNam || '';
+					mydata.sjc = mydata.sjc || '';
+					mydata.name = mydata.name || '';
+					mydata.phone = mydata.phone || '';
+					mydata.job = mydata.job || '';
+					mydata.imgurl = mydata.imgurl || '';
+
+					if(mydata.name.length < 1) {
+						return callback('姓名不能为空！');
+					}
+					if(mydata.phone.length < 1) {
+						return callback('电话不能为空！');
+					}
+					if(mydata.job.length < 1) {
+						return callback('职务不能为空！');
+					}
+					//				
+					mui.ajax(url + 'action_sign/sign_authorizer.php', {
+						data: {
+							ProNam: mydata.ProNam,
+							sjc: mydata.sjc,
+							name: mydata.name,
+							phone: mydata.phone,
+							job: mydata.job,
+							imgurl: mydata.imgurl,
+							flag: '1'
+						},
+						dataType: 'json',
+						type: 'post',
+						timeout: 10000,
+						success: function(data) {
+							//alert(data);
+							if(data.result == 'success') {
+								//alert("保存成功!")
+								return callback();
+							} else {
+								return callback('服务器返回error');
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//异常处理；
+							//alert('ajax错误'+type);
+							return callback('ajax错误' + type + errorThrown);
+						}
+					});
+				};
+			})
+
+			//接收上一个页面的传值
+//			var self = plus.webview.currentWebview();
+			//				var sjc = self.sjc;
+			//alert(sjc);
+			var ProNam = document.getElementById("ProNam"); //工程名称
+			var name = document.getElementById("name"); //姓名
+			var phone = document.getElementById("phone"); //电话
+			var job = document.getElementById("job"); //职务
+			var sjc = document.getElementById('sjc'); //时间戳
+
+			//自动添加当前时间戳,作为这个新建任务的唯一标识存到数据库，附件上传时会用到
+			var myDate = new Date();
+			var mytime = myDate.getTime();
+			var mytimeSecond = myDate.getSeconds();
+			var mytimeMilliseconds = myDate.getMilliseconds();
+			sjc.value = mytime + mytimeSecond + mytimeMilliseconds;
+
+			//获取所有工程
+			$.ajax({
+				type: "get",
+				url: urlAPI + "TongXinweb/project/AllPro",
+				async: true,
+				dataType: 'json',
+				success: function(data) {
+					var Mes = '['
+					for(var i = 0; i < data['data'].length; i++) {
+						Mes += JSON.stringify(data['data'][i])
+						Mes += ','
+					}
+					Mes = Mes.substr(0, Mes.length - 1)
+					Mes += ']'
+					var MesObj = eval('(' + Mes + ')');
+					var length = data['data'].length;
+					if(length > 1) {
+						for(var i = 0; i < length - 1; i++) {
+							var ProNam = MesObj[i].projectName;
+							found(ProNam);
+						}
+					}
+				},
+				error: function(s, e, t) {
+					alert('出现错误，错误类型：' + e);
+				}
+			});
+			//动态创建工程名称
+			function found(ProNam) {
+				//alert(jcxm);
+				var myProNam = document.getElementById("ProNam");
+				var option = document.createElement("option");
+				option.value = ProNam;
+				option.innerHTML = ProNam;
+				myProNam.appendChild(option);
+			};
+
+			//右上角按钮监听
+			my_popover.addEventListener('tap', function() {
+				ws = null;
+				ws = plus.webview.currentWebview();
+				// 显示遮罩层
+				ws.setStyle({
+					mask: "rgba(0,0,0,0.7)"
+				});
+				//打开新webview，模仿弹窗
+				mui.openWindow({
+					url: '../detail/SignView.html',
+					id: 'SignView',
+					styles: {
+						width: '90%',
+						height: '90%',
+						margin: 'auto'
+					},
+					extras: {
+						
+					},
+					show: {
+						autoShow: true, //页面loaded事件发生后自动显示
+						aniShow: 'slide-in-right', //页面显示动画
+						duration: '100' //页面动画持续时间
+					},
+					waiting: {
+						autoShow: false, //自动显示等待框
+					},
+				});
+			});
+		</script>
+	</body>
+
+</html>

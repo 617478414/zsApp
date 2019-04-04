@@ -10,24 +10,46 @@
 		<link rel="stylesheet" href="../../css/mui.min.css">
 		<link rel="stylesheet" href="../../css/my_css.css">
 		<link rel="stylesheet" href="../../css/bootstrap.min.css">
+		<link href="../../css/mui.picker.css" rel="stylesheet" />
+		<link href="../../css/mui.poppicker.css" rel="stylesheet" />
 		<!--self-->
 		<link href="../../css/PageSignIn.css" rel="stylesheet" />
 		<style>
-			.mui-popover {
+			/*.mui-popover {
 				width: 100px;
-			}
+			}*/
 		</style>
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left " id='back'></a>
-			<h1 class="mui-title">授权人签名</h1>
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left "></a>			
+			<h1 class="mui-title">表单名称审批</h1>
 		</header>
 		<div class="mui-content">
 			<div class="container">
+				<form style="margin: 2px;" class="mui-input-group">
+					<div class="mui-input-row">
+						<label>选择授权人:</label>
+						<select id="sqr" style="padding-left:-100px;font-size: 14px;">
+							<option  value="" selected="selected">请选择授权人</option>
+							<!--<option value ="张三">张三||广东伊之精密注压科技有限公司三期(宿舍楼\三车间)||13414748160||经理</option>
+	        					<option value ="分公司巡查">李四</option>
+	        					<option value ="分公司月度检查">王五</option>
+	        					<option value ="分公司巡查">李四</option>
+	        					<option value ="分公司月度检查">王五</option>
+	        					<option value ="分公司巡查">李四</option>
+	        					<option value ="分公司月度检查">王五</option>
+	        					<option value ="分公司巡查">李四</option>
+	        					<option value ="分公司月度检查">王五</option>
+	        					<option value ="分公司巡查">李四</option>
+	        					<option value ="分公司月度检查">王五</option>-->
+						</select>
+					</div>
+				</form>
 				<div class="row">
 					<div class="col-xs-12">
+
 						<br />
 						<div class="js-signature" style="" data-width="500" data-height="300" data-border="1px solid black" data-auto-fit="true"></div>
 						<div id="signature">
@@ -44,6 +66,7 @@
 
 					</div>
 				</div>
+
 			</div>
 		</div>
 		<!--底部-->
@@ -119,6 +142,8 @@
 	<script src="../../js/mui.min.js"></script>
 	<script src="../../js/jquery-1.11.0.min.js"></script>
 	<script src="../../js/service.js"></script>
+	<script src="../../js/mui.picker.js"></script>
+	<script src="../../js/mui.poppicker.js"></script>
 	<script src="../../js/signature/jq-signature.min.js"></script>
 	<script src="../../js/signature/canvas2svg.js"></script>
 	<script type="text/javascript">
@@ -135,14 +160,21 @@
 		//定义图片变量
 		var imgData = [0, 1];
 		//获取表单id【非接口id】
-		//var CId = localStorage.getItem('CId');
+		//      var CId = localStorage.getItem('CId');
 		var CId = '55'
-
+		window.addEventListener('json', function(event) {
+			var sjc = event.detail.flag;
+//			alert(sjc)
+			plus.nativeUI.toast("签名记录为空,请签名!!")
+			//接收时间戳  判断签名为空  提示请签名
+			location.reload();
+		})
 		mui.plusReady(function() {
 			var self = plus.webview.currentWebview();
 			var fatherPage = self.fatherPage;
 			var sjc = self.sjc;
 			//alert(sjc)
+
 			//点击键盘输入，返回上个页面
 			$('#Popover').on('tap', function() {
 				mui.back();
@@ -177,7 +209,7 @@
 				$('.js-signature').eq(0).jqSignature('clearCanvas');
 				context.putImageData(imgMes, 0, 0);
 			}
-
+			
 			//点击撤销
 			//检测画布改变
 			$('.js-signature').eq(0).on('jq.signature.changed', function() {
@@ -194,8 +226,8 @@
 			$('#Popover_3').on('tap', function() {
 				$('.js-signature').eq(0).jqSignature('clearCanvas');
 				$('#signature').html('<p><em>已执行清屏操作</em></p>');
-			});
-
+			});			
+			
 			//提交签名
 			$('#Popover_4').on('tap', function() {
 				//返回值
@@ -211,7 +243,11 @@
 				var text = "ctx.drawImage(imageSign,0,0,500,300)"
 				var drawFunction = new Function("ctx", text);
 
-				var svg = document.getElementById("svg");
+				var svg = document.getElementById("svg"); 
+				
+				var sqr = document.getElementById("sqr").value;
+//				console.log(sqr)
+				
 				// remove the latest svg (children[0] is the wrapped canvas element)
 				if(svg.children.length > 1) {
 					svg.removeChild(svg.children[1]);
@@ -242,13 +278,57 @@
 						if(data['status'] == 'success') {
 							var signUrl = data['path']
 							//将地址存进本地存储
-//							localStorage.setItem('SignUrl', UrlImage + signUrl)
+							localStorage.setItem('SignUrl', UrlImage + signUrl)
 							var Sign_imgurl =  UrlImage + signUrl;
-							var target = plus.webview.currentWebview().opener();
-							mui.fire(target, 'json', {
-								flag : Sign_imgurl
-							});
-							mui.back();
+							if(sqr==""){
+								//未选择授权人
+//								alert("不将签名存到授权人表")
+							}else{
+								var sjc = sqr;//选择授权人后获取其sjc
+								//传入时间戳,如果签名为空,则保存签名
+								mui.ajax(url + 'action_sign/MesShow_sqr.php', {
+									data: {
+										sjc:sjc,										
+									},
+									dataType:'json',
+									type: 'post',  
+									timeout: 10000,
+									success: function(data) {
+										if(data[0].SignSvg==""){
+											console.log(Sign_imgurl+'||'+sjc)
+											//授权人时间戳为条件值保存签名svg
+											mui.ajax(url + 'action_sign/MesSave_sqr.php', {
+												data: {
+													sjc:sjc,
+													Sign_imgurl:Sign_imgurl
+												},
+												dataType:'json',
+												type: 'post',  
+												timeout: 10000,
+												success: function(data) {
+													alert("保存签名成功!")
+												},
+												error: function(xhr, type, errorThrown) { 
+													return callback('ajax错误' + type + errorThrown);
+												}
+											});
+										}else{
+											var Sign_url = data[0].SignSvg;
+											localStorage.setItem('SignUrl', Sign_url)
+										}
+										
+									},
+									error: function(xhr, type, errorThrown) { 
+										return callback('ajax错误' + type + errorThrown);
+									}
+								});																
+							}							
+							//$('#test').attr('src',url+signUrl)
+							//进入放置签名页面
+							mui.openWindow({
+								url: 'signPlace.html',
+								id: 'signPlace.html',
+							})
 							return;
 						}
 						alert('保存签名时出现错误，请及时联系管理员');
@@ -257,13 +337,47 @@
 					error: function(s, e, t) {
 						alert('出现错误，错误类型：' + e)
 					}
-				})				
+				})
 			})
 
 			if($('.js-signature').length) {
 				$('.js-signature').jqSignature();
 			}
-
+			//异步获取授权人名单
+			mui.ajax(url + 'action_sign/MesShow_sqr.php', {
+				data: {
+//					flag: '2',
+					sjc : 1
+				},
+				dataType:'json',
+				type: 'post',  
+				timeout: 10000,
+				success: function(data) {
+//					alert(data);
+					var length = data.length;
+					for(var i = 0; i < length - 1; i++) {
+						var id = data[i].id;
+						var ProNam = data[i].ProNam;
+						var name = data[i].name;
+						var phone = data[i].phone;
+						var job = data[i].job;
+						var sjc = data[i].sjc;
+						found(name,ProNam,phone,job,sjc);
+					}
+				},
+				error: function(xhr, type, errorThrown) { 
+					return callback('ajax错误' + type + errorThrown);
+				}
+			});
+			//动态创建工程名称
+			function found(name,ProNam,phone,job,sjc) {
+				var mysqr = document.getElementById("sqr");
+				var option = document.createElement("option");
+				option.value = sjc;
+				option.innerHTML = name+'||'+ProNam+'||'+phone+'||'+job;
+				mysqr.appendChild(option);
+			};			
+			
 		});
 		//保存上一步图像
 		function canvas_copy() {

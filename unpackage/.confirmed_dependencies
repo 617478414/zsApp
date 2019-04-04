@@ -135,7 +135,9 @@
 			"my_project/project_form_select.html",
 			"my_project/detail/sign_nail.html",
 			"my_project/detail/sign_audio.html",
-			"my_project/project_document_select.html"
+			"my_project/project_document_select.html",
+			"my_project/detail/SignView_1.html",
+			"my_project/detail/attachment.html"
 		]
 	},
 	"my_project/project_form_select.html": {
@@ -278,7 +280,8 @@
 	},
 	"my_plus/my_setting.html": {
 		"refer": [
-			"my_plus/my_mesage.html"
+			"my_plus/my_mesage.html",
+			"my_project/detail/Sign_new_sqr.html"
 		]
 	},
 	"my_plus/my_mesage.html": {
@@ -310,7 +313,8 @@
 			"my_project/detail/form_signIn.html",
 			"my_project/test.html",
 			"my_project/tab-with-segmented-control-vertical.html",
-			"my_project/detail/form_signInPC.html"
+			"my_project/detail/form_signInPC.html",
+			"my_project/detail/sign.html"
 		]
 	},
 	"my_project/test.html": {
@@ -352,6 +356,18 @@
 	"my_project/project_sign_mes.html": {
 		"refer": [
 			"my_project/project_sign_his.html"
+		]
+	},
+	"my_project/detail/SignView_1.html": {
+		"refer": [
+			"my_project/detail/signPlace.html",
+			"my_project/detail/Sign_new_sqr.html"
+		]
+	},
+	"my_project/detail/Sign_new_sqr.html": {
+		"refer": [
+			"my_plus/my_setting.html",
+			"my_project/detail/SignView.html"
 		]
 	}
 }

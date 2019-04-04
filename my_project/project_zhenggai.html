@@ -68,9 +68,9 @@
 				</div>
 			</div>
 			<div style="margin: 10px;"></div>
-			<div id="search" class="mui-input-row mui-search">
+			<!--<div id="search" class="mui-input-row mui-search">
 				<input type="search" class="mui-input-clear" readonly="readonly" placeholder="输入查找信息">
-			</div>
+			</div>-->
 			<input type="hidden" name="bumen" id="bumen" value="" />
 			
 		</div>
@@ -181,7 +181,7 @@
 					}
 				}
 				//异步获取待办表单
-				mui.ajax(url + 'action_ins/dbbd.php', {
+				mui.ajax(url + 'action_ins/dbsw.php', {
 					data: {
 						flag:'1'
 					},
@@ -208,7 +208,7 @@
 					}
 				});
 				//异步获取待办文档
-				mui.ajax(url + 'action_ins/dbbd.php', {
+				mui.ajax(url + 'action_ins/dbsw.php', {
 					data: {
 						flag:'2'
 					},

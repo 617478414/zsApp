@@ -204,17 +204,19 @@
             contextSign = canvasSign.getContext('2d');
             imageSign = new Image();
             imageSign.src = imgSign
-            
+            ShowImgSign()
             mui.plusReady(function(){
                 //关于签名的移动
-                canvas.onmousedown=function (e) {
-                    loc = windowToCanvas(e.clientX,e.clientY);
+                document.body.ontouchmove = function (e) {
+                    loc = windowToCanvas(canvas,e.touches[0].pageX,e.touches[0].pageY);
+                    console.log(loc.x)
                     $('#SignX').val(loc.x)
                     $('#SignY').val(loc.y)
                     
                     ShowImg()
                 }
-                ShowImg()
+                ShowImg()	
+                canvas.ontouchend = function(e) {};
             })
         
         //绘制签名
@@ -283,9 +285,12 @@
             return dpr / bsr;
         })();
         //获取坐标
-        function windowToCanvas(x,y){
+        function windowToCanvas(canvas,x,y){
             var bbox = canvas.getBoundingClientRect()
-            return {x:Math.round(x-bbox.left),y:Math.round(y-bbox.top)}
+            return {
+            	x:Math.round(x-bbox.left),
+            	y:Math.round(y-bbox.top)
+            }
         }
         </script>
     </body>
