@@ -64,6 +64,10 @@
 				interval: 3000
 			});
 			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+	      		mobile = self.mobile; 
+	      		userid = self.userid;
+	      		bumen = self.bumen;
 				var p = document.getElementsByTagName('p');
 				//获取待办整改
                 $.ajax({

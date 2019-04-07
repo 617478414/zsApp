@@ -119,6 +119,7 @@
             var CId = localStorage.getItem('CId');
             var CSdA = localStorage.getItem('CSdA');
             var CirSmp = localStorage.getItem('CirSmp');
+//          alert(CId)
 //          alert(CirSmp)
 //          var CId = '55'
             canvasWidth = 385
@@ -210,7 +211,7 @@
                     $.ajax({
                         type:"post",
                         url:url+"action_sign/MesSave_Img.php",
-                        async:true,
+//                      async:true,
 //                      dataType:'json',
                         data:{
                         	
@@ -229,14 +230,14 @@
                                 //签名信息
                                 SignFinal : localStorage.getItem('SignUrl'),
                                 //备注
-//                              msg:$('#msg-text').val() 
+//                              msg:$('#msg-text').val()
                         },
                         success:function(data){
-                        	alert(data)
-                            if(data['ErrorMes']){
-                                alert(data['ErrorMes']+'请及时联系管理员')
-                                return;
-                            }
+//                      	alert(data)
+//                          if(data['ErrorMes']){
+//                              alert(data['ErrorMes']+'请及时联系管理员')
+//                              return;
+//                          }
                             alert('签名提交成功')
                             //返回父页面刷新
                             var target = plus.webview.getWebviewById("project_type_list");
@@ -244,7 +245,7 @@
                             mui.back();
                         },
                         error:function(s,e,t){
-                            alert('出现错误，错误类型：'+e);
+                            alert('出现错误，错误类型0：'+e);
                         }
                     })
                 }

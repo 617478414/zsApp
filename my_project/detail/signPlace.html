@@ -215,6 +215,14 @@
                     
                     ShowImg()
                 }
+                canvas.onmousedown = function(e){
+                	loc = windowToCanvas(canvas,e.pageX,e.pageY);
+                    console.log(loc.x)
+                    $('#SignX').val(loc.x)
+                    $('#SignY').val(loc.y)
+                    
+                    ShowImg()
+                }
                 ShowImg()	
                 canvas.ontouchend = function(e) {};
             })
@@ -271,7 +279,7 @@
             
             context.setTransform(PIXEL_RATIO, 0, 0, PIXEL_RATIO, 0, 0);
             context.drawImage(imageBg, 0, 0,showWidth*2,showHight*2)
-            context.drawImage(canvasSign, SignPX*2, SignPY*2)
+            context.drawImage(canvasSign, SignPX*1.7, SignPY*2)
         }
         //获取设备像素比
         var PIXEL_RATIO = (function () {

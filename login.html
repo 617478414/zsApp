@@ -3,7 +3,7 @@
 	<head>
 		<meta charset="utf-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-		<title>同欣项目巡检系统</title>
+		<title>建筑工程文档管理系统</title>
 		<link href="css/mui.min.css" rel="stylesheet" />
 		<link href="css/style.css" rel="stylesheet" />
 		<link rel="stylesheet" href="css/my_css.css">	
@@ -134,15 +134,7 @@
 
 			</div>
 		</div>
-		<?php
-			$mobile=$_POST['mobile'];
-			$id = $_POST['id'];
-			$part = $_POST['part'];
-			session_start();
-			$_SESSION['id']=$id;
-			$_SESSION['mobile']=$mobile;
-			#_SESSION['part']=$part;
-		?>
+
 		<script src="js/mui.min.js"></script>
 		<script src="js/mui.enterfocus.js"></script>
 		<script src="js/service.js" ></script>
@@ -163,7 +155,7 @@
 						setTimeout(function() {
 							$.openWindow({
 								url: 'index.html',
-								id: 'main',								
+								id: 'main',						 		
 								show: {
 									//autoShow:false,
 								},

@@ -20,16 +20,17 @@
 			</a>
 		</nav>
 		<script src="js/mui.min.js"></script>
+		<script src="js/service.js" ></script>
 		<script src="js/tabbar.js"></script>
 		<script type="text/javascript">
 			mui.init()
-			mui.plusReady(function() { 
-      		//获取传值
-      		var self = plus.webview.currentWebview();
-      		mobile = self.mobile; 
-      		userid = self.userid;
-      		bumen = self.bumen;
-//    		alert(mobile)
+			mui.plusReady(function() {   
+      		var AccId = localStorage.getItem('AccId');
+      		localStorage.getItem('AccNa');
+      		localStorage.getItem('AccPh');
+      		localStorage.getItem('AccPt');
+      		localStorage.getItem('RolId');
+//    		alert(AccId)
       	});
 		</script>
 	</body>
