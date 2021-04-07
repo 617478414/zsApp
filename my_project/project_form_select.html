@@ -1,148 +1,415 @@
-<!DOCTYPE html>
+<!doctype html>
 <html>
 
 	<head>
-		<meta charset="utf-8">
-		<title>表单签批-查询</title>
-		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
-		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">
-
-		<link rel="stylesheet" href="../css/mui.min.css">
-		<link rel="stylesheet" href="../css/my_css.css" />
+		<meta charset="UTF-8">
+		<title>建筑文件流转系统-工程详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--css-->
+        <link rel="stylesheet" href="../css/mui.min.css">
+        <link rel="stylesheet" href="../css/mui.picker.min.css">
 	</head>
-
+		<style type="text/css">
+			.tableClass{
+				width: 100%;
+				
+				
+				margin-top: 10px;
+				margin-bottom: 20px;
+			}
+			.tableClass tr:first-child{
+				background: lightgoldenrodyellow;
+			}
+			.tableClass tr:first-child th{
+				padding: 5px;
+			}	
+			.tableClass td{
+				text-align: center;
+			}	
+			.mui-control-item{
+				/* width: 33% !important; */
+			}
+			.botPage{
+				color: #007AFF;
+			}
+			.pageActive{
+				color: lightslategray;
+			}
+			#bottomPage{
+				display: flex;
+				width: 100%;
+				justify-content: center;
+				margin-top: 20px;
+			}
+			#bottomPage div {
+				margin: 0 10px;
+			}
+		</style>
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">同欣科技大厦A区项目-表单查询</h1>
-		</header>
-		<div class="mui-content">
-			<div style="padding-top: 10px;">
-				<div id="segmentedControl" class="mui-segmented-control">
-					<div class="mui-slider">
-						<div id="xuanxiangka" class="mui-slider-group mui-slider-loop ">
-							<div class="mui-slider-item">
-								<a id="a1" class="mui-control-item mui-active" href="#item1">
-									<span>签批</span>
-								</a>
-								<a id="a2" class="mui-control-item" href="#item2">
-									<span>驳回</span>
-								</a>
-								<a id="a5" class="mui-control-item" href="#item3">
-									<span>逾期</span>
-								</a>
-								<a id="a4" class="mui-control-item " href="#item4">
-									<span>归集</span>
-								</a>
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left "></a>
+            <h1 class="mui-title"><span id="ProNam">表单查询</span></h1>
+        </header>
+		<div id="allContain"  	>
+			<!-- <div class="mui-scroll"> -->
+				<div style="margin-top: 60px;" class="mui-content mui-scroll rwdiv">
+				<div style="padding-top: 10px;">
+					<div id="segmentedControl" class="mui-segmented-control">
+						<div class="mui-slider">
+							<div id="xuanxiangka" class="mui-slider-group mui-slider-loop ">
+								<div class="mui-slider-item">
+									<a id="a1"  class="mui-control-item mui-active" >
+										<span >签批</span>
+									</a>
+									<a id="a2"  class="mui-control-item" >
+										<span >驳回</span>
+									</a>
+									<a id="a3"  class="mui-control-item">
+										<span >逾期</span>
+									</a>
+									<a id="a4"  class="mui-control-item " >
+										<span >归集</span>
+									</a>
+								</div>
 							</div>
 						</div>
 					</div>
+					<br/>
+					<div id="segmentedControl2" class="mui-segmented-control">
+						<div class="mui-slider">
+							<div id="xuanxiangka2" class="mui-slider-group mui-slider-loop ">
+								<div style="display: flex;" class="mui-slider-item">
+									<a style="width: 50%;display: block;" id="a11" class="mui-control-item mui-active">
+										<span class="item">开始时间</span><span class="mui-icon mui-icon-arrowdown"></span>
+									</a>
+									<a style="width: 50%;display: block;" id="a22" class="mui-control-item ">
+										<span class="item">结束时间</span><span class="mui-icon mui-icon-arrowdown"></span>
+									</a>
+									<!-- <a id="a22" class="mui-control-item">
+										<span>分部工程<span class="mui-icon mui-icon-arrowdown"></span></span>
+									</a> -->
+									<a style="width: 50%;display: block;" id="a33" class="mui-control-item">
+										<span  class="item">属性</span><span class="mui-icon mui-icon-arrowdown"></span>
+									</a>
+								</div>
+							</div>
+						</div>
+					</div>
+					<br/>
+					<div id="search" class="mui-input-row mui-search">
+						<input type="search" class="mui-input-clear" readonly="readonly" placeholder="">
+					</div>
 				</div>
-				<br />
-				<div id="search" class="mui-input-row mui-search">
-					<input type="search" class="mui-input-clear" readonly="readonly" placeholder="">
-				</div>
-			</div>
-
-			<div id="item1" class="mui-control-content mui-active">
-				<div class="mui-scroll-wrapper">
-					<div id="ulContent" class="mui-control-content-body-a"></div>
-				</div>
-			</div>
-			<div id="item2" class="mui-control-content">
-				<div class="mui-scroll-wrapper">
-					<div id="ulContent" class="mui-control-content-body-b"></div>
-				</div>
-			</div>
-			<div id="item3" class="mui-control-content">
-				<div class="mui-scroll-wrapper">
-					<div id="ulContent" class="mui-control-content-body-c"></div>
-				</div>
-			</div>
-			<div id="item4" class="mui-control-content">
-				<div class="mui-scroll-wrapper">
-					<div id="ulContent" class="mui-control-content-body-d"></div>
-				</div>
-			</div>
+					<div id="item1" class="mui-control-content mui-active">
+							<div id="ulContent" class="mui-control-content-body-a">
+								<table  id="table1" class="tableClass" border=""  cellspacing="" cellpadding="">
+									<tr>
+										<th style="min-width: 80px;">上传时间</th>
+										<th style="min-width: 80px;">施工部位</th>
+										<th>表单名称</th>
+									</tr>
+								</table>
+								<div id="bottomPage">
+									<div class="botPage " id="botLeft">
+										上一页
+									</div>
+									<div id="botMid">
+										
+									</div>
+									<div class="botPage" id="botRig">
+										下一页
+									</div>
+								</div>
+							</div>
+					</div>
+					
+			<!-- </div> -->
+			</div>	
 		</div>
 		<script src="../js/mui.min.js"></script>
 		<script src="../js/service.js"></script>
-		<script src="../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
-		<script src="../js/jquery-1.11.0.min.js"></script>
 		<script src="../js/self/creat_card.js"></script>
-		<script>
-			//区域滚动,需手动初始化scroll控件
-			mui('.mui-scroll-wrapper').scroll({
-				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
-			});
-			mui.init();
-
-			mui.plusReady(function() {
+		<script src="../js/jquery-1.11.0.min.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<script type="text/javascript">		
+		    mui.init();
+		    // mui('.mui-scroll-wrapper').scroll({
+		    //     deceleration: 0.0006, //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+		    // });
+			
+			
+			
+		    mui.init({
+				
+				
+				
+		        gestureConfig:{
+		            doubletap: true
+		        },
+		    	
+		    	pullRefresh : {
+		    	    container:"#allContain",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+		    	    down : {
+		    	      style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+		    	      color:'#00C0DD', //可选，默认“#2BD009” 下拉刷新控件颜色
+		    	      height:'50px',//可选,默认50px.下拉刷新控件的高度,
+		    	      range:'100px', //可选 默认100px,控件可下拉拖拽的范围
+		    	      offset:'0px', //可选 默认0px,下拉刷新控件的起始位置
+		    	      auto: true,//可选,默认false.首次加载自动上拉刷新一次
+		    	      callback :function(){
+		    	      	// PAGE = 1;
+		    	      	// $('#cont').html('');
+		    	      	// getmsglist(PAGE);
+		    	      	mui('#allContain').pullRefresh().endPulldown();
+		    			// this.endPullupToRefresh(false);
+		    	      	$('#xuanxiangka2 #a11 .item').text('开始时间')
+		    	      	$('#xuanxiangka2 #a22 .item').text('结束时间')
+		    	      	$('#xuanxiangka2 #a33 .item').text('属性')
+						// .removeClass(".mui-active");
+						$("#xuanxiangka div").children(".mui-active").removeClass("mui-active");
+						$("#xuanxiangka div a:first").addClass("mui-active");
+						
+						// 参数还原清空
+						localStorage.setItem('typeItem','1')
+						localStorage.setItem('onTime','')
+						localStorage.setItem('offTime','')
+						localStorage.setItem('tabTypeItem','')
+						localStorage.setItem('currentPage',1)
+						localStorage.setItem('search','')
+						
+						$('#botMid').text(localStorage.getItem('currentPage'))
+						
+						var projectId = localStorage.getItem('projectId');
+		    			$.ajax({
+		    				type: "post",
+		    				url: url + 'action_ins/form_new.php',
+		    				async: true,
+		    				dataType: 'json',
+		    				data: {
+		    					falg: 'getFormSelect',
+		    					type: 1,
+								projectId:projectId,
+								page:Number(localStorage.getItem('currentPage'))
+		    				}, 
+		    				success: function(data) {
+								$("#table1 tr:not(:first)").html("");
+								if(data.data){
+									for(let i=0;i<data.data.length;i++){
+										let innerText = '<tr><td>'+data.data[i].TabUDa+'</td><td>'+data.data[i].TabNam+'</td><td>'+data.data[i].TabMNa+'</td></tr>'
+										$('#table1').append(innerText)
+										// $('#table1').append(innerText)
+										// $('#table1').append(innerText)
+										// $('#table1').append(innerText)
+										// $('#table1').append(innerText)
+									}
+									// if(data.data.length<5){
+									// 	$('#bottomPage').hide()
+									// }
+								}
+								
+		    					 // $('#a33 span').text() = selectItems[0].text
+		    				},
+		    				error: function(xhr, type, errorThrown) {
+		    					//alert('ajax错误'+type+'---'+errorThrown);
+		    					alert('ajax错误' + type + errorThrown);
+		    				},
+						});
+		    	    },
+					}
+		    	}
+		    });
+			mui.plusReady(function() { 
+				
+				var text1 = ''
+				var text2 = ''
+				var text3 = ''
+				//赋值点击事件,缓存点击的值
+				for(let i=1;i<5;i++){
+					$('#a'+i).on('tap', function() {
+						localStorage.setItem('typeItem',i)
+						getMes(i,'','','')
+					})
+				}
+				
+				
+				//获取表单数据
+				function getMes(type,onTime,offTime,tabType){
+					
+					$.ajax({
+						type: "post",
+						url: url + 'action_ins/form_new.php',
+						async: true,
+						dataType: 'json', 
+						data: {
+							falg: 'getFormSelect',
+							type: localStorage.getItem('typeItem'),
+							projectId:projectId,
+							onTime:localStorage.getItem('onTime'),
+							offTime:localStorage.getItem('offTime'),
+							tabType:localStorage.getItem('tabTypeItem'),
+							search:localStorage.getItem('search'),
+							page:Number(localStorage.getItem('currentPage'))
+						}, 
+						success: function(data) {
+							$("#table1 tr:not(:first)").html(""); 
+							// localStorage.setItem('search','')
+							if(data.row>0){
+								for(let i=0;i<data.data.length;i++){
+									let innerText = '<tr><td>'+data.data[i].TabUDa+'</td><td>'+data.data[i].TabNam+'</td><td>'+data.data[i].TabMNa+'</td></tr>'
+									$('#table1').append(innerText)
+								}
+								// if(data.data.length<5){
+								// 	$('#bottomPage').hide()
+								// }
+							}else{
+								alert('暂无数据')
+								let innerText = '<tr><td>'+'暂无数据'+'</td><td>'+'暂无数据'+'</td><td>'+'暂无数据'+'</td></tr>'
+								$('#table1').append(innerText)
+							}
+							
+							 // $('#a33 span').text() = selectItems[0].text
+						},
+						error: function(xhr, type, errorThrown) {
+							//alert('ajax错误'+type+'---'+errorThrown);
+							alert('ajax错误' + type + errorThrown);
+						},
+					});
+				}
+				
+				//属性下拉框
+				var picker3 = new mui.PopPicker();
+				var dtpicker = new mui.DtPicker({
+				    type: "date",//设置日历初始视图模式 
+				    beginDate: new Date(2000, 01, 01),//设置开始日期 
+				    endDate: new Date(2099, 01, 01),//设置结束日期 
+				    labels: ['年', '月', '日'],//设置默认标签区域提示语 
+				})
+				var dtpicker1 = new mui.DtPicker({
+				    type: "date",//设置日历初始视图模式 
+				    beginDate: new Date(2000, 01, 01),//设置开始日期 
+				    endDate: new Date(2099, 01, 01),//设置结束日期 
+				    labels: ['年', '月', '日'],//设置默认标签区域提示语 
+				})
+				$.ajax({
+					type: "post",
+					url: url + 'action_ins/form_new.php',
+					async: true,
+					dataType: 'json',
+					data: {
+						falg: 'getTypeMes',
+						// projectId: projectId,
+					}, 
+					success: function(data) {
+						var pickerData = []
+						for(let i=0;i<data.row;i++){
+							pickerData[i] = {value:data.data[i].id,text:data.data[i].TypNam}
+						}
+						picker3.setData(pickerData);
+						
+						 // $('#a33 span').text() = selectItems[0].text
+					},
+					error: function(xhr, type, errorThrown) {
+						//alert('ajax错误'+type+'---'+errorThrown);
+						alert('ajax错误' + type + errorThrown);
+					}
+				});
+				
+				
+				// $(".mui-scroll-wrapper").scroll({
+				// 	bounce: false,//滚动条是否有弹力默认是true
+				// 	indicators: true, //是否显示滚动条,默认是true
+				// 	deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+				// });		
+				
 				//get pro Mes
 				var projectId = localStorage.getItem('projectId');
 				var projectName = localStorage.getItem('projectName');
 				var TypeName = localStorage.getItem('TypeName');
 				var TypeId = plus.storage.getItem("TypeId")
-
+				
 				//var TypeId = getQueryString('TypeId')
 				$('#TypeName').text(TypeName);
 				localStorage.setItem('PageSta', '0');
-				//              console.log(projectId)
-				//show type mes
-				$.ajax({
-					type: "post",
-					url: url + 'action_ins/ListShow.php',
-					async: true,
-					dataType: 'json',
-					data: {
-						falg: 'listMesType_deta',
-						TypeId: TypeId,
-						projectId: projectId, 
-					},
-					success: function(data) {
-//						console.log(data)
-						if(data['status'] == 'success') {
-//							alert(data['data'][0]['TabMNa'])
-							if(data['row'] == 0) {
-								alert('无相关数据')
-							}
-							for(var i = 0; i < data['row']; i++) {
-								var CId = data['data'][i]['id'];
-								var CType = 0;
-								var CUrl = '#';
-								//var CUrl = 'detail/form_list.html';
-								var CName = data['data'][i]['TabNam'];
-								var CSUTm = data['data'][i]['TabCTm'];
-								var CSSta = data['data'][i]['TabSta'];
-								var CSDLine = data['data'][i]['TabDTm'];
-								var TabMNa = data['data'][i]['TabMNa'];
-								ListShow(CId, CType, CUrl, CName, CSUTm, CSSta, CSDLine, TabMNa);
-							}
-							$('.mui-card').on('tap', function() {
-								localStorage.setItem('CId', $(this).find('.CId').text());
-								localStorage.setItem('PageSta', '0');
-								mui.openWindow({
-									url: 'detail/form_mes.html',
-									id: 'detail/form_mes',
-								})
-							})
-						} else {
-							alert('无相关数据')
-						}
-					},
-					error: function(s, e, t) {
-						alert('出现错误，错误类型：' + e);
+					
+				
+				$('#a11').on('tap', function() {
+					mui('#allContain').pullRefresh().disablePulldownToRefresh();
+					  dtpicker.show(function (selectItems) { 
+						  console.log(selectItems.y);//{text: "2016",value: 2016}
+						  console.log(selectItems.m);
+						  console.log(selectItems.d);
+						 text1 = selectItems.y.text + '-'+selectItems.m.text + '-'+selectItems.d.text
+						 localStorage.setItem('onTime',text1)
+					 })
+				})
+				
+				$('#a22').on('tap', function() {
+					mui('#allContain').pullRefresh().disablePulldownToRefresh();
+					  dtpicker.show(function (selectItems) { 
+						text1 = selectItems.y.text + '-'+selectItems.m.text + '-'+selectItems.d.text
+						localStorage.setItem('offTime',text1)
+					 })
+				})
+				
+				//选择属性点击事件
+				$('#a33').on('tap', function() {
+					mui('#allContain').pullRefresh().disablePulldownToRefresh();
+					picker3.show(function (selectItems) {
+						// console.log(selectItems [0].value)
+						text3 = selectItems [0].text
+						localStorage.setItem('tabTypeItem',selectItems [0].value)
+					 }) 
+				})
+				
+				//picker确定和取消按钮的事件
+				$('.mui-poppicker-btn-ok').on('tap', function() {
+					$('#a33 .item').text(text3)
+					 getMes()
+					 mui('#allContain').pullRefresh().enablePulldownToRefresh();
+				})
+				
+				$('.mui-poppicker-btn-cancel').on('tap', function() {
+					 mui('#allContain').pullRefresh().enablePulldownToRefresh();
+				})
+					
+				$('.mui-dtpicker-header .mui-btn-blue').on('tap', function() {
+					mui('#allContain').pullRefresh().enablePulldownToRefresh();
+					$('#xuanxiangka2 .mui-active .item').text(text1)
+					getMes()
+				})
+				
+				$('.mui-dtpicker-header .mui-btn').on('tap', function() {
+					mui('#allContain').pullRefresh().enablePulldownToRefresh();
+				})
+				
+				
+				// 分页器功能
+				$('#botLeft').on('tap', function() {
+					if(Number(localStorage.getItem('currentPage'))==1){
+						return false
 					}
-				});
-
+					let page = Number(localStorage.getItem('currentPage'))-1
+					localStorage.setItem('currentPage',page)
+					$('#botMid').text(page)
+					getMes()
+				})
+				
+				$('#botRig').on('tap', function() {
+					let page = Number(localStorage.getItem('currentPage'))+1
+					localStorage.setItem('currentPage',page)
+					$('#botMid').text(page)
+					getMes()
+				})
+				
 				//返回父页面刷新
-				//              var old_back = mui.back;   
-				//              mui.back = function() {   
-				//                  var target = plus.webview.getWebviewById("project_type");
-				//                  target.reload(true);
-				//                  old_back()
-				//              }
+				 var old_back = mui.back;   
+				 mui.back = function() {  
+					 // mui('#allContain').pullRefresh().endPulldown(true);
+					 plus.webview.currentWebview().setPullToRefresh({support:false});
+					 old_back()
+				 }
 
 				//监听搜索按钮
 				var ulContent = document.getElementById("ulContent");
@@ -152,64 +419,54 @@
 					var bts = ["确认", "取消"];
 					plus.nativeUI.prompt(" ", function(e) {
 						var i = e.index;
-//						alert(e.value);
+//			 			alert(e.value);
 						if(i == 0) {
 							searchDate(e.value);
 							//alert(mobile);
 						}
+						$('.mui-input-clear').attr('placeholder',e.value)
 					}, "请输入表单名称", "内容", bts);
 				});
 				//获取搜索后内容
 				var searchDate = function(SearchVal) {
-					ulContent.innerHTML = "";
-					$.ajax({
-						type: "post",
-						url: url + 'action_ins/ListShow.php',
-						async: true,
-						dataType: 'json',
-						data: {
-							falg: 'listMesType_search',
-							SearchVal: SearchVal,
-							TypeId: TypeId,
-							projectId: projectId,
-						},
-						success: function(data) {
-							//                      console.log(data)
-							if(data['status'] == 'success') {
-								if(data['row'] == 0) {
-									alert('无相关数据')
-								}
-								for(var i = 0; i < data['row']; i++) {
-									var CId = data['data'][i]['id'];
-									var CType = 0;
-									var CUrl = '#';
-									//                          	var CUrl = 'detail/form_list.html';
-									var CName = data['data'][i]['TabNam'];
-									var CSUTm = data['data'][i]['TabCTm'];
-									var CSSta = data['data'][i]['TabSta'];
-									var CSDLine = data['data'][i]['TabDTm'];
-									ListShow(CId, CType, CUrl, CName, CSUTm, CSSta, CSDLine);
-								}
-								$('.mui-card').on('tap', function() {
-									localStorage.setItem('CId', $(this).find('.CId').text());
-									localStorage.setItem('PageSta', '0');
-									mui.openWindow({
-										url: 'detail/form_mes.html',
-										id: 'detail/form_mes',
-									})
-								})
-							} else {
-								alert('无相关数据')
-							}
-						},
-						error: function(xhr, type, errorThrown) {
-							//alert('ajax错误'+type+'---'+errorThrown);
-							alert('ajax错误' + type + errorThrown);
-						}
-					});
+					// ulContent.innerHTML = "";
+					localStorage.setItem('search',SearchVal)
+					getMes()
+					// $.ajax({
+					// 	type: "post",
+					// 	url: url + 'action_ins/form_new.php',
+					// 	async: true,
+					// 	dataType: 'json',
+					// 	data: {
+					// 		falg: 'getFormSelect',
+					// 		search: SearchVal,
+					// 		// TypeId: TypeId,
+					// 		// projectId: projectId,
+					// 	}, 
+					// 	success: function(data) {
+					// 		//                      console.log(data)
+					// 		if(data['status'] == 'success') {
+					// 			if(data['row'] == 0) {
+					// 				alert('无相关数据')
+					// 			}
+								
+					// 		} else {
+					// 			alert('无相关数据')
+					// 		}
+					// 	},
+					// 	error: function(xhr, type, errorThrown) {
+					// 		//alert('ajax错误'+type+'---'+errorThrown);
+					// 		alert('ajax错误' + type + errorThrown);
+					// 	}
+					// });
 				};
-
-			});
+				
+				// $('.mui-search .mui-placeholder .mui-icon').css('margin-right:5px')
+				
+		    }) 
+		    
+		   
+			
 		</script>
 	</body>
 

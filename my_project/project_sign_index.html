@@ -1,84 +1,151 @@
 <!doctype html>
-<html>
+<html lang="zh">
 
 	<head>
 		<meta charset="UTF-8">
-		<title>建筑文件流转系统-工程详情</title>
-		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
-        <meta name="apple-mobile-web-app-capable" content="yes">
-        <meta name="apple-mobile-web-app-status-bar-style" content="black">
-		<!--css-->
-        <link rel="stylesheet" href="../css/mui.min.css">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>签名记录</title>
+
+		<link rel="stylesheet" href="../css/reset_1.css">
+		<link rel="stylesheet" href="../css/style_1.css">
+		<link rel="stylesheet" href="../css/mui.min_1.css">
+		<!--<link rel="stylesheet" href="../css/my_css.css">--> 
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
-            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left "></a>
-            <h1 class="mui-title"><span id="ProNam"></span></h1>
-        </header>
-		<div class="mui-content">
-	        <ul id="my_list" class="mui-table-view mui-grid-view mui-grid-9">
-	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
-	            	<a href="project_type.html">
-	                    <span class="mui-icon mui-icon-location"></span>
-	                    <div class="mui-media-body">表单签收</div>
-	                    <span class="href" hidden="hidden">project_type.html</span>
-	            	</a>
-	            </li>	            	       	            
-	        </ul>
-		</div>
-		<script src="../js/mui.min.js"></script>
-		<script src="../js/service.js"></script>
-		<script src="../js/jquery-1.11.0.min.js"></script>
-		<script type="text/javascript">
-		    mui.init();
-		    mui.plusReady(function() {
-		        //get pro Mes
-		        var projectId = localStorage.getItem('projectId');
-//		        alert(projectId)
-		        var projectName = localStorage.getItem('projectName');
-		        $('#ProNam').text(projectName);
-		        
-//		        $('.mui-media').on('tap',function(){
-//  			    var PageUrl = $(this).find('.href').text();
-//  			    var PageId = PageUrl.split('.');
-//  //			    alert(PageUrl)
-//  //			    alert(PageId[0])
-//  			    mui.openWindow({
-//  			        url:PageUrl,
-//  			        id:PageId['0'],
-//  			    })
-//  			})
+			<button style="border:none;background-color:#F7F7F7;color: #007AFF;" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></button>
+			<h1 class="mui-title">签名记录</h1>
+		</header>
+		<ul id="lcfl" style="position: relative;top: 10px;" class="cd-accordion-menu animated">
+			<li class="has-children mui-scroll "> 
 
-				 //主列表点击事件 ,把项目id传到所有子页面中
-			mui('#my_list').on('tap', 'a', function() {
-				//alert("测试");
-				var id = this.getAttribute('href');
-				var href = this.href;
-				var webview_style = {
-					popGesture: "close",					
-					hardwareAccelerated:false
-				};
-				mui.openWindow({
-					id: id,
-					url: this.href,
-					styles: webview_style,
-					extras:{
-						projectId:projectId,
+				<!--<input type="checkbox" name="sub-group-level-3" id="sub-group-level-1">
+				<label for="sub-group-level-1">Sub Group Level 3</label>-->
 
+				<ul id="" class="mui-scroll-wrapper"> 
+					<!--<li>
+						<a href="#0">Image</a> 
+					</li>
+					<li>
+						<a href="#0">Image</a>
+					</li>-->
+				</ul>
+			</li>  
+		</ul>
+
+		<script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/service.js"></script>
+		<script>		
+			(function($) {
+				$('#scroll').scroll({
+					indicators: true //是否显示滚动条
+				});
+			})(mui);
+			jQuery(document).ready(function() {
+				function geturl(name) {
+					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+					var r = window.location.search.substr(1).match(reg);
+					if(r != null) return unescape(r[2]);
+					return null;
+				}
+				//基本信息异步获取
+				var AccId = localStorage.getItem('AccId');
+				var userid = AccId;
+				var accordionsMenu = $('.cd-accordion-menu');
+
+				var accordion = $(this);
+				//detect change in the input[type="checkbox"] value											
+				$('#lcfl').on('tap', 'li', function() {
+					var id_fat = document.getElementById(this.id).getAttribute("id"); //栋号
+//					console.log(id_fat)
+					accordion.on('change', 'input[type="checkbox"]', function() {
+						var checkbox = $(this);
+//						console.log(checkbox.prop('checked'));
+						//判断是否点击楼，然后再渲染层
+						if(checkbox.prop('checked') == true) {
+							//异步获取
+							$.ajax(url + 'action_ins/sign_his_mes.php', {
+								data: {
+									ProNam: id_fat, 
+									userid: userid,
+									flag: '2'
+								},
+								dataType: 'json',
+								type: 'POST',
+								timeout: 10000,
+								success: function(data) {
+//									alert(data)
+									$("a").empty()
+									$("a").hide()
+									var length = data.length;
+									if(length > 1) {
+										for(var i = 0; i < length - 1; i++) {
+											var TabMNa = data[i].TabMNa;
+//											var imgurl = data[i].图片路径;
+//											var Imgurl = imgurl.slice(3);
+											var id = data[i].id;
+											if(TabMNa != "") {
+												var str =  encodeURI(encodeURI(TabMNa));
+//												console.log(str)
+												var TextB = '<li style="margin-left:20px;"><a href="../my_project/project_sign_his.html?userid=' + userid + '&str=' + str + '">' + TabMNa + '</a></li>';
+												$("#" + id_fat).append(TextB);
+											} else {
+												//隐藏楼
+											}
+										}
+									}
+								},
+								error: function(xhr, type, errorThrown) {
+									//alert('ajax错误'+type+'---'+errorThrown);
+								}
+							});
+						} else {
+							$("a").empty()
+							$("a").hide()
+							location.reload()
+						}
+					});
+				});
+
+				//异步获取
+				$.ajax(url + 'action_ins/sign_his_mes.php', {
+					data: {
+						ProNam: '',						 
+						flag: '1', 
+						userid : userid  
 					},
-					show: {
-						aniShow:"pop-in"
+					dataType: 'json', 
+					type: 'POST',
+					timeout: 10000,
+					success: function(data) {
+//						alert(data)   
+						var length = data.length;
+						if(length > 1) {
+							for(var i = 0; i < length - 1; i++) {
+								var ProNam = data[i].ProNam;//工程名
+								//var tplj = data[i]   
+								foundA(ProNam)
+							}
+						}
 					},
-					waiting: {
-						autoShow: false
+					error: function(xhr, type, errorThrown) {
+						//alert('ajax错误'+type+'---'+errorThrown);
 					}
 				});
+
+				var n = 0
+				var foundA = function(ProNam) {
+					var ProNam = ProNam; //栋号
+					//console.log(dh)
+					var TextA = '<li id="' + ProNam + '"  class="has-children"><input type="checkbox" ><label>' + ProNam + '</label><ul class="cd-accordion-menu-childen"></ul></li>';
+					$("#lcfl").append(TextA);
+					n++
+				}
 			});
-		    })
-		    
-		   
-			
+
 		</script>
 	</body>
 

@@ -11,6 +11,7 @@
 	<body>
 		
 		<header class="mui-bar mui-bar-nav">
+			<a id="info" class="mui-icon mui-icon-info-filled mui-pull-right" style="color: #999;"></a>
 		    <h1 id="title" class="mui-title">建筑工程文档管理系统</h1>
 		</header>
 		<nav class="mui-bar mui-bar-tab">
@@ -21,6 +22,7 @@
 		</nav>
 		<script src="js/mui.min.js"></script>
 		<script src="js/service.js" ></script>
+		<script src="js/my_js_index.js"></script>
 		<script src="js/tabbar.js"></script>
 		<script type="text/javascript">
 			mui.init()
@@ -30,6 +32,25 @@
       		localStorage.getItem('AccPh');
       		localStorage.getItem('AccPt');
       		localStorage.getItem('RolId');
+      		//处理右上角关于图标的点击事件；	
+			var info = document.getElementById('info');
+			info.addEventListener('tap', function() {
+				mui.openWindow({
+					url: "info.html",
+					id: this.href,
+					styles: {
+						hardwareAccelerated: false
+					},
+					waiting: {
+						autoShow: false
+					},
+					extras: {
+						//传值
+						name: 'mui'
+					}
+				});
+				return;
+			});
 //    		alert(AccId)
       	});
 		</script>

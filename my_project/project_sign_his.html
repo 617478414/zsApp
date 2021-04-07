@@ -10,14 +10,12 @@
 
 		<!--标准mui.css-->
 		<link rel="stylesheet" href="../css/mui.min_1.css">
-		<!--App自定义的css-->
-		<!--<link rel="stylesheet" type="text/css" href="../css/app.css"/>-->
 	</head>
 
 	<body>
 		<header class="mui-bar mui-bar-nav">
 			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
-			<h1 class="mui-title">签名记录</h1>
+			<h1 class="mui-title">记录详情</h1>
 		</header>
 		<div class="mui-content">
 			<div class="mui-content-padded" style="margin: 5px;">
@@ -38,27 +36,11 @@
 			</form>-->
 			<div id="xxx" class="mui-table-view">
 				<li class="mui-table-view-cell" style="font-size:14px">
-					<div style="margin: 0 0;margin-left: 2%;">签名时间</div>
-					<div style="margin-top: -21px;margin-left: 40%;">工程名称</div>
-					<div style="margin-top: -21px;margin-left: 80%;">表单名称</div>					
-				</li>
-				<!--<li class="mui-table-view-cell">
-					 	<div style="margin: 0 0;">2018-7-20</div>
-					 	<div style="margin-top: -21px;margin-left: 30%;">18</div>
-					 	<div style="margin-top: -21px;margin-left: 56%;">B</div>
-					 	<div style="margin-top: -21px;margin-left: 80%;">已完成</div>
-				</li>-->
+					<div style="margin-left: 5%;">签名时间</div>
+					<div style="margin-top: -21px;margin-left: 45%;">表单名称</div>
+					<div style="margin-top: -21px;margin-left: 71%;">签名人</div>
+				</li>				
 			</div>
-			
-			<!--A级 -->
-			<div class="mui-control-content mui-active">
-				<div id="xxxx" class="mui-scroll-wrapper">
-					<div class="mui-scroll">
-
-					</div>
-				</div>
-			</div>
-			<!--A级 -->
 		</div>
 	</body>
 	<script src="../js/mui.min.js"></script>
@@ -82,65 +64,34 @@
 				return null;
 			}
 			//基本信息异步获取
-			
-				
-			//获取当前时间
-				var date=new Date();    
-				var year=date.getFullYear(); //获取当前年份
-				var mon=date.getMonth()+1; //获取当前月份    
-				var da=date.getDate(); //获取当前日
-				
-				//判断月份和天数字符串的长度
-				if(String(mon).length==1){
-					var month="0"+String(mon);
-				}else{
-					var month=String(mon);
-				}
-				if(String(da).length==1){
-					var day="0"+String(da);
-				}else{
-					var day=String(da);
-				}
-				var time01=String(year)+month+day;
-//				qdTime.value=time01;
-   			var jcrq = document.getElementById("jcrq");
-			//打开原生日期
-				jcrq.addEventListener('tap', function() {
-					var dDate = new Date();
-					plus.nativeUI.pickDate(function(e) {
-						var d = e.date;
-						jcrq.value=d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-					}, function(e) {
-						//alert(e);
-					}, {
-						title: "请选择日期",
-					});	
-				});
+			var str = geturl("str")
+//			//中文解码，防止乱码
+			var str =  decodeURI(str);
 			//动态创建
-			var found = function(TabNam,SignDate,ProName) {
+			var found = function(TabNam,SignDate,UsePeo) {
 //				var sjc = sjcCgao;
 				var TabNam = TabNam;
 				var SignDate = SignDate; //签名时间
-				var ProName = ProName;
-				var SignPeoId = SignPeoId;
+				var UsePeo = UsePeo;
 //				alert(id); 
-   
+    
 				var xxx = document.getElementById("xxx");
-				var li = document.createElement("li");
-				li.className = "mui-table-view-cell";
-//				ul.id = id + '|' + gcid;
+				var ul = document.createElement("ul");
+				ul.className = "mui-table-view mui-table-view-chevron";
+//				ul.id = id + '|' + gcid; 
 //				href="../my_project/project_sign_mes.html?SignPeoId='+SignPeoId+'" //暂无要求
-				li.innerHTML = '<a href="../my_project/project_sign_mes.html"><div style="margin: 0 0;font-size:15px;width:90px;text-overflow:ellipsis;white-space:nowrap; overflow:hidden;">'+SignDate+'</div><div style="margin-top: -21px;margin-left: 120px;font-size:14px;width:100px;text-overflow:ellipsis;white-space:nowrap; overflow:hidden;">'+ProName+'</div><div style="margin-top: -21px;margin-left: 80%;font-size:14px;width:100px;text-overflow:ellipsis;white-space:nowrap; overflow:hidden;">'+TabNam+'</div>'; 
-				xxx.appendChild(li);
+				ul.innerHTML = '<li class="mui-table-view-cell" style="font-size:14px"><div style="margin: 0 0;">'+SignDate+'</div><div style="margin-top: -21px;margin-left: 54%;">'+TabNam+'</div><div style="margin-top: -21px;margin-left: 84%;">'+UsePeo+'</div></li>';
+				xxx.appendChild(ul);
 			}
 			var AccId = localStorage.getItem('AccId');
 			//异步获取信息 
-			mui.ajax(url + 'action_ins/sign_his.php', {
+			mui.ajax(url + 'action_ins/sign_his.php', { 
 				data: {
 					userid : AccId,
+					TabMNa : str
 				},
 				dataType: 'json',  
-				type: 'post', 
+				type: 'POST', 
 				timeout: 10000,
 				success: function(data) {
 //					alert(data);  
@@ -149,10 +100,9 @@
 						for(var i = 0; i < lenght - 1; i++) {
 							var TabNam = data[i].TabNam;
 							var SignDate = data[i].SignDate;
-							var ProName = data[i].projectName;
+							var UsePeo = data[i].UsePeo;
 //							var SignPeoId = data[i].SignPeoId;
-							found(TabNam, SignDate,ProName);
-
+							found(TabNam, SignDate,UsePeo);
 						}
 					}
 				},

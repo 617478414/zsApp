@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <title>签批查询</title>
+        <link rel="stylesheet" href="../css/mui.min.css">
+        <link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
+		<link rel="stylesheet" href="../css/steps.css">
+
+        <style>
+            html,
+            body,
+            .mui-content {
+                height: 0px;
+                margin: 0px;
+                background-color: #efeff4;
+            }
+            h5.mui-content-padded {
+                margin-left: 3px;
+                margin-top: 20px !important; 
+            }
+            h5.mui-content-padded:first-child {
+                margin-top: 12px !important;
+            }
+           .mui-btn {
+                font-size: 16px;
+                padding: 8px;
+                margin: 3px;
+				width: 100% !important;
+            }
+            .ui-alert {
+                text-align: center;
+                padding: 20px 10px;
+                font-size: 16px;
+            }
+            * {
+                -webkit-touch-callout: none;
+                -webkit-user-select: none;
+            }
+            .chart {
+                height: 200px;
+                margin: 0px;
+                padding: 0px;
+            }
+            h5 {
+                margin-top: 30px;
+                font-weight: bold;
+            }
+            h5:first-child {
+                margin-top: 15px;
+            }
+			.mui-input-row{
+				display: flex;
+				align-items: center;
+				padding: 0 5px;
+			}
+			.ItemClass{
+				min-width: 100px;
+			}
+			.MidContain{
+				width: 90%;
+				margin: 0 auto;
+				/* height: 70vw; */
+				border: 1px solid gray;
+				display: flex;
+				justify-content: space-around;
+				padding: 10px 0;
+				flex-wrap: wrap;
+			}
+			.CycleClass{
+				width: 20vw;
+				border: 3px solid gray;
+				border-radius: 50%;
+				height: 18vw;
+				display: flex;
+				align-items: center;
+				justify-content: center;
+				margin-bottom: 5px;
+			}
+			.flexClass{
+				display: flex;
+				flex-direction: column;
+				justify-content: center;
+				align-items: center;
+				font-size: 15px;
+			}
+			.tClass{
+				width: 33%;
+			}
+			.mui-poppicker-header{
+				display: flex;
+			}
+        </style>
+    </head>
+    <body>
+        <header class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left "></a>
+            <h1 class="mui-title">签批查询</h1>
+        </header>
+        <div id="allContain" class="mui-content">
+            <div class="mui-content-padded">
+                <div class="mui-input-row">
+                    <span class="ItemClass">提交时间</span>
+                    <!-- <input class="TimeBgn" type="text" placeholder="未选择提交时间" readonly="readonly"> -->
+					<button data-options='{"type":"date"}'  class="btn mui-btn mui-btn-block " id="TimeBgn" onclick="TimeSel()" >选择提交时间</button>
+                </div>
+                
+                <div class="mui-input-row">
+                    <span class="ItemClass">施工部位</span> 
+                    <!-- <input class="ProItem" type="text" placeholder="未选择施工部位" readonly="readonly"> -->
+					<button data-options='{"type":"date"}' class="btn mui-btn mui-btn-block "  id="ItemPro" onclick="ProSel()">选择施工部位</button>
+                </div>
+				
+				<div class="mui-input-row">
+				    <span class="ItemClass">表单名称</span>
+					<button data-options='{"type":"date"}' class="btn mui-btn mui-btn-block " id="ItemNam" onclick="NameSel()">选择表单名称</button>
+				    <!-- <input class="FormNam" type="text" placeholder="未选择表单名称" readonly="readonly"> -->
+				</div>
+				<br />
+				<button  class="mui-btn mui-btn-primary  mui-btn-block" id="" onclick="getSignSelect()">查询</button>
+            </div>
+            <br />
+			<div id="BotTable" style="display: none;">
+				<div id="steps1"></div>
+				<table id="table1" style="width: 100%;text-align: center;" border=""  cellspacing="" cellpadding="">
+					<tr>
+						<th class="tClass">姓名</th>
+						<th class="tClass">岗位</th>
+						<th class="tClass">签批日期</th>
+					</tr>
+					<!-- <tr>
+						<td class="tClass">Data</td>
+						<td class="tClass">Data</td>
+						<td class="tClass">Data</td>
+					</tr> -->
+				</table>
+			</div>
+        </div>
+        <script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+        <script src="../js/mui.picker.min.js"></script><!--日期选择-->
+        <script src="../js/mui.poppicker.js"></script>
+        <!--<script src="../libs/echarts-all.js"></script><!--饼状图-->
+        <script src="../js/echarts.js"></script>
+		<script src="../js/steps.js"></script><!-- 步骤条 -->
+		<script src="../js/jquery-1.11.0.min.js"></script>
+
+        <script type="text/javascript">
+			var picker1 = new mui.PopPicker();//提交时间
+			var picker2 = new mui.PopPicker();//施工部位
+			var picker3 = new mui.PopPicker();//表单名称
+			
+			// ES6数组去重
+			function Es5duplicate(arr,type){
+			            var newArr = [];
+				var tArr = [];
+				if(arr.length == 0){
+					return arr;
+				}else{
+					if(type){
+						for(var i = 0; i < arr.length;i++){
+							if(!tArr[arr[i][type]]){
+								newArr.push(arr[i]);
+								tArr[arr[i][type]] = true;
+							}
+						}
+						return newArr;
+					}else{
+						for(var i = 0; i < arr.length;i++){
+							if(!tArr[arr[i]]){
+								newArr.push(arr[i]);
+								tArr[arr[i]] = true;
+							}
+						}
+						return newArr;
+					}
+				}
+			} 
+			function abb(){
+				$('#TimeBgn').text('选择提交时间')
+				$('#ItemPro').text('选择施工部位')
+				$('#ItemNam').text('选择表单名称')
+				localStorage.setItem('TabUDaSto','')
+				localStorage.setItem('TabNamSto','')
+				localStorage.setItem('TabMNaSto','')
+				$('#BotTable').css('display','none')
+			}
+			
+            (function($){
+				
+                $.init();
+				
+				mui.init({
+					pullRefresh : {
+					    container:"#allContain",//下拉刷新容器标识，querySelector能定位的css选择器均可，比如：id、.class等
+					    down : {
+					      style:'circle',//必选，下拉刷新样式，目前支持原生5+ ‘circle’ 样式
+					      color:'#00C0DD', //可选，默认“#2BD009” 下拉刷新控件颜色
+					      height:'50px',//可选,默认50px.下拉刷新控件的高度,
+					      range:'100px', //可选 默认100px,控件可下拉拖拽的范围
+					      offset:'0px', //可选 默认0px,下拉刷新控件的起始位置
+					      auto: false,//可选,默认false.首次加载自动上拉刷新一次
+					      callback :function(){
+							  mui('#allContain').pullRefresh().endPulldown();
+							  abb()
+						  }
+						}
+					}
+				})
+				
+				
+				
+				$.ajax({
+					type: "post",
+					url: url + 'action_ins/form_new.php',
+					async: true,
+					dataType: 'json',
+					data: {
+						falg: 'getSignMes',
+						projectId: localStorage.getItem('projectId'),
+					}, 
+					success: function(data) {
+						var pickerData1 = []
+						var pickerData2 = []
+						var pickerData3 = []
+						for(let i=0;i<data.row;i++){
+							pickerData1[i] = {value:data.data[i].id,text:data.data[i].TabUDa}
+							pickerData2[i] = {value:data.data[i].id,text:data.data[i].TabNam}
+							pickerData3[i] = {value:data.data[i].id,text:data.data[i].TabMNa}
+						}
+						picker1.setData(Es5duplicate(pickerData1,"text"));
+						picker2.setData(Es5duplicate(pickerData2,"text"));
+						picker3.setData(Es5duplicate(pickerData3,"text"));
+						
+						
+						 // $('#a33 span').text() = selectItems[0].text
+					},
+					error: function(xhr, type, errorThrown) {
+						//alert('ajax错误'+type+'---'+errorThrown);
+						alert('ajax错误' + type + errorThrown);
+					}
+				});
+				
+				
+				
+				$('.mui-poppicker-btn-ok').on('tap', function() {
+					$('#TimeBgn').text(text1)
+					 // alert('32323')
+					 // getMes()
+					 mui('#allContain').pullRefresh().enablePulldownToRefresh();
+				})
+				
+				
+            })(mui);
+			
+			$('.toBtn').on('tap', function() {
+				mui('#allContain').pullRefresh().disablePulldownToRefresh();
+			})
+			
+			
+			
+			
+			function TimeSel(){
+				picker1.show(function (selectItems) {
+					let text1 = selectItems [0].text
+					$('#TimeBgn').text(text1)
+					localStorage.setItem('TabUDaSto',selectItems [0].text)
+				})
+			} 
+			function ProSel(){
+				picker2.show(function (selectItems) {
+					let text1 = selectItems [0].text
+					$('#ItemPro').text(text1)
+					localStorage.setItem('TabNamSto',selectItems [0].text)
+				})
+			} 
+			function NameSel(){
+				picker3.show(function (selectItems) {
+					let text1 = selectItems [0].text
+					$('#ItemNam').text(text1)
+					localStorage.setItem('TabMNaSto',selectItems [0].text)
+				})
+			} 
+			function getSteps(stepData,active){
+				var steps1 = steps({
+				    el: "#steps1",
+				    data: stepData,
+				    active: active
+				});
+			}
+			function getSignSelect(){
+				$.ajax({
+					type: "post",
+					url: url + 'action_ins/form_new.php',
+					async: true,
+					dataType: 'json',
+					data: {
+						falg: 'getSignSelect',
+						TabUDa: localStorage.getItem('TabUDaSto'),
+						TabNam: localStorage.getItem('TabNamSto'),
+						TabMNa: localStorage.getItem('TabMNaSto'),
+					}, 
+					success: function(data) {
+						$('#BotTable').css('display','block')
+						if(data.status=='error'||data.data.row==0){
+							alert('暂无数据')
+						}else{
+							$("#table1 tr:not(:first)").html("");
+							var stepData = []
+							var active = 0
+							for(let i=0;i<data.data.length;i++){
+								var RolNam = data.data[i].RolNam
+								stepData.push({'title':RolNam,'description':'',index:i})
+							}
+							
+							for(let i=0;i<data.Usedata.length;i++){
+								let innerText = '<tr><td>'+data.Usedata[i].UsePeo+'</td><td>'+data.Usedata[i].RolNam+'</td><td>'+data.Usedata[i].SignDate+'</td></tr>'
+								$('#table1').append(innerText)
+								// let item = stepData.find(item => {
+								// 	if(item.RolNam==data.Usedata[i].RolNam){
+								// 		return item.index;
+								// 	}
+								// });
+								stepData.forEach(item=>{
+									if(item.title==data.Usedata[i].RolNam){
+										active = item.index
+									}
+								})
+							}
+							
+							
+							// console.log(item);
+							getSteps(stepData,active)
+							
+						}
+						
+					},
+					error: function(xhr, type, errorThrown) {
+						//alert('ajax错误'+type+'---'+errorThrown);
+						alert('ajax错误' + type + errorThrown);
+					}
+				});
+			}
+			
+			
+        </script>
+    </body>
+</html>

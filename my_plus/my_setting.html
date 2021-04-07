@@ -104,7 +104,7 @@
 				<ul id="listUl" class="mui-table-view mui-table-view-chevron">
 					<li class="mui-table-view-divider">账户信息</li>
 					<li class="mui-table-view-cell">						
-						<a id="wdzh" class="mui-navigate-right" href="my_mesage.html">
+						<a id="wdzh" class="mui-navigate-right">
 						我的账户
 						</a>
 					</li>
@@ -116,7 +116,7 @@
 					</li>-->
 					<li class="mui-table-view-divider">授权设置</li>
 					<li class="mui-table-view-cell">						
-						<a id="wdzh" class="mui-navigate-right" href="../my_project/detail/Sign_new_sqr.html">
+						<a id="wdqx" class="mui-navigate-right" href="../my_project/detail/Sign_new_sqr.html">
 						授权设置
 						</a>
 					</li>
@@ -128,7 +128,7 @@
 						</div>
 					</li>
 					<li class="mui-table-view-divider">升级设置</li>
-					<li class="mui-table-view-cell my_none">
+					<li class="mui-table-view-cell">
 						自动侦测升级
 						<div id="zdzcsj" class="mui-switch">
 							<div class="mui-switch-handle"></div>
@@ -137,9 +137,9 @@
 					<li id="jcxbb" class="mui-table-view-cell">
 						检查新版本						
 					</li>
-					<li class="mui-table-view-divider">&nbsp;</li>
+					<li class="mui-table-view-divider">&nbsp;&nbsp;&nbsp;&nbsp;</li>
 					<li class="mui-table-view-cell" style="text-align: center;">
-						<a id='exit'>退出</a>
+						<a id='exit'>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;退出</a>
 					</li>
 				</ul>
 			</form>
@@ -155,7 +155,7 @@
 				uid = self.uid;
 				curWebId=self.id;
 				bumen=self.bumen;
-				//alert(bumen);
+				var userid = localStorage.getItem('AccId')
 				var zdzcsj = document.getElementById("zdzcsj");
 				var jcxbb = document.getElementById("jcxbb");
 				var autoLogin = document.getElementById("autoLogin"); 
@@ -198,7 +198,7 @@
 //				//检查新版本
 //				//检测服务器是否有新版本
 				var thisversion=plus.runtime.version;
-//				//alert(thisversion);
+//				alert(thisversion);
 				cvz="";	//用于存放compareVersion函数的判断结果
 //				//比较版本大小，如果新版本nv大于旧版本ov则cvz=true，否则cvz=false
 				function compareVersion( ov, nv ){
@@ -326,7 +326,7 @@
 				var wdzh=document.getElementById("wdzh");
 				wdzh.addEventListener("tap",function(event){
 					mui.openWindow({
-						url: "../my_setting/my_setting_wdzh.html",
+						url: "my_mesage.html",
 						id: this.href,
 						styles: {
 							hardwareAccelerated:false
@@ -335,8 +335,8 @@
 							autoShow:false
 						},
 						extras:{	
-							uid:uid,
-							mobile:mobile
+							uid:userid,
+//							mobile:mobile
 						}
 					});
 					return;

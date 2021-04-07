@@ -1,0 +1,102 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>建筑文件流转系统-类型列表</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--css-->
+        <link rel="stylesheet" href="../css/mui.min.css">
+		<link rel="stylesheet" href="../css/myplus.css" />
+		<link rel="stylesheet" href="../css/my_css.css">
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left " href="project_index.html"></a>
+            <h1 class="mui-title"><span id="ProNam"></span></h1>
+        </header>
+        
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper" style="top: 55px;">
+				<div class="mui-control-content-body"></div>
+			</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/jquery-1.11.0.min.js"></script>
+		<script src="../js/self/creat_card.js"></script>
+		<script type="text/javascript">
+		    mui('.mui-scroll-wrapper').scroll({
+                deceleration: 0.0005, //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+            });
+		    mui.init();
+		    window.addEventListener('project_type', function(e){//执行刷新
+                  location.reload();
+            });
+			// alert(localStorage.getItem('RolId'))
+		    mui.plusReady(function() {
+		        /*
+		         * GET&SHOW pro Mes
+		         */
+		        var projectId = localStorage.getItem('projectId');
+		        var projectName = localStorage.getItem('projectName');
+		        
+//		        alert(projectId)
+//		        console.log(projectId);
+		        $('#ProNam').text('表单签批');
+		        // $('#ProNam').text(projectName);
+		        /*
+		         * show Type mes
+		         */
+		       $.ajax({
+		           type:"post",
+		           url:url+'action_ins/ListShow.php',
+		           async:true,
+		           dataType:'json',
+		           data:{
+		               falg:'getAllMyForm',
+		               projectId:projectId,
+		               RolId:localStorage.getItem('RolId')//
+		           },
+		           success:function(data){
+					   
+					   let resdata = data.nonedata
+						console.log(resdata);
+					   for(let i = 0;i<resdata.length;i++){
+						   let CirSmp = resdata[i].CirSmp
+						   let DepIdS = resdata[i].DepIdS
+						   let ProAId = resdata[i].ProAId
+						   let ProNam = resdata[i].ProNam
+						   let CName = resdata[i].TabMNa
+						   let TabMNa = resdata[i].TabNam
+						   let CSdA  = resdata[i].IntIdA
+						   let CId   = resdata[i].id
+						   let CSUTm   = resdata[i].TabUDa
+						   let CSSta    = resdata[i].SigSta
+						   let CSDLine    = resdata[i].TabDTm
+						   var EleText = "<ul class='mui-table-view mui-card my_list my_marginbottom10px'><li class='mui-table-view-cell " + 'my_backgroundcolor_green2' + "'><a class='a_color' href='#?'><span class='mui-icon mui-icon-gear mui-pull-left my_fontweight my_color_white'></span><p class='mui-ellipsis my_style2'>" + "<span class='CName'>" + TabMNa + "</span>" + "<span class='CirSmp' hidden='hidden'>" + CirSmp + "</span>" + "<span class='CSdA' hidden='hidden'>" + CSdA + "</span>" + "<span class='CId' hidden='hidden'>" + CId + "</span>" + "</p></a><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>表单名称：" + CName + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>提交日期：" + CSUTm + "</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>签批流程：点击查看</p></li><li class='mui-table-view-cell'><p class='mui-ellipsis my_style1'>截止日期：" + CSDLine + "</p></li></li></ul>"
+						   $('.mui-control-content-body').append(EleText);
+					   }
+					   $('.mui-card').on('tap',function(){
+					       localStorage.setItem('CId',$(this).find('.CId').text());
+					       localStorage.setItem('CSdA',$(this).find('.CSdA').text());
+					       localStorage.setItem('CirSmp',$(this).find('.CirSmp').text());
+					       localStorage.setItem('PageSta','0');
+					       mui.openWindow({
+					           url:'detail/form_signIn.html',
+					           id:'detail/form_signIn', 
+					       })
+					   })
+		           }, 
+		           error:function(s,e,t){
+		               alert('出现错误，错误类型：'+e);
+		           }
+		       });
+		    })
+		</script>
+	</body>
+
+</html>

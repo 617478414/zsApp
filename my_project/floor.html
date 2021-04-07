@@ -1,0 +1,208 @@
+<!doctype html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>同欣风险管控楼层分类</title>
+
+		<link rel="stylesheet" href="../css/reset_1.css">
+		<link rel="stylesheet" href="../css/style_1.css">
+		<link rel="stylesheet" href="../css/mui.min.css">
+		<!--<link rel="stylesheet" href="../css/my_css.css">--> 
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<button style="border:none;background-color:#F7F7F7;color: #007AFF;" class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></button>
+			<h1 class="mui-title">楼层分类</h1>
+		</header>
+		<ul  style="position: relative;top: 10px;" class="cd-accordion-menu animated">
+			<li id="lcfl_bzc" class="has-children" > 
+
+				<!--<input type="checkbox" name="sub-group-level-3" id="sub-group-level-1">
+				<label style="height: 10px;padding-bottom:55px;" for="sub-group-level-1">Sub Group Level 3</label>-->
+
+				<ul id="" class=""> 
+					<!--<li>
+						<a href="#0">Image</a> 
+					</li>
+					<li>
+						<a href="#0">Image</a>
+					</li>-->
+				</ul>
+			</li>
+		</ul>
+		<ul id="lcfl" style="position: relative;top: -35px;" class="cd-accordion-menu animated">
+			<li class="has-children">
+
+				<!--<input type="checkbox" name="sub-group-level-3" id="sub-group-level-1">
+				<label for="sub-group-level-1">Sub Group Level 3</label>-->
+
+				<ul id="" class=""> 
+					<!--<li>
+						<a href="#0">Image</a> 
+					</li>
+					<li>
+						<a href="#0">Image</a>
+					</li>-->
+				</ul>
+			</li>  
+		</ul>
+
+		<script type="text/javascript" src="../js/jquery-1.10.2.min.js"></script>
+		<script type="text/javascript" src="../js/mui.min.js"></script>
+		<script type="text/javascript" src="../js/service.js"></script>
+		<script>
+			jQuery(document).ready(function() {
+				function geturl(name) {
+					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+					var r = window.location.search.substr(1).match(reg);
+					if(r != null) return unescape(r[2]);
+					return null;
+				}
+				//基本信息异步获取
+				//var wxyid=geturl("riskLevel");
+				var gcid = geturl("gcid");
+				var wxyid = geturl("wxyid");
+				var accordionsMenu = $('.cd-accordion-menu');
+
+				var accordion = $(this);
+				//detect change in the input[type="checkbox"] value											
+				$('#lcfl').on('tap', 'li', function() {
+					var id_fat = document.getElementById(this.id).getAttribute("id"); //栋号
+					accordion.on('change', 'input[type="checkbox"]', function() {
+						var checkbox = $(this);
+						console.log(checkbox.prop('checked'));
+						//判断是否点击楼，然后再渲染层
+						if(checkbox.prop('checked') == true) {
+							//异步获取
+							$.ajax(url + 'my_plus/floor.php', {
+								data: {
+									dh: id_fat, 
+									gcid: gcid,
+									flag: '2'
+								},
+								dataType: 'json',
+								type: 'POST',
+								timeout: 10000,
+								success: function(data) {
+									//alert(data)
+									$("a").empty()
+									$("a").hide()
+									var length = data.length;
+									if(length > 1) {
+										for(var i = 0; i < length - 1; i++) {
+											var cs = data[i].层数;
+											var imgurl = data[i].图片路径;
+//											var Imgurl = imgurl.slice(3);
+											var id = data[i].id;
+											if(cs != "") {
+												var TextB = '<li style="margin-left:20px;"><a href="../map/picture_biger.html?Imgurl=' + imgurl + '&gcid=' + gcid + '&wxyid=' + wxyid + '&id=' + id + '">' + cs + '</a></li>';
+												$("#" + id_fat).append(TextB);
+											} else {
+												//隐藏楼
+											}
+										}
+									} 
+								},
+								error: function(xhr, type, errorThrown) {
+									//alert('ajax错误'+type+'---'+errorThrown);
+								}
+							});
+						} else {
+							$("a").empty()
+							$("a").hide()
+							location.reload()
+						}
+					});
+				});
+
+				//创建标准层
+				$.ajax(url + 'my_plus/floor.php', {
+					data: {
+						dh: '',
+						gcid: gcid,
+						flag: '3'
+					},
+					dataType: 'json',
+					type: 'POST',
+					timeout: 10000,
+					success: function(data) {
+//						alert(data)     
+						var length = data.length;
+						if(length > 1) {
+							for(var i = 0; i < length - 1; i++) { 
+								var imgurl_bzc = data[i].图片路径;							
+								var TextC = '<li class="has-children" style="left:-10px;"><input type="checkbox"><label>标准层</label><ul id="" class=""><li ><a href="../map/picture_biger.html?Imgurl='+imgurl_bzc+'&gcid='+gcid+'">标准图纸</a></li></ul></li>';
+								$("#lcfl_bzc").append(TextC);								
+							} 
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//alert('ajax错误'+type+'---'+errorThrown);
+					}
+				});
+
+				//异步获取
+				$.ajax(url + 'my_plus/floor.php', {
+					data: {
+						dh: '',
+						gcid: gcid,
+						flag: '1'
+					},
+					dataType: 'json',
+					type: 'POST',
+					timeout: 10000,
+					success: function(data) {
+						//						alert(data)   
+						var length = data.length;
+						if(length > 1) {
+							for(var i = 0; i < length - 1; i++) {
+								var dh = data[i].栋号;
+								//var tplj = data[i]   
+								foundA(dh)
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//alert('ajax错误'+type+'---'+errorThrown);
+					}
+				});
+
+				var n = 0
+				var foundA = function(dh) {
+					var dh = dh; //栋号
+					//console.log(dh)
+					var TextA = '<li id="' + dh + '" class="has-children"><input type="checkbox" ><label>' + dh + '</label><ul class="cd-accordion-menu-childen"></ul></li>';
+					$("#lcfl").append(TextA);
+					n++
+				}
+			});
+
+//			function tap(a) {				
+//				var id = document.getElementById(a.id);
+//				mui.openWindow({
+//					url: '../map/picture_biger.html',
+//					id: 'picture_biger',
+//					styles: {
+//						hardwareAccelerated: false
+//					},
+//					extras: {
+//						
+//					},
+//					show: {
+//						autoShow: true, //页面loaded事件发生后自动显示
+//						aniShow: 'slide-in-right', //页面显示动画
+//						duration: '100' //页面动画持续时间
+//					},
+//					waiting: {
+//						autoShow: false, //自动显示等待框
+//					},
+//				});
+//			}
+		</script>
+	</body>
+
+</html>

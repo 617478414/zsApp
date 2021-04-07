@@ -57,6 +57,15 @@
                     <li class="mui-table-view-cell">
                         <a href="#" style="color: #FF3B30;">提交</a>
                     </li>
+					<!-- <li class="mui-table-view-cell">
+					    <a href="#" style="color: green;">定义快捷签名</a>
+					</li> -->
+					<li class="mui-table-view-cell">
+					    <a href="#" style="color:green;">定义快捷签名位置</a>
+					</li>
+                    <li class="mui-table-view-cell">
+                        <a href="#" style="color: ;">撤销签名</a>
+                    </li>
                     <li class="mui-table-view-cell">
                         <a href="#" style="color: ;">查看附件</a>
                     </li>
@@ -77,22 +86,16 @@
             	<!--<a href="../../excel_form/formtest.html" class="mui-tab-item mui-active" ><img src="../../images/keyboard.png" width="20px" height="20px" style="display: none;"/></a>-->
                 <img src="../../images/SignIn.png" width="20px" height="20px" id="SignIn" />
             </div>
-            <div class="" style="margin-left: 25%;margin-top: 10px;">
-                <span class="mui-icon mui-icon-map" id="Nail"></span>
-            </div>
-            <div class="" style="margin-left: 65%;margin-top: -25px;">
-                <span class="mui-icon mui-icon-mic" id="Recoder"></span>
-            </div>
-            <!--输入框-->
-            <!--<div class="footer-center">
-                <input id='msg-text' type="text" class='input-text' list='SignElse'>
-                <datalist id="SignElse">
-                    <option>备注1</option>
-                    <option>备注2</option>
-                    <option>备注3</option>
-                    <option>备注4</option>
-                </datalist>
-            </div> -->
+			<div style="display: flex;height: 100%;margin-top: 10px;justify-content: space-around">
+				<!-- <div class="" style="margin-left: 15%;"> -->
+				<span class="mui-icon mui-icon-location" id="quickly"></span>
+				<span class="mui-icon mui-icon-map" id="Nail"></span>
+				<!-- </div> -->
+				<!-- <div class="" style="margin-left: 65%;margin-top: -25px;"> -->
+				    <span class="mui-icon mui-icon-mic" id="Recoder"></span>
+				<!-- </div> -->
+			</div>
+            
             <!--查看/发送-->
             <label for="" class="footer-right">
                 <img id="msg-check" class="footer-right-page" src="../../images/file.png" style="width: 35px;"  />
@@ -119,9 +122,12 @@
             var CId = localStorage.getItem('CId');
             var CSdA = localStorage.getItem('CSdA');
             var CirSmp = localStorage.getItem('CirSmp');
-//          alert(CId)
+			 // console.log(CId)
+			 // console.log(CSdA)
+			 // console.log(CirSmp)
 //          alert(CirSmp)
 //          var CId = '55'
+//			console.log(localStorage.getItem('SignUrl'))
             canvasWidth = 385
             canvasHeight = 458
             /*
@@ -136,7 +142,8 @@
                     CId:CId
                 },
                 success:function(data){
-//                  console.log(data)
+					// alert(222)
+                 console.log(data)
                     //表单信息处理
                     $('#CName').text(data['data']['TabNam']);
                     localStorage.setItem('page',data['data']['page']);
@@ -145,6 +152,7 @@
                     localStorage.setItem('imgUrl',imgDataText);
                     //显示表单
                     var ImgSize = showTab(data['data']['imgurl'],data['data']['page'],data['sign']);
+//                  console.log(data['sign'])
                     var ImgSizeArr = ImgSize.split('/',ImgSize);
                     canvasWidth = ImgSizeArr[0]+0;
                     canvasHeight = ImgSizeArr[1]+0;
@@ -153,13 +161,14 @@
                     
                 },
                 error:function(s,e,t){
-                    alert('出现错误，错误类型：'+e);
+//                  alert('出现错误，错误类型：'+e);
                 }
             });
             mui.init({
                 swipeBack:false,
                 statusBarBackground: '#f7f7f7',
             });
+			
             mui('body').on('tap', '.mui-popover-action li>a', function() {
                 var a = this,parent;
                 //根据点击按钮，反推当前是哪个actionsheet
@@ -206,8 +215,10 @@
                         }
                     });
                 };
+                
                 //提交
                 if(a.innerHTML == '提交'){
+					
                     $.ajax({
                         type:"post",
                         url:url+"action_sign/MesSave_Img.php",
@@ -229,20 +240,27 @@
                                 PageFinal : localStorage.getItem('PageFinal'),
                                 //签名信息
                                 SignFinal : localStorage.getItem('SignUrl'),
+                                CirSmp :CirSmp
                                 //备注
 //                              msg:$('#msg-text').val()
                         },
                         success:function(data){
 //                      	alert(data)
-//                          if(data['ErrorMes']){
-//                              alert(data['ErrorMes']+'请及时联系管理员')
-//                              return;
-//                          }
-                            alert('签名提交成功')
+							 if(data['ErrorMes']){
+								 alert(data['ErrorMes']+'请及时联系管理员')
+								 return;
+							 }
+                            alert('提交成功')
+							mui.openWindow({
+							   url:'../project_type.html',
+							})
                             //返回父页面刷新
-                            var target = plus.webview.getWebviewById("project_type_list");
-                            target.reload(true);
-                            mui.back();
+							 // var target = plus.webview.getWebviewById("project_type_list");
+                            // var target=plus.webview.currentWebview().opener();
+                            // target.reload(true);
+                            // mui.back();
+							// var parent = plus.webview.currentWebview().opener();//获取A页面      B页面是从A页面打开
+							// mui.fire(parent,'refresh',{isSet:true});
                         },
                         error:function(s,e,t){
                             alert('出现错误，错误类型0：'+e);
@@ -258,7 +276,48 @@
 							sjc:CirSmp
                         }
                     })
+                } 
+                //撤销签名
+                if(a.innerHTML == '撤销签名'){
+                    $.ajax({
+                        type:"post",
+                        url:url+"action_sign/MesDel_Svg.php",
+						// async:true,
+                        dataType:'json', 
+                        data:{                         
+                            CirSmp :CirSmp,
+							// 21.2.27update
+							formId:CId 
+                        },
+                        success:function(data){
+                        	alert("撤销成功！")
+                        	location.reload()
+                        },
+                        error:function(s,e,t){
+                         // alert('出现错误，错误类型0：'+e);
+							alert("无法撤销非本用户签名！")
+                        }
+                    })
                 }
+				// //定义快捷签名
+				if(a.innerHTML == '定义快捷签名位置'){
+					mui.openWindow({
+					    url:'SignView_quickly.html',
+					    id:'SignView_quickly.html',
+					    extras: {
+					        fatherPage : 'form_signIn.html'
+					    },
+					    createNew:true,
+					})
+				}
+				//快捷签名
+				// if(a.innerHTML == '快捷签名'){
+				// 	mui.openWindow({
+				// 		url: 'signPlace2.html',
+				// 		id: 'signPlace2.html',
+				// 		createNew:true,
+				// 	})
+				// }
                 //授权人签名
 //              if(a.innerHTML == '授权人签名'){
 //                  mui.openWindow({
@@ -271,35 +330,9 @@
 //              }
             })
             mui.plusReady(function(){
+				
+
                 var val='';
-                //检测，显示提交按钮【键盘输入】
-//              $('#msg-text').on('input',function() {
-//                  document.getElementById("postMes").style.display = 'block';
-//                  document.getElementById("msg-check").style.display = 'none';
-//              })
-//              //提交信息之后【键盘输入】
-//              $('#postMes').on('tap',function() {
-//                  alert('你刚输入了:'+$('#msg-text').val());
-//                  document.getElementById("postMes").style.display = 'none';
-//                  document.getElementById("msg-check").style.display = 'block';
-//                  $('#msg-text').val('');
-//              })
-//              //显示键盘
-//              var showKeyboard = function() {
-//                  if (mui.os.ios) {
-//                      var webView = plus.webview.currentWebview().nativeInstanceObject();
-//                      webView.plusCallMethod({
-//                          "setKeyboardDisplayRequiresUserAction": false
-//                      });
-//                  } else {
-//                      var Context = plus.android.importClass("android.content.Context");
-//                      var InputMethodManager = plus.android.importClass("android.view.inputmethod.InputMethodManager");
-//                      var main = plus.android.runtimeMainActivity();
-//                      var imm = main.getSystemService(Context.INPUT_METHOD_SERVICE);
-//                      imm.toggleSoftInput(0, InputMethodManager.SHOW_FORCED);
-//                      imm.showSoftInput(main.getWindow().getDecorView(), InputMethodManager.SHOW_IMPLICIT);
-//                  }
-//              };
                 //打开详情
                 $('#msg-check').on('tap',function() {
                     localStorage.setItem('PageStaMes','1');
@@ -318,7 +351,8 @@
                         id:'SignView_1.html',
                         extras: {
                             fatherPage : 'form_signIn.html'
-                        }
+                        },
+                        createNew:true,
                     })
                 })
                 //打开语音
@@ -334,6 +368,8 @@
                 //打开钉钉
                 $('#Nail').on('tap',function() {
                     mui.openWindow({
+//                  	url:'Tack_mark.html',
+//                      id:'Tack_mark.html',ps
                         url:'sign_nail.html',
                         id:'sign_nail.html',
                         extras: {
@@ -342,6 +378,21 @@
                         }
                     })
                 })
+				$('#quickly').on('tap',function() {
+					if(localStorage.getItem('SignUrl1')){
+						mui.openWindow({
+							url: 'signPlace2.html',
+							id: 'signPlace2.html',
+							createNew:true,
+							extras:{
+								type:'quickly'
+							}
+						})
+					}else{
+						alert('该账号暂未在手机定义快捷签名位置')
+					}
+					
+				})
             });
             //show tab
             function showTab(filePic,page,dataSignDB){
@@ -349,6 +400,8 @@
                 var imgDataText = urlAPI + filePicArr[0]+'(1)'+'.png';
                 var img = new Image();
                 img.src = imgDataText;
+//              console.log(img.src)
+				localStorage.setItem('tab_url',imgDataText);
                 img.onload = function()
                 {
                     //控制背景宽度
@@ -384,7 +437,7 @@
                         var CIdFinal = localStorage.getItem('CIdFinal')
                             //签名信息
                         var SignFinal =UrlImage +  localStorage.getItem('SignUrl')
-                        console.log(SignFinal)
+//                      console.log(SignFinal)
 //                      console.log(CIdFinal)
 //                      console.log(CId)
                         //显示签名【本次的，当前流程的】
@@ -392,20 +445,20 @@
                         {
                             showSignSvg(SignPX,SignPY,FormW,FormH,SignW,SignH,PageFinal,SignFinal,'ImgPlace')
                         }
-                        
+
                         //显示数据库已存在的签名
                         for (var i=0;i<dataSignDB.length;i++) {
-                            var SinSignPa  = dataSignDB[i]['SignPa']
-                            var SinSignPX  = dataSignDB[i]['SignPX']
-                            var SinSignPY  = dataSignDB[i]['SignPY']
-                            var SinFormW  = dataSignDB[i]['FormW']
-                            var SinFormH  = dataSignDB[i]['FormH']
-                            var SinSignW  = dataSignDB[i]['SignW']
-                            var SinSignH  = dataSignDB[i]['SignH']
-                            var SinPageFinal  = dataSignDB[i]['PageFinal']
-                            
-                            showSignSvg(SinSignPX,SinSignPY,SinFormW,SinFormH,SinSignW,SinSignH,SinPageFinal,SinSignPa,'ImgPlace')
-                            
+//                      	console.log("执行")                            
+                            var SignPX  = dataSignDB[i]['SignPX']
+                            var SignPY  = dataSignDB[i]['SignPY']
+                            var FormW  = dataSignDB[i]['FormW']
+                            var FormH  = dataSignDB[i]['FormH']
+                            var SignW  = dataSignDB[i]['SignW']
+                            var SignH  = dataSignDB[i]['SignH']
+                            var PageFinal  = dataSignDB[i]['PageFinal']
+                            var SignFinal  =UrlImage + dataSignDB[i]['SignPa']
+//							console.log(SignFinal)
+                            showSignSvg(SignPX,SignPY,FormW,FormH,SignW,SignH,PageFinal,SignFinal,'ImgPlace')           
                         }
 //                      showSignSvg('166','322','351','496','40','24','1','http://192.168.0.199:8081/zsPC/signUpload/55/1537403106837.svg','ImgPlace')
                     }catch(e){
@@ -424,69 +477,162 @@
              * HAMMER
              */
             //定义实例
-            var el = document.querySelector("#ImgPlace");
-            var transform = {
-                translate: {
-                    x: 0,
-                },
-                scale: 1,
-            };
-            //添加事件
-            var mc = new Hammer.Manager(el);
-            mc.add(new Hammer.Pinch({
-                threshold: 0
-            }));
-            mc.get('pinch').set({ enable: true });
-            mc.add(new Hammer.Pan({
-                threshold: 0,
-                pointers: 0
-            }));
-            var ImgScale = 1;
-            //捏放后
-            mc.on("pinchstart pinchmove", function(ev) {
-                //获取原放大比例
-                var ImgScaleOld = ImgScale
-                
-                if(canvasWidth*ev.scale < canvasWidth){
-                    $('#ImgPack').addClass('pinch-zoom')
-                    ImgScale = 1;
-                }else{
-                    ImgScale = ev.scale;
-                    $('#ImgPack').removeClass('pinch-zoom')
-                }
-                transform.scale = ImgScale;
-                //表单变化
-                $('.paneImg').attr('width',canvasWidth*ImgScale)
-                $('.paneImg').attr('height',canvasHeight*ImgScale)
-                
-                //签名变化
-                var PlaceSvg = document.getElementsByClassName("PlaceSvg")
-                for (var i=0;i<PlaceSvg.length;i++) {
-                	var PlaceSvgW = document.getElementsByClassName('PlaceSvg')[i].width/ImgScaleOld
-                    var PlaceSvgH = document.getElementsByClassName('PlaceSvg')[i].height/ImgScaleOld
-                    var PlaceSvgT = document.getElementsByClassName('PlaceSvg')[i].offsetTop/ImgScaleOld
-                    var PlaceSvgL = document.getElementsByClassName('PlaceSvg')[i].offsetLeft/ImgScaleOld
-                    document.getElementsByClassName('PlaceSvg')[i].style.width = PlaceSvgW*ImgScale +'px'
-                    document.getElementsByClassName('PlaceSvg')[i].style.height = PlaceSvgH*ImgScale +'px'
-                    document.getElementsByClassName('PlaceSvg')[i].style.top = PlaceSvgT*ImgScale +'px'
-                    document.getElementsByClassName('PlaceSvg')[i].style.left = PlaceSvgL*ImgScale +'px'
-                }
-                
-            });
-            //平移后
-            mc.on("panstart panmove", function(ev){
-                if (!(ImgScale ==1)) {
-                	transform.translate = {
-                        x:ev.deltaX,
-                    };
-                } else{
-                	transform.translate = {
-                        x:0
-                    };
-                }
-                el.style.transform = 'translate(' + transform.translate.x + 'px )';
-            });
-            
+//          var el = document.querySelector("#ImgPlace");
+//          var transform = {
+//              translate: {
+//                  x: 0,
+//              },
+//              scale: 1,
+//          };
+//          //添加事件
+//          var mc = new Hammer.Manager(el);
+//          mc.add(new Hammer.Pinch({
+//              threshold: 0
+//          }));
+//          mc.get('pinch').set({ enable: true });
+//          mc.add(new Hammer.Pan({
+//              threshold: 0,
+//              pointers: 0
+//          }));
+//          var ImgScale = 1;
+//          //捏放后
+//          mc.on("pinchstart pinchmove", function(ev) {
+//              //获取原放大比例
+//              var ImgScaleOld = ImgScale
+//              
+//              if(canvasWidth*ev.scale < canvasWidth){
+//                  $('#ImgPack').addClass('pinch-zoom')
+//                  ImgScale = 1;
+//              }else{
+//                  ImgScale = ev.scale;
+//                  $('#ImgPack').removeClass('pinch-zoom')
+//              }
+//              transform.scale = ImgScale;
+//              //表单变化
+//              $('.paneImg').attr('width',canvasWidth*ImgScale)
+//              $('.paneImg').attr('height',canvasHeight*ImgScale)
+//              
+//              //签名变化
+//              var PlaceSvg = document.getElementsByClassName("PlaceSvg")
+//              for (var i=0;i<PlaceSvg.length;i++) {
+//              	var PlaceSvgW = document.getElementsByClassName('PlaceSvg')[i].width/ImgScaleOld
+//                  var PlaceSvgH = document.getElementsByClassName('PlaceSvg')[i].height/ImgScaleOld
+//                  var PlaceSvgT = document.getElementsByClassName('PlaceSvg')[i].offsetTop/ImgScaleOld
+//                  var PlaceSvgL = document.getElementsByClassName('PlaceSvg')[i].offsetLeft/ImgScaleOld
+//                  document.getElementsByClassName('PlaceSvg')[i].style.width = PlaceSvgW*ImgScale +'px'
+//                  document.getElementsByClassName('PlaceSvg')[i].style.height = PlaceSvgH*ImgScale +'px'
+//                  document.getElementsByClassName('PlaceSvg')[i].style.top = PlaceSvgT*ImgScale +'px'
+//                  document.getElementsByClassName('PlaceSvg')[i].style.left = PlaceSvgL*ImgScale +'px'
+//              }
+//              
+//          });
+//          //平移后
+//          mc.on("panstart panmove", function(ev){
+//              if (!(ImgScale ==1)) {
+//              	transform.translate = {
+//                      x:ev.deltaX,
+//                  };
+//              } else{
+//              	transform.translate = {
+//                      x:0
+//                  };
+//              }
+//              el.style.transform = 'translate(' + transform.translate.x + 'px )';
+//          });
+            function point2D(x,y){
+				return {x : x,y : y};
+			}
+			
+			var reqAnimationFrame = (function () {
+			    return window[Hammer.prefixed(window, 'requestAnimationFrame')] || function (callback) {
+			        window.setTimeout(callback, 1000 / 60);
+			    };
+			})();
+			
+			
+			var tMatrix = [1,0,0,1,0,0]//x缩放，无，无，y缩放，x平移，y平移
+			
+			var initScale = 1;//初始化scale
+			var el =  document.getElementById("ImgPlace");//获取元素
+			var mc = new Hammer.Manager(el)
+			var ticking = false
+			var poscenter = point2D(0,0);//缓存双指的中心坐标
+			var duration = '';//设置过渡效果，用于双击缩放效果
+			var lastTranslate = point2D(0,0);//记录上次的偏移值
+			var lastcenter= point2D(el.offsetWidth/2,el.offsetHeight/2)//图像的中心点，用于对比双指中心点
+			
+			var center = lastcenter
+			mc.add(new Hammer.Pan({ threshold: 0, pointers: 1 }))
+			mc.add(new Hammer.Pinch({ threshold: 0 }))
+			mc.add( new Hammer.Tap({ event: 'doubletap', taps: 2 }) );
+			mc.on("panmove", onPan);
+			mc.on("panstart",onPanStart)
+			mc.on("pinchmove", onPinch);
+			mc.on("pinchstart",onPinchStart);
+			mc.on("doubletap",onDoubleTap);
+			
+			function onPanStart(ev){
+				lastTranslate = point2D(tMatrix[4],tMatrix[5])//缓存上一次的偏移值
+			}
+			function onPan(ev){	
+					duration = ''
+					el.className = ''			
+					tMatrix[4] = lastTranslate.x + ev.deltaX
+					tMatrix[5] = lastTranslate.y + ev.deltaY
+					requestElementUpdate('onpan');
+				
+			}
+			function onPinchStart(ev){
+				duration = '';
+				lastTranslate = point2D(tMatrix[4],tMatrix[5])//记录上一次的偏移值
+				initScale = tMatrix[0] || 1;
+				poscenter = point2D(ev.center.x, ev.center.y)
+				
+				lastcenter = point2D(center.x + lastTranslate.x,center.y + lastTranslate.y)//重新计算放大后的中心坐标
+				poscenter = point2D(ev.center.x - lastcenter.x, ev.center.y-lastcenter.y)
+//				console.log("center",lastcenter.x,lastcenter.y)
+				
+				requestElementUpdate('onpinchStart');
+			}
+			function onPinch(ev){
+				var nowScale = tMatrix[0] = tMatrix[3] = initScale * ev.scale;
+				var composscal = (1 - ev.scale) 
+				tMatrix[4] = (1 - ev.scale) * poscenter.x + lastTranslate.x
+				tMatrix[5] = (1 - ev.scale) * poscenter.y + lastTranslate.y
+				requestElementUpdate('onpinch');	
+			}
+			
+			function onDoubleTap(ev){
+				duration = ".3s ease all";
+				var nowScale = tMatrix[0];
+				if(nowScale != 1 || tMatrix[4]!= 0){
+					//scale不等于1，要重回1
+					tMatrix[0] = tMatrix[3] = 1;
+					tMatrix[4] = tMatrix[5] = 0;
+				}else{
+					var pointer = ev.center
+					var scale = 2
+					tMatrix[0] = tMatrix[3] = scale
+					tMatrix[4] = (1 - scale) * ( pointer.x - center.x) 
+					tMatrix[5] = (1 - scale) * ( pointer.y - center.y)
+				}
+				requestElementUpdate('doubleTap');
+			}
+			
+			function updateElementTransform() {
+				el.style.transition = duration
+			    var tmp = tMatrix.join(',')
+			//  console.log(tmp)
+			    el.style.transform = 'matrix(' + tmp + ')';
+			    ticking = false;
+			}
+			function requestElementUpdate() {
+			    if(!ticking) {
+			        reqAnimationFrame(updateElementTransform);
+			        ticking = true;
+			    }
+			}
+			requestElementUpdate();
         </script>
 	</body>
 </html>

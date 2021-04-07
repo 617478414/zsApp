@@ -121,7 +121,7 @@
 			return items;
 		},
 		//显示
-		show: function(callback) {
+		show: function(callback  ) {
 			var self = this;
 			self.callback = callback;
 			self.mask.show();
@@ -132,6 +132,7 @@
 			$.back = function() {
 				self.hide();
 			};
+			mui('#allContain').pullRefresh().disablePulldownToRefresh();
 		},
 		//隐藏
 		hide: function() {
@@ -141,10 +142,11 @@
 			self.mask.close();
 			document.body.classList.remove($.className('poppicker-active-for-page'));
 			//处理物理返回键
+			mui('#allContain').pullRefresh().enablePulldownToRefresh();
 			$.back=self.__back;
 		},
 		dispose: function() {
-			var self = this;
+			var self = this; 
 			self.hide();
 			setTimeout(function() {
 				self.panel.parentNode.removeChild(self.panel);

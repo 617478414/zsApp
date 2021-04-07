@@ -38,6 +38,7 @@
             refresh.addEventListener('doubletap',function () {
                 window.location.reload();
             });
+			var urlAPI = 'http://112.74.34.150:8089/'
             mui.plusReady(function(){
                 var dataPho = localStorage.getItem('AccPh')
                 $.ajax({
@@ -52,11 +53,11 @@
                 	        //check UsePhone
                 	        var Mes  = '['
                             for (var i=0;i<data['data'].length;i++) {
-//                              if(data['data'][i]['mobile'] == dataPho)
-//                              {
+                             // if(data['data'][i]['mobile'] == dataPho)
+                             // {
                                     Mes += JSON.stringify(data['data'][i])
                                     Mes += ','
-//                              }
+                             // }
                             }
                             Mes = Mes.substr(0,Mes.length-1)
                             Mes += ']'

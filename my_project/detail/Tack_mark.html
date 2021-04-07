@@ -1,0 +1,643 @@
+<!doctype html>
+<html lang="zh">
+
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<title>jQuery</title>
+		<link rel="stylesheet" type="text/css" href="../../css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="../../css/default.css">
+		<link rel="stylesheet" type="text/css" href="../../css/jquery.hotspot.css">
+		<link rel="stylesheet" type="text/css" href="../../css/style.css">
+		<link rel="stylesheet" type="text/css" href="../../css/mui.min.css">
+		<link rel="stylesheet" type="text/css" href="../../css/my_css.css">
+		<style type="text/css">
+			#imgss {
+				width: 320px;
+				height: 498px;
+				margin: auto;
+				border: 1px #C6C6C6 solid;
+				/*background-size: 100% 100%;*/
+				/*背景图片充满div*/
+			}
+			/*body{
+				text-align: center;
+			}*/
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left" style="text-decoration:none;"></a>
+			<h1 class="mui-title">图钉标注</h1>
+
+		</header>
+		<div class="htmleaf-container">
+			<div class="container" style="padding-top: 40px;">
+				<div id="">
+					<!--<br />-->
+				</div>
+				<!--<div class="" id="example-admin" style="border: 1px #C6C6C6 solid;">-->
+				<div class="panel-body" style="padding-left: 0px;padding-right: 0px;">
+					<div class="col-md-6" style="padding-left: 0px;padding-right: 0px;">
+						<div id="theElement-a">
+							<img id="imgss" name="imgss" src="" style="width: 335px;">
+							<div id="lll" class="HotspotPlugin_Hotspot" style="top: 140px; left: 215px;">
+								<div id="ppp" class="">
+								<div id="time" class="Hotspot_content">山东哈斯发动哈德发哈德发的那句客房内阿巴斯短萼汝拉省的吧山东i哈斯发动哈德发哈德发的那句客房内阿巴斯短萼汝拉省的吧山东</div>
+								</div>
+							</div>
+						</div>
+						<!--<button id="save_xy"> 保存</button>-->
+					</div>
+				</div>
+				<!--</div>-->
+
+			</div>
+
+		</div>
+
+		<script type="text/javascript" src="../../js/jquery.min.js"></script>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script type="text/javascript" src="../../js/jquery-1.11.0.min.js"></script>
+		<script type="text/javascript" src="../../js/service.js"></script>
+		<script type="text/javascript">
+			mui.init({
+				gestureConfig: {
+					longtap: true, //长按默认为false
+					doubletap: true
+				}
+			});
+			var taburl = localStorage.getItem('tab_url');
+			console.log(taburl)
+			// 图片地址 后面加时间戳是为了避免缓存
+			var img_url = taburl;	
+			// 创建对象
+			var img = new Image();			  
+			// 改变图片的src
+			img.src = img_url;		  
+			// 加载完成执行
+			img.onload = function(){
+			 // 打印
+//			 alert('width:'+img.width+',height:'+img.height);//1190 1682
+			};
+			
+			$('#imgss').attr("src", taburl);
+			(function($) { // Default settings for the plugin
+				var defaults = {
+
+					// Data
+					data: [],
+
+					// Hotspot Tag
+					tag: 'img',
+
+					// Mode of the plugin
+					// Options: admin, display
+					mode: 'display',
+
+					// HTML5 LocalStorage variable
+					LS_Variable: '__HotspotPlugin_LocalStorage',
+
+					// Hidden class for hiding the data
+					hiddenClass: 'hidden',
+
+					// Event on which the data will show up
+					// Options: click, hover, none
+					interactivity: 'hover',
+
+					// Buttons' id (Used only in Admin mode)
+					done_btnId: 'HotspotPlugin_Done',
+					remove_btnId: 'HotspotPlugin_Remove',
+					sync_btnId: 'HotspotPlugin_Server',
+
+					// Buttons class
+					done_btnClass: 'btn btn-success HotspotPlugin_Done',
+					remove_btnClass: 'btn btn-danger HotspotPlugin_Remove',
+					sync_btnClass: 'btn btn-info HotspotPlugin_Server',
+
+					// Classes for Hotspots
+					hotspotClass: 'HotspotPlugin_Hotspot',
+					hotspotAuxClass: 'HotspotPlugin_inc',
+
+					// Overlay
+					hotspotOverlayClass: 'HotspotPlugin_Overlay',
+
+					// Enable ajax
+					ajax: false,
+
+					ajaxOptions: {
+						url: ''
+					},
+
+					// No. of variables included in the spots
+					dataStuff: [{
+							'property': 'content',
+							'default': ''
+						},
+					]
+				};
+				window.addEventListener('json', function(event) {
+					ws = null;
+					ws = plus.webview.currentWebview();
+					// 显示遮罩层
+					ws.setStyle({
+						mask: "rgba(0,0,0,0.7)"
+					});
+					//关闭遮罩层
+					ws.setStyle({
+						mask: "none"
+					});
+				})
+				window.addEventListener('json_1', function(event) {
+					//		location.reload();
+					ws = null;
+					ws = plus.webview.currentWebview();
+					// 显示遮罩层
+					ws.setStyle({
+						mask: "rgba(0,0,0,0.7)"
+					});
+					//关闭遮罩层
+					ws.setStyle({
+						mask: "none"
+					});
+				})
+				//Constructor
+				function Hotspot(element, options) {
+
+					// Overwriting defaults with options
+					this.config = $.extend(true, {}, defaults, options);
+
+					this.element = element;
+					this.imageEl = element.find(this.config.tag);
+					this.imageParent = this.imageEl.parent();
+
+					this.broadcast = '';
+
+					var widget = this;
+
+					// Event API for users
+					$.each(this.config, function(index, val) {
+						if(typeof val === 'function') {
+							widget.element.on(index + '.hotspot', function() {
+								val(widget.broadcast);
+							});
+						};
+					});
+
+					this.init();
+				}
+
+				//异步传值显示所以点
+				$.ajax(url + 'action_ins/Hotspot.php', {
+					data: {
+						x: '',
+						y: '',
+						content: '',
+						sjc: '',
+						flag: '2',
+						id: ''
+					},
+					dataType: 'json',
+					type: 'POST',
+					timeout: 10000,
+					success: function(data) {
+//						alert(data)  
+						var length = data.length;
+						if(length > 1) {
+							for(var i = 0; i < length - 1; i++) {
+								var id = data[i].id;
+								var x = data[i].X坐标;
+								var y = data[i].Y坐标;
+								var content = data[i].批注;
+								found(id, x, y, content)
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						//alert('ajax错误'+type+'---'+errorThrown);
+					}
+				});
+				var found = function(id, x, y, content) {
+					if(x != 0 && y != 0) { //坐标不为空
+						var X = x;
+						var Y = y;
+						var diana = document.getElementById("theElement-a");
+						var spa = document.createElement('span');
+						spa.innerHTML = '<div class="HotspotPlugin_Hotspot" style="top:' + Y + 'px;left: ' + X + 'px;"></div>';
+						spa.id = id;
+						diana.appendChild(spa);
+
+						spa.addEventListener('tap', function() {
+							ws = null;
+							ws = plus.webview.currentWebview();
+							// 显示遮罩层
+							ws.setStyle({
+								mask: "rgba(0,0,0,0.7)"
+							});
+							//打开新webview，模仿弹窗
+							mui.openWindow({
+								url: 'content.html',
+								id: 'content',
+								styles: {
+									width: '80%',
+									height: '58%',
+									margin: 'auto'
+								},
+								extras: {
+									uid: spa.id
+								},
+								show: {
+									autoShow: true, //页面loaded事件发生后自动显示
+									aniShow: 'slide-in-right', //页面显示动画
+									duration: '100' //页面动画持续时间
+								},
+								waiting: {
+									autoShow: false, //自动显示等待框
+								},
+							});
+						});
+
+						spa.addEventListener('longtap', function(e) {							
+							var btnArray = ['否', '是'];
+							mui.confirm('确认删除该图钉？', '图钉删除', btnArray, function(e) {
+								if(e.index == 1) {
+									mui.ajax(url + 'action_ins/Hotspot.php', {
+										data: {
+											flag: '3', 
+											content: '',
+											x: '',
+											y: '',
+											sjc: '',
+											id: spa.id
+										},
+										type: "post",
+										dataType: "json", 
+										timeout: 10000,
+										success: function(data) {
+											//alert("删除成功!")
+											//location.reload()  
+										},
+										error: function(xhr, type, errorThrown) {
+											console.log(type);																				
+										} 
+									});
+									alert("删除成功!")	
+									location.reload()
+								} else { 
+
+								}
+							}) 
+						});
+					}
+				}
+				Hotspot.prototype.init = function() {
+					//异步传值显示所以点
+					$.ajax(url + 'action_ins/Hotspot.php', {
+						data: {
+							x: '',
+							y: '',
+							content: '',
+							sjc: '',
+							flag: '2', 
+							id: ''
+						},
+						dataType: 'json',
+						type: 'POST',
+						timeout: 10000,
+						success: function(data) {
+	//						alert(data)  
+							var length = data.length;
+							if(length > 1) {
+								for(var i = 0; i < length - 1; i++) {
+									var id = data[i].id;
+									var x = data[i].X坐标;
+									var y = data[i].Y坐标;
+									var content = data[i].批注;
+									found(id, x, y, content)
+								}
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//alert('ajax错误'+type+'---'+errorThrown);
+						}
+					});
+					
+//					this.getData();
+
+					if(this.config.mode != 'admin') {
+						return; 
+					};
+					var widget = this;
+					var data = [];
+
+					// Adding controls
+					$('<button/>', {
+						text: "保存"
+					}).prop('id', this.config.done_btnId).addClass(this.config.done_btnClass).appendTo(this.imageParent);
+
+					$('<button/>', {
+						text: "清除"
+					}).prop('id', this.config.remove_btnId).addClass(this.config.remove_btnClass).appendTo(this.imageParent);
+
+					$(this.imageParent).delegate('button#' + this.config.done_btnId, 'click', function(event) {
+						//alert("0")
+						event.preventDefault();
+						widget.storeData(data);
+						data = [];
+						location.reload()
+					});
+
+					$(this.imageParent).delegate('button#' + this.config.remove_btnId, 'click', function(event) {
+						//alert("1")
+						event.preventDefault();
+						widget.removeData();
+					});
+
+					this.element.delegate('img', 'dblclick', function(event) { //点击标点
+						event.preventDefault();
+
+						var JPos = {};
+						var _x = "";
+						var _y = "";
+						var _sjc = "";
+						(function($) {
+
+							$.$getAbsPos = function(p) {};
+
+							$.$getMousePos = function(evt) {
+								//					var _x, _y;
+								evt = evt || window.event;
+								if(evt.pageX || evt.pageY) {
+
+									_x = evt.pageX - 10;
+									_y = evt.pageY - 50;
+									_sjc = Date.parse(new Date());
+									//						alert(_x)
+									//						alert(_y)
+								} else if(evt.clientX || evt.clientY) {
+									_x = evt.clientX + document.body.scrollLeft - document.body.clientLeft;
+									_y = evt.clientY + document.body.scrollTop - document.body.clientTop;
+								} else {
+									return $.$getAbsPos(evt.target);
+								}
+								return {
+									x: _x,
+									y: _y,
+									sjc: _sjc
+								};
+							}
+						})(JPos);
+
+						var mPos = JPos.$getMousePos();				
+
+						var dataStuff = widget.config.dataStuff;
+
+						var dataBuild = {
+							x: _x,
+							y: _y,
+							sjc: _sjc
+						};
+
+						for(var i = 0; i < dataStuff.length; i++) {
+							var val = dataStuff[i];
+							var fill = prompt('请输入 ', val.default);
+							console.log(fill)
+							if(fill === null) {
+								return;
+							};
+							dataBuild[val.property] = fill;
+						};
+						data.push(dataBuild);
+						var sjc = Date.parse(new Date());
+						//异步传值
+						$.ajax(url + 'action_ins/Hotspot.php', {
+							data: {
+								x: _x,
+								y: _y,
+								content: fill,
+								sjc: sjc,
+								flag: '1',
+								id: ''
+							},
+							dataType: 'json',
+							type: 'POST',
+							timeout: 10000,
+							success: function(data) {
+
+							},
+							error: function(xhr, type, errorThrown) {
+								//alert('ajax错误'+type+'---'+errorThrown);
+							}
+						});
+
+						if(widget.config.interactivity === 'none') {
+							var htmlBuilt = $('<div/>');
+						} else {
+							var htmlBuilt = $('<div/>').addClass(widget.config.hiddenClass);
+						}
+
+						$.each(dataBuild, function(index, val) {
+							console.log(dataBuild.x + " " + dataBuild.y + " " + dataBuild.sjc)
+							if(typeof val === "string") {
+								$('<div/>', {
+									html: val
+								}).addClass('Hotspot_' + index).appendTo(htmlBuilt);
+							};
+						});
+
+						var div = $('<div/>', {
+							html: htmlBuilt
+						}).	css({
+							'top': _y + 'px',
+							'left': _x + 'px'
+						}).addClass(widget.config.hotspotClass + ' ' + widget.config.hotspotAuxClass).appendTo(widget.element);
+						plus.nativeUI.toast("请保存！")
+						
+						if(widget.config.interactivity === 'click') {
+							div.on(widget.config.interactivity, function(event) {
+								$(this).children('div').toggleClass(widget.config.hiddenClass);
+							});
+							htmlBuilt.css('display', 'block');
+						} else {
+							htmlBuilt.removeClass(widget.config.hiddenClass);
+						}
+
+						if(widget.config.interactivity === 'none') {
+							htmlBuilt.css('display', 'block');
+						};
+
+					});
+
+					// TODO - Update and Delete individual nodes
+				}
+				var name = localStorage["HotspotPlugin-a"]
+				//					alert(name)
+
+				Hotspot.prototype.getData = function() {
+					var widget = this;
+
+					if(localStorage.getItem(this.config.LS_Variable) === null && this.config.data.length == 0) {
+
+						if(this.config.ajax) {
+							// Making AJAX call to fetch Data
+							var dataObject = {
+								data: {
+									HotspotPlugin_mode: "Retrieve"
+								}
+							};
+							var ajaxSettings = $.extend({}, this.config.ajaxOptions, dataObject);
+							$.ajax(ajaxSettings)
+								.done(function(data) {
+
+									localStorage.setItem(widget.config.LS_Variable, data);
+									var obj = JSON.parse(data);
+									widget.beautifyData();
+								})
+								.fail(function() {
+									return;
+								});
+						} else {
+							return;
+						}
+
+					}
+
+					if(this.config.mode == 'admin' && localStorage.getItem(this.config.LS_Variable) === null) {
+						return;
+					}
+
+					this.beautifyData();
+				}
+
+				Hotspot.prototype.beautifyData = function() {
+					var widget = this;
+
+					if(this.config.mode != 'admin' && this.config.data.length != 0) {
+						var obj = this.config.data;
+					} else {
+						var raw = localStorage.getItem(this.config.LS_Variable);
+						var obj = JSON.parse(raw);
+					}
+
+					for(var i = obj.length - 1; i >= 0; i--) {
+						var el = obj[i];
+
+						if(this.config.interactivity === 'none') {
+							var htmlBuilt = $('<div/>');
+						} else {
+							var htmlBuilt = $('<div/>').addClass(this.config.hiddenClass);
+						}
+
+						$.each(el, function(index, val) {
+							if(typeof val === "string") {
+								$('<div/>', {
+									html: val
+								}).addClass('Hotspot_' + index).appendTo(htmlBuilt);
+							};
+						});
+
+						var div = $('<div/>', {
+							html: htmlBuilt
+						}).prop('id', 'point').css({
+							'top': el.y + 'px',
+							'left': el.x + 'px'
+						}).addClass(this.config.hotspotClass).appendTo(this.element);
+
+						if(widget.config.interactivity === 'click') {
+							alert("4")
+							div.on(widget.config.interactivity, function(event) {
+								$(this).children('div').toggleClass(widget.config.hiddenClass);
+							});
+							htmlBuilt.css('display', 'block');
+						} else {
+							htmlBuilt.removeClass(this.config.hiddenClass);
+						}
+
+						if(this.config.interactivity === 'none') {
+							htmlBuilt.css('display', 'block');
+						}
+					};
+				};
+
+				Hotspot.prototype.storeData = function(data) { //保存函数
+
+					if(data.length == 0) {
+						return;
+					};
+
+					var raw = localStorage.getItem(this.config.LS_Variable);
+					obj = [];
+
+					if(raw) {
+						var obj = JSON.parse(raw);
+					};
+
+					$.each(data, function(index) {
+						var node = data[index];
+
+						obj.push(node);
+					});
+
+					localStorage.setItem(this.config.LS_Variable, JSON.stringify(obj));
+
+					this.broadcast = '保存成功！';
+					this.element.trigger('afterSave.hotspot');
+				};
+
+				Hotspot.prototype.removeData = function() { //删除函数
+					if(localStorage.getItem(this.config.LS_Variable) === null) {
+						return;
+					};
+					if(!confirm("是否确认删除")) {
+						return;
+					};
+					localStorage.removeItem(this.config.LS_Variable);
+					this.broadcast = '删除成功！';
+					this.element.trigger('afterRemove.hotspot');
+				};
+
+				$.fn.hotspot = function(options) {
+					new Hotspot(this, options);
+					return this;
+				}
+
+			}(jQuery));
+			$("#theElement-a").hotspot({
+				mode: "admin",
+				// uncomment
+				/*ajax: true,
+				ajaxOptions: {
+					'url': 'links.to.server'
+				},*/
+				LS_Variable: "HotspotPlugin-a",
+				done_btnId: 'done-a',
+				remove_btnId: 'remove-a',
+				server_btnId: 'server-a',
+
+				done_btnClass: 'btn btn-success controls',
+				remove_btnClass: 'btn btn-danger controls',
+				sync_btnClass: 'btn btn-info controls',
+
+				afterSave: function(message) {
+					alert(message);
+				},
+				afterRemove: function(message) {
+					alert(message);
+					window.location.reload();
+				},
+				afterSyncToServer: function(message) {
+					alert(message);
+				}
+			});
+
+			$("#theElement-b").hotspot({});
+
+			var save_xy = document.getElementById("save_xy");
+		</script>
+	</body>
+
+</html>

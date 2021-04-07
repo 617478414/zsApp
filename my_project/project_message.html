@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta charset="utf-8">
+		<title>同欣易送检</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../css/myplus.css" />
+        <link rel="stylesheet" href="../css/my_css.css">	
+		<style>
+			html,body {
+				background-color: #efeff4;
+			}
+			.title{
+				margin: 20px 15px 10px;
+				color: #6d6d72;
+				font-size: 15px;
+			}
+			.my_color_red{
+				color: red;
+			}
+			
+		</style>
+	</head>
+	<body>
+		 <header class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left " href="../homepage.html"></a>
+            <h1 class="mui-title">消息列表<span id="TypeName"></span></h1>
+        </header>
+        
+        <div class="mui-content">
+            <div class="mui-scroll-wrapper" style="top: 55px;">
+                <!--<div style="padding-bottom: 10px;">
+                    <div class="mui-segmented-control">
+                        <div class="mui-slider">
+                            <div class="mui-slider-group mui-slider-loop">
+                                <div class="mui-slider-item">
+                                    <a class="mui-control-item" href="#">
+                                        
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                    </div> 
+                </div>-->
+                <div class="mui-control-content-body"></div>
+            </div>
+        </div>
+	</body>
+	<script src="../js/mui.min.js"></script>
+        <script src="../js/jquery-1.11.0.min.js"></script>
+        <script src="../js/service.js"></script>         
+        <script src="../js/self/creat_card.js"></script>
+        <script type="text/javascript">
+            mui('.mui-scroll-wrapper').scroll({
+                deceleration: 0.0005, //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+            });
+            mui.init({
+		        beforeback: function() {
+		            var list = plus.webview.currentWebview().opener();
+		            mui.fire(list, 'project_type');            
+		            return true;
+		        }
+		    }); 
+			window.addEventListener('refresh', function(event) { //从B页面返回时触发
+				// var set = event.detail.isSet;  //获取B页面传过来的值
+				//或刷新页面
+				alert(33)
+				location.reload();
+			});
+
+            mui.plusReady(function(){
+                //get pro Mes
+                var projectId = localStorage.getItem('projectId');
+				console.log(projectId)
+                var TypeId = plus.storage.getItem("TypeId")
+                localStorage.setItem('PageSta','0');
+                $.ajax({
+                    type:"post",
+                    url:url+'action_ins/Message_List.php',
+                    async:true,
+                    dataType:'json',
+                    data:{
+                        falg:'listMesType_detail',
+                        TypeId:TypeId,
+                        projectId:projectId,
+                    },
+                    success:function(data){
+                     console.log(data)
+                        if(data['status'] == 'success'){
+                            if(data['row'] == 0)
+                            {
+                                alert('无相关数据')
+                            }
+                            for (var i=0;i<data['row'];i++) {
+                            	var CId = data['data'][i]['id'];
+                            	var CType = 0;
+                            	var CUrl = '#';
+//                          	var CUrl = 'detail/form_list.html';
+                            	var CName = data['data'][i]['TabNam'];
+                            	var CSUTm = data['data'][i]['TabCTm'];
+                            	var CSSta = '待签';
+                            	var CSDLine = data['data'][i]['TabDTm'];
+                            	var CSdA = data['data'][i]['IntIdA'];
+                            	var CirSmp = data['data'][i]['CirSmp'];
+                            	var TabMNa = data['data'][i]['TabMNa'];
+                            	ListShow(CId,CType,CUrl,CName,CSUTm,CSSta,CSDLine,TabMNa,CSdA,CirSmp);
+                            }
+                            $('.mui-card').on('tap',function(){
+                                localStorage.setItem('CId',$(this).find('.CId').text());
+                                localStorage.setItem('CSdA',$(this).find('.CSdA').text());
+                                localStorage.setItem('CirSmp',$(this).find('.CirSmp').text());
+                                localStorage.setItem('PageSta','0');
+                                mui.openWindow({
+                                    url:'detail/form_signIn.html',
+                                    id:'detail/form_signIn',
+                                })
+                            })
+                        }
+                        else
+                        {
+                            alert('无相关数据，或表单已经逾期')
+                        }
+                    },
+                    error:function(s,e,t){
+                        alert('出现错误，错误类型：'+e);
+                    }
+                });
+                //返回父页面刷新
+                var old_back = mui.back;   
+                mui.back = function() {
+                    var target = plus.webview.currentWebview().opener();
+                    target.reload(true);
+                    old_back()
+                }
+           })
+        </script>
+	
+</html>

@@ -1,19 +1,21 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
 		<meta charset="utf-8">
 		<title></title>
 		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
 		<meta name="apple-mobile-web-app-capable" content="yes">
-		<meta name="apple-mobile-web-app-status-bar-style" content="black">		
-		<link href="../css/mui.min.css" rel="stylesheet"/>    
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link href="../css/mui.min.css" rel="stylesheet" />
 		<link rel="stylesheet" href="../css/my_css.css">
 		<link href="../css/mui.picker.css" rel="stylesheet" />
-		<link href="../css/mui.poppicker.css" rel="stylesheet" />		
+		<link href="../css/mui.poppicker.css" rel="stylesheet" />
 	</head>
+
 	<body>
 		<header class="mui-bar mui-bar-nav">
-			<a class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left" ></a>
+			<a class="mui-icon mui-action-back mui-icon-left-nav mui-pull-left"></a>
 			<!--<a id="revise" class="mui-icon mui-icon-bars mui-pull-right"></a>-->
 			<h1 class="mui-title">账户信息</h1>
 		</header>
@@ -27,7 +29,7 @@
 					<div class="mui-input-row">
 						<label>密码：</label>
 						<input id="passWord" type="password" class="" placeholder="密码" readonly="readonly" disabled="disabled">
-					</div>					
+					</div>
 					<div class="mui-input-row">
 						<label>邮箱：</label>
 						<input id="email" type="text" class="" placeholder="邮箱" readonly="readonly" disabled="disabled">
@@ -36,7 +38,7 @@
 						<label>手机：</label>
 						<input id="Telephone" type="text" class="" placeholder="手机" readonly="readonly" disabled="disabled">
 					</div>
-					
+
 					<div class="mui-input-row">
 						<label>单位名称：</label>
 						<input id="Company" type="text" class="" placeholder="单位名称" readonly="readonly" disabled="disabled">
@@ -49,13 +51,41 @@
 					<button id="Edit" type="button" class="mui-btn mui-btn-block mui-btn-primary">修改信息</button>
 					<button id="save" type="button" class="mui-btn mui-btn-block mui-btn-primary my_none">保存信息</button>
 				</div>
-	        </div>
-			
+			</div>
+
 		</div>
 		<script src="../js/mui.min.js"></script>
-		<script src="../js/service.js" ></script>
+		<script src="../js/service.js"></script>
 		<script type="text/javascript">
-			mui.init({});
+			mui.init({
+
+			});
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var uid = self.uid;
+//				console.log(uid)  
+				mui.ajax(url + 'action_ins/Use_Mes.php', {
+					data: {
+						id: uid  
+					},
+					dataType:'json', 
+					type: 'post', 
+					timeout: 10000,
+					success: function(data) {
+//						alert(data)
+						account.value = data[0].UseAcc;
+						passWord.value = data[0].UseKey;
+						email.value = data[0].UseEml;
+						Telephone.value = data[0].UsePho;
+						Company.value = data[0].RolNam;
+					}, 
+					error: function(xhr, type, errorThrown) {
+						//异常处理；
+						alert('更新失败出现异常！');
+					}
+				});
+			});
 		</script>
 	</body>
-</html> 
+
+</html>

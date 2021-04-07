@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>华西巡检系统</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/my_css.css">
+		<style>
+			/*按钮小样式*/
+			
+			.mui-btn-block_my {
+				font-size: 16px;
+				display: block;
+				width: 100%;
+				margin-bottom: 10px;
+				padding: 8px 0;
+			}
+			
+			.button-class {
+				color: #C7C7CC;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 id="pizhu" class="mui-title">键盘输入</h1>
+			<div align="right">
+			</div>
+		</header>
+		<div class="mui-content">
+			<input type="file" id="file" hidden="hidden" accept="image/*" />
+			<input type="text" style="width: 80%;margin: 10px;" placeholder="请输入" id="text" />
+			<button id="ok" type="button" style="width: 45px;height:35px;position: absolute;right: 1px;top: 53px;" class="mui-btn mui-btn-primary mui-btn-block_my">放入</button>
+			<!--底部-->
+			<nav class="mui-bar mui-bar-tab ">
+				<!--<a class="mui-tab-item" id="Popover">键盘输入</a>
+				<a class="mui-tab-item" href="#Popover_0">颜色</a>
+				<a class="mui-tab-item" href="#Popover_1">粗细</a>
+				<a class="mui-tab-item" id="Popover_2">撤销</a>-->
+				<a class="mui-tab-item" id="Popover_3">清屏</a>
+				<a class="mui-tab-item" id="Popover_4" style="background-color: #1E90FF;color: #000000;">确定</a>
+			</nav>
+			<div class="row">
+				<div class="col-xs-12">					
+					<div hidden="hidden" class="js-signature" style="" data-width="500" data-height="500" data-border="1px solid black" data-auto-fit="true">
+						
+					</div>
+				</div>
+			</div>
+			<img id="imgPlace" src="" hidden="hidden" />
+			<div>
+				<canvas id="stage" width="350" height="300" style="border:3px solid #d3d3d3;margin-left:3px;"></canvas>
+				<div class="row" id="svg" hidden="hidden">
+
+				</div>
+			</div>
+		</div>
+
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/service.js"></script>
+		<script src="../../js/mui.picker.js"></script>
+		<script src="../../js/mui.poppicker.js"></script>
+		<script src="../../js/signature/jq-signature.min.js"></script>
+		<script src="../../js/signature/canvas2svg.js"></script>
+
+		<script type="text/javascript">
+			mui.plusReady(function() {
+				plus.nativeUI.toast("输入后请按放入！")
+				//提交签名
+				imageSign = document.getElementById("imgPlace")
+				var stage = document.getElementById("stage");
+				var str = "";
+				ctx = stage.getContext('2d');
+				$('#ok').on('tap', function() {
+					var str = document.getElementById("text").value;
+					ctx.lineWidth=-10; 
+					ctx.font = '32px Arial';
+					var lineWidth = 0;
+					var canvasWidth = stage.width;//计算canvas的宽度
+					var initHeight=40;//绘制字体距离canvas顶部初始的高度
+					var lastSubStrIndex= 0; //每次开始截取的字符串的索引
+					for(let i=0;i<str.length;i++){ 
+						lineWidth+=ctx.measureText(str[i]).width; 
+						if(lineWidth>canvasWidth){
+							ctx.fillText(str.substring(lastSubStrIndex,i),10,initHeight);//绘制截取部分
+							initHeight+=30;//20为字体的高度
+							lineWidth=0;
+							lastSubStrIndex=i;
+						} 
+						if(i==str.length-1){//绘制剩余部分
+							ctx.fillText(str.substring(lastSubStrIndex,i+1),10,initHeight);
+						}
+					}
+					
+					var dataUrl = stage.toDataURL("image/png", 1);
+//					console.log(dataUrl)
+					//返回值
+					//创建svg格式文件，并上传到服务器，创建历史数据
+					document.getElementById("imgPlace").src = dataUrl
+					imageSign = document.getElementById("imgPlace")
+					var text = "ctx.drawImage(imageSign,0,0,500,500)"
+					var drawFunction = new Function("ctx", text);
+
+					var svg = document.getElementById("svg");
+					var otherCanvas = document.getElementById("stage");
+					var wrappedCtx = otherCanvas.getContext("2d");
+					var c2s = new C2S({
+						ctx: wrappedCtx,
+						width: 500,
+						height: 500
+					});
+
+					drawFunction(c2s);
+					svg.innerHTML = '';
+					svg.appendChild(c2s.getSvg());
+//					alert(svg.innerHTML)
+					//保存签名svg
+					$.ajax({
+						url: url + 'action_sign/MesSave_Svg.php',
+						async: true,
+						type: 'post',
+						dataType: 'json',
+						data: {
+							flag: 'SaveSvgFile',
+							svgElement: svg.innerHTML,
+							formId: '55'
+						},
+						success: function(data) {
+							if(data['status'] == 'success') {
+								var signUrl = data['path']
+								//alert(signUrl)
+								//将地址存进本地存储
+								localStorage.setItem('SignUrl', signUrl)
+								var Sign_imgurl = signUrl;
+//								console.log(Sign_imgurl)
+								return;
+							}
+							alert('保存签名时出现错误，请及时联系管理员');
+						},
+						error: function(s, e, t) {
+							alert('出现错误，错误类型：' + e)
+						}
+					})
+				})
+				$('#Popover_4').on('tap', function() {
+					var str = document.getElementById("text").value;
+					if(str !=""){
+						//进入放置签名页面
+						mui.openWindow({
+							url: 'signPlace.html',
+							id: 'signPlace.html',
+							createNew:true,
+						})
+					}else{
+						alert("内容为空!请先输入签名内容")
+					}
+				})
+				$('#Popover_3').on('tap', function() {
+					location.reload()
+				})
+			});
+		</script>
+	</body>
+
+</html>

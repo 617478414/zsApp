@@ -1,25 +1,34 @@
-var phone_width = $(window).width() * 0.95; //canvas的宽度
-var set_height = phone_width * (297 / 420); //canvas的高度
-var small_width = phone_width * 0.2; //smalldiv的宽度
-var small_height = set_height * 0.2; //samlldiv的高度
-var small_div = document.getElementById("smalldiv");
-small_div.style.width = small_width + "px";
-small_div.style.height = small_height + "px";
-var myCanvas = document.getElementById("myCanvas");
-myCanvas.style.width = phone_width + "px";
-myCanvas.style.height = set_height + "px";
-myCanvas.style.marginLeft = "50%";
-myCanvas.style.left = "-" + phone_width / 2 + "px";
-var my_Canvas = document.getElementById("my_Canvas");
-my_Canvas.style.width = phone_width + "px";
-my_Canvas.style.height = set_height + "px";
-var ctx = myCanvas.getContext("2d");
-var ctx_biger = my_Canvas.getContext("2d");
+var phone_width = $(window).width()*0.95;//canvas的宽度
+var plus_1 = window.devicePixelRatio;//获取设备像素比
 var img = document.getElementById("pic");
+var img_w = 2558;//1.4150
+var img_h = 1774;
+var set_height = phone_width*(img_h/img_w);
+//console.log(phone_width,set_height);
+var small_width = phone_width*0.2;//smalldiv的宽度
+var small_height = set_height*0.2;//samlldiv的高度
+var small_div = document.getElementById("smalldiv");
+small_div.style.width = small_width+"px";
+small_div.style.height = small_height+"px";
+var myCanvas = document.getElementById("myCanvas");
+myCanvas.style.width = phone_width*0.55+"px";
+myCanvas.style.height = set_height+"px";
+myCanvas.width=phone_width*0.49*plus_1;
+myCanvas.height=set_height*plus_1; 
+myCanvas.style.marginLeft = "50%";
+myCanvas.style.left = "-"+phone_width/2+"px";
+var my_Canvas = document.getElementById("my_Canvas");
+my_Canvas.style.width = phone_width+"px";
+my_Canvas.style.height = set_height*1.5+"px";
+my_Canvas.width=phone_width*plus_1;
+my_Canvas.height=set_height*1.5*plus_1;
+my_Canvas.style.marginLeft = "50%";
+my_Canvas.style.left = "-"+phone_width/2+"px";
+var ctx=myCanvas.getContext("2d");
+var ctx_biger=my_Canvas.getContext("2d");
+
 var img_biger = document.getElementById("pic_biger");
 var smalldiv = $("#smalldiv");
-var img_w = img.naturalWidth;
-var img_h = img.naturalHeight;
 
 var box_X = ""; //阴影横坐标
 var box_Y = ""; //阴影纵坐标
@@ -128,14 +137,14 @@ mui.plusReady(function() {
 
 			}
 			smalldiv.css("top", divY).css("left", divX);
-			var X = (divX - mar_left) * (img_w / phone_width);
-			var Y = (divY - mar_top) * (img_w / phone_width);
-			var M = small_width * (img_w / phone_width);
-			var N = small_height * (img_w / phone_width);
+			var X = (divX - mar_left) * (img_w * 0.5 / phone_width);
+			var Y = (divY - mar_top) * (img_w * 0.5 / phone_width);
+			var M = small_width * (img_w * 0.5 / phone_width);
+			var N = small_height * (img_w * 0.5 / phone_width);
 			if(biao == "move") {
-				ctx_biger.drawImage(img, X, Y, M, N, 0, 0, 300, 150);
+				ctx_biger.drawImage(img_biger, X * 2, Y * 2, M * 2, N * 2, 0, 0, 1968.7878, 1424.0265);//1.38255
 			}
-			var zb = document.getElementById("zb");
+//			var zb = document.getElementById("zb");
 
 			box_X = divX - mar_left;
 			box_Y = divY - mar_top;
@@ -177,7 +186,7 @@ mui.plusReady(function() {
 				} else {
 					
 				}
-				console.log(dian_style.top + "||" + mar_top);
+//				console.log(dian_style.top + "||" + mar_top);
 				zb.innerHTML = "坐标：" + (dian_top + "^" + ca_mar_T) + "||" + (y + "^" + mar_top);
 			}
 		};
@@ -296,60 +305,13 @@ mui.plusReady(function() {
 			point.style.marginLeft = (point_x + mar_left - port_obj.left - mainWidth / 2) + "px";
 			point.style.marginTop = (point_y + mar_top - port_obj.top - mainWidth / 2) + "px";
 
-			por = [point_x / phone_width, point_y / set_height, box_X, box_Y, num]; //X坐标
-			por_obj[point_id] = por; //将点及对应的坐标存入对象
+			por = [point_x / phone_width, point_y / set_height, box_X*2, box_Y*2, num]; //X坐标
+			por_obj[point_id] = por; //将点及对应的坐标存入对象 
+  
+		}; 
+	});   
 
-		};
-	});
-	//var put = function(e) { //布点点击
-	//	var por = new Array(); //存点坐标
-	//	if(state == "dian") {
-	//		biao = "stay";
-	//		smalldiv.hide();
-	//		var point_id = e.id;
-	//		var point = document.getElementById(point_id);
-	//		var num = point.innerHTML;
-	//		var port = document.getElementById("port");
-	//		var mainWidth = port.offsetWidth;
-	//		var port_obj = port.getBoundingClientRect(); //用于获取点相对于视窗的位置集合
-	//		if(e.title == "x") { //判断是否为待点区的点
-	//			Name[j] = point_id;
-	//			flage = 0;
-	//			var classname = e.getAttribute('class');
-	//			classVal = classname.replace("bar", "Bar");
-	//			e.setAttribute("class", classVal);
-	//			if(e.style.display == "block" && flage == 0) {
-	//				e.style.display = "none";
-	//				e.title = "y";
-	//			}
-	//			j++;
-	//		}
-	//
-	//	} else if(state == "kan") {
-	//		alert("l");
-	//	}
-	//
-	//	my_Canvas.ontouchstart = function(e) { //布点
-	//		flage = 1;
-	//		var loc = windowTocanvas(my_Canvas, e.touches[0].pageX, e.touches[0].pageY);
-	//		point_x = parseInt(loc.x);
-	//		point_y = parseInt(loc.y);
-	//		var mar_top = parseInt(loc.mar_t);
-	//		var mar_left = parseInt(loc.mar_l);
-	//		var zb = document.getElementById("zb");
-	//		zb.innerHTML = "坐标：" + (point_x) + "||" + (point_y);
-	//
-	//		point.style.display = "block";
-	//		point.style.marginLeft = (point_x + mar_left - port_obj.left - mainWidth / 2) + "px";
-	//		point.style.marginTop = (point_y + mar_top - port_obj.top - mainWidth / 2) + "px";
-	//
-	//		por = [point_x / phone_width, point_y / set_height, box_X, box_Y, num]; //X坐标
-	//		por_obj[point_id] = por; //将点及对应的坐标存入对象
-	//		alert(por_obj[0])
-	//	};
-	//}
-
-	save_point.onclick = function() {
+	save_point.onclick = function() { 
 		var bts = ["确认", "取消"];
 		var messageStr = "输入批注内容";
 		var defaultStr = ""; //风险等级

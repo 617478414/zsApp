@@ -1,112 +1,130 @@
 <!DOCTYPE html>
 <html>
+
 	<head>
-	    <meta charset="UTF-8">
+		<meta charset="UTF-8">
 		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
 		<title>表单签批-统计</title>
 		<link rel="stylesheet" href="../css/mui.min.css">
 		<link rel="stylesheet" type="text/css" href="../css/mui.picker.min.css" />
-        <style>
-            html,
-            body,
-            .mui-content {
-                height: 0px;
-                margin: 0px;
-                background-color: #efeff4;
-            }
-            h5.mui-content-padded {
-                margin-left: 3px;
-                margin-top: 20px !important;
-            }
-            h5.mui-content-padded:first-child {
-                margin-top: 12px !important;
-            }
-            .mui-btn {
-                font-size: 16px;
-                padding: 8px;
-                margin: 3px;
-            }
-            .ui-alert {
-                text-align: center;
-                padding: 20px 10px;
-                font-size: 16px;
-            }
-            * {
-                -webkit-touch-callout: none;
-                -webkit-user-select: none;
-            }
-            .chart {
-                height: 200px;
-                margin: 0px;
-                padding: 0px;
-            }
-            h5 {
-                margin-top: 30px;
-                font-weight: bold;
-            }
-            h5:first-child {
-                margin-top: 15px;
-            }
-        </style>
-	</head>
-	<body>
-	    <header class="mui-bar mui-bar-nav">
-            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left "></a>
-            <h1 class="mui-title">同欣科技大厦A区项目-表单统计</h1>
-        </header>
-        <div class="mui-content">
-
+		<style>
+			html,
+			body,
+			.mui-content {
+				height: 0px;
+				margin: 0px;
+				background-color: #efeff4;
+			}
 			
+			h5.mui-content-padded {
+				margin-left: 3px;
+				margin-top: 20px !important;
+			}
+			
+			h5.mui-content-padded:first-child {
+				margin-top: 12px !important;
+			}
+			
+			.mui-btn {
+				font-size: 16px;
+				padding: 8px;
+				margin: 3px;
+			}
+			
+			.ui-alert {
+				text-align: center;
+				padding: 20px 10px;
+				font-size: 16px;
+			}
+			
+			* {
+				-webkit-touch-callout: none;
+				-webkit-user-select: none;
+			}
+			
+			.chart {
+				height: 200px;
+				margin: 0px;
+				padding: 0px;
+			}
+			
+			h5 {
+				margin-top: 30px;
+				font-weight: bold;
+			}
+			
+			h5:first-child {
+				margin-top: 15px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left "></a>
+			<h1 class="mui-title">同欣科技大厦A区项目-表单统计</h1>
+		</header>
+		<div class="mui-content">
+
 			<!-- 时间选择器 -->
 			<div class="my_margin" style="padding-top: 10px;">
-				<form class="mui-input-group">					
+				<form class="mui-input-group">
 					<div class="mui-input-row">
 						<label>起始日期：</label>
-						<input id='starttime' type="text" placeholder="起始日期" readonly="readonly">						
-					</div>	
+						<input id='starttime' type="text" placeholder="起始日期" readonly="readonly">
+					</div>
 					<div class="mui-input-row">
 						<label>结束日期：</label>
-						<input id='endtime' type="text" placeholder="结束日期" readonly="readonly">						
+						<input id='endtime' type="text" placeholder="结束日期" readonly="readonly">
 					</div>
-				</form>				
-	        </div>
-	        <!-- 时间选择器 -->
-	        
-	        <!-- 按钮事件 -->
-	        <div class="mui-button-row">
+				</form>
+			</div>
+			<!-- 时间选择器 -->
+
+			<!-- 按钮事件 -->
+			<div class="mui-button-row">
 				<button id="statistics" type="button" class="mui-btn mui-btn-primary" disabled="disabled">统计</button>
 			</div>
-	        <!-- 按钮事件 -->
-	        
-	        <!-- 按钮事件响应标题 -->
-	        <div style="padding: 4px 10px;">
+			<!-- 按钮事件 -->
+
+			<!-- 按钮事件响应标题 -->
+			<div style="padding: 4px 10px;">
 				<div style="padding: 10px 10px;">
 					<div id="segmentedControl" class="mui-segmented-control">
 						<a id="hzjg" class="mui-control-item mui-active" href="">
 							统计结果
-						</a>					
+						</a>
 					</div>
 				</div>
 			</div>
 			<!-- 按钮事件响应标题 -->
-			
+
 			<!-- 饼图呈现 -->
 			<div class="mui-content-padded">
 				<div class="chart" id="pieChart">&nbsp;&nbsp;&nbsp;&nbsp;无汇总结果！</div>
 			</div>
 			<!-- 饼图呈现 -->
-			
-		</div>		
+			<div style="margin-top: 5px;">
+				<div id="zt" class="my_div_wenzijuzhong">
+					<!--<p class="my_duangluo_hangju">已有&nbsp;<b class="my_xiahuaxian">23</b>&nbsp;份草稿通知单</p>
+					<p class="my_duangluo_hangju">已有&nbsp;<b class="my_xiahuaxian">23</b>&nbsp;份整改中通知单</p>
+					<p class="my_duangluo_hangju">已有&nbsp;<b class="my_xiahuaxian">23</b>&nbsp;份延期通知单</p>
+					<p class="my_duangluo_hangju">已有&nbsp;<b class="my_xiahuaxian">23</b>&nbsp;份逾期通知单</p>
+					<p class="my_duangluo_hangju">已有&nbsp;<b class="my_xiahuaxian">23</b>&nbsp;份未完成通知单</p>
+					<p class="my_duangluo_hangju">已有&nbsp;<b class="my_xiahuaxian">23</b>&nbsp;份已完成通知单</p>-->
+				</div>
+			</div>
+		</div>
 		<script src="../js/mui.min.js"></script>
-		<script src="../js/service.js" ></script>
-<!--		<script src="../js/mui.picker.min.js"></script>日期选择-->
+		<script src="../js/service.js"></script>
+		<!--		<script src="../js/mui.picker.min.js"></script>日期选择-->
 		<!--<script src="../libs/echarts-all.js"></script><!--饼状图-->
 		<!--<script src="../js/echarts.js"></script>-->
 		<script src="../js/chart.js"></script>
 		<script type="text/javascript">
 			mui.init({
-				swipeBack:true //启用右滑关闭功能
-			});		
+				swipeBack: true //启用右滑关闭功能
+			});
 			//区域滚动,需手动初始化scroll控件
 			mui('.mui-scroll-wrapper').scroll({
 				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
@@ -114,38 +132,38 @@
 			(function($) {
 				$('#scroll').scroll({
 					indicators: true //是否显示滚动条
-				});					
-			})(mui);		
-            
-			mui.plusReady(function(){
+				});
+			})(mui);
+
+			mui.plusReady(function() {
 				//获取项目id、Name值
 				var self = plus.webview.currentWebview();
-//				document.getElementById('xmmc').innerText=self.gcmc;
-				projectId=self.projectId;
-				
-				var starttime=document.getElementById('starttime');
-				var endtime=document.getElementById('endtime');
-				
+				//				document.getElementById('xmmc').innerText=self.gcmc;
+				projectId = self.projectId;
+
+				var starttime = document.getElementById('starttime');
+				var endtime = document.getElementById('endtime');
+
 				starttime.addEventListener('tap', function() {
 					var dDate = new Date();
 					plus.nativeUI.pickDate(function(e) {
 						var d = e.date;
-						starttime.value=d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-						if (starttime.value&&endtime.value) {
-							var gksrq=starttime.value;
-							var gendtime=endtime.value;
+						starttime.value = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+						if(starttime.value && endtime.value) {
+							var gksrq = starttime.value;
+							var gendtime = endtime.value;
 							var xgksrq = new Date(Date.parse(gksrq.replace(/-/g, "/")));
 							var xgksrq = xgksrq.getTime();
 							var xgendtime = new Date(Date.parse(gendtime.replace(/-/g, "/")));
 							var xgendtime = xgendtime.getTime();
-							if (xgendtime>=xgksrq) {
-								statistics.disabled=false;
-							}else{
+							if(xgendtime >= xgksrq) {
+								statistics.disabled = false;
+							} else {
 								alert('起始日期不能大于结束日期！');
-								statistics.disabled=true;
+								statistics.disabled = true;
 							}
 						}
-						
+
 					}, function(e) {
 						//alert(e);
 					}, {
@@ -156,22 +174,22 @@
 					var dDate = new Date();
 					plus.nativeUI.pickDate(function(e) {
 						var d = e.date;
-						endtime.value=d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
-						if (starttime.value&&endtime.value) {
-							var gksrq=starttime.value;
-							var gendtime=endtime.value;
+						endtime.value = d.getFullYear() + "-" + (d.getMonth() + 1) + "-" + d.getDate();
+						if(starttime.value && endtime.value) {
+							var gksrq = starttime.value;
+							var gendtime = endtime.value;
 							var xgksrq = new Date(Date.parse(gksrq.replace(/-/g, "/")));
 							var xgksrq = xgksrq.getTime();
 							var xgendtime = new Date(Date.parse(gendtime.replace(/-/g, "/")));
 							var xgendtime = xgendtime.getTime();
-							if (xgendtime>=xgksrq) {
-								statistics.disabled=false;
-							}else{
+							if(xgendtime >= xgksrq) {
+								statistics.disabled = false;
+							} else {
 								alert('起始日期不能大于结束日期！');
-								statistics.disabled=true;
+								statistics.disabled = true;
 							}
 						}
-						
+
 					}, function(e) {
 						//alert(e);
 					}, {
@@ -179,55 +197,61 @@
 					});
 				});
 
-				
 			});
-			
+
 			//异步获取数字
 			var starttime = document.getElementById("starttime");
 			var endtime = document.getElementById("endtime");
 			var statistics = document.getElementById("statistics");
-			
+			var starttimevalue = "";
+			var endtimevalue = "";
 			//统计事件				
 			statistics.addEventListener('tap', function() {
-				var starttimevalue=starttime.value;
-				var endtimevalue=endtime.value;
+				var starttimevalue = starttime.value;
+				var endtimevalue = endtime.value;
 				//异步获取数据
-				mui.ajax(url+'action_ins/my_project_zhcx.php',{
-					data:{
-						starttimevalue:starttimevalue, //起始日期
-						endtimevalue:endtimevalue, //截止日期
-						projectId:projectId//项目id
-//						gcmc:xmmcValue //工程名称
+				mui.ajax(url + 'action_ins/my_project_zhcx.php', {
+					data: {
+						starttimevalue: starttimevalue, //起始日期
+						endtimevalue: endtimevalue, //截止日期
+						projectId: projectId //项目id
+						//gcmc:xmmcValue //工程名称
 					},
-					dataType:'json',
-					type:'post',
-					timeout:10000,
-					success:function(data){							
+					dataType: 'json',
+					type: 'post',
+					timeout: 10000,
+					success: function(data) {
 						//alert(data);							
-						var length=data.length;
-						if (length>0) {
-							var sign=data[length-1].countsign;
-							var overdue=data[length-1].countoverdue;
-							var reject=data[length-1].countreject;
-							var countImputation=data[length-1].countImputation;
-							
-							if(sign=="0"&&overdue=="0"&&reject=="0"&&countImputation=="0"){
+						var length = data.length;
+						if(length > 0) {
+							var sign = data[length - 1].countsign;
+							var overdue = data[length - 1].countoverdue;
+							var reject = data[length - 1].countreject;
+							var countImputation = data[length - 1].countImputation;
+							creatNumber(sign, overdue, reject, countImputation);
+							if(sign == "0" && overdue == "0" && reject == "0" && countImputation == "0") {
 								alert("无汇总结果！");
-								var pieChart=document.getElementById("pieChart");
-								pieChart.innerHTML='&nbsp;&nbsp;&nbsp;&nbsp;无汇总结果！';
-							}else{
-								hzbt(sign,overdue,reject,countImputation);
+								var pieChart = document.getElementById("pieChart");
+								pieChart.innerHTML = '&nbsp;&nbsp;&nbsp;&nbsp;无汇总结果！';
+							} else {
+								hzbt(sign, overdue, reject, countImputation);
 							}
-							
-						}							
+
+						}
 					},
-					error:function(xhr,type,errorThrown){
-						alert('ajax错误'+type);
+					error: function(xhr, type, errorThrown) {
+						alert('ajax错误' + type);
 					}
 				});
+
+				var creatNumber = function(cg, zgz, yanqi, yuqi) {
+					var zt = document.getElementById("zt");
+					zt.innerHTML = '<p class="my_duangluo_hangju">已有&nbsp;<b class="my_xiahuaxian"><a href="../my_project/count/my_count_ck.html?endtimevalue=' + endtimevalue + '&starttimevalue=' + starttimevalue + '&CSSta=1">' + cg + '</a></b>&nbsp;份待审批表单</p><p class="my_duangluo_hangju">已有&nbsp;<b class="my_xiahuaxian"><a href="../my_project/count/my_count_ck.html?endtimevalue=' + endtimevalue + '&starttimevalue=' + starttimevalue + '&CSSta=3">' + zgz + '</a></b>&nbsp;份延期表单</p><p class="my_duangluo_hangju">已有&nbsp;<b class="my_xiahuaxian"><a href="../my_project/count/my_count_ck.html?endtimevalue=' + endtimevalue + '&starttimevalue=' + starttimevalue + '&CSSta=2">' + yanqi + '</a></b>&nbsp;份驳回表单</p><p class="my_duangluo_hangju">已有&nbsp;<b class="my_xiahuaxian"><a href="../my_project/count/my_count_ck.html?endtimevalue=' + endtimevalue + '&starttimevalue=' + starttimevalue + '&CSSta=4">' + yuqi + '</a></b>&nbsp;份归集表单</p>'
+				};
+
 			});
-			
-			var hzbt=function(sign,overdue,reject,countImputation){
+
+			var hzbt = function(sign, overdue, reject, countImputation) {
 				//饼图
 				var getOption = function(chartType) {
 					var chartOption = chartType == 'pie' ? {
@@ -237,32 +261,31 @@
 							type: 'pie',
 							radius: '50%',
 							center: ['50%', '50%'],
-							data:[{
+							data: [{
 								value: sign,
-								name: '待审批 '+sign+' 份'
-							}, { 
+								name: '待审批 ' + sign + ' 份'
+							}, {
 								value: overdue,
-								name: '延期 '+overdue+' 份'
+								name: '延期 ' + overdue + ' 份'
 							}, {
 								value: reject,
-								name: '驳回 '+reject+' 份'
+								name: '驳回 ' + reject + ' 份'
 							}, {
 								value: countImputation,
-								name: '归集'+countImputation +' 份'
+								name: '归集' + countImputation + ' 份'
 							}]
 						}]
-					} : {
-					}
-					return chartOption; 
+					} : {}
+					return chartOption;
 				};
-				
+
 				var byId = function(id) {
 					return document.getElementById(id);
 				};
 				var pieChart = echarts.init(byId('pieChart'));
 				pieChart.setOption(getOption('pie'));
 			};
-			
-        </script>
+		</script>
 	</body>
+
 </html>

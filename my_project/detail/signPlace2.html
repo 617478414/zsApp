@@ -1,0 +1,423 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>签名-位置确认</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<!--self-->
+		<link href="../../css/PageSignIn.css" rel="stylesheet" />
+		<style>
+			.image-control {
+				margin-top: 55px;
+			}
+			
+			.image-view {
+				margin-left: 4px;
+			}
+			
+			.field-contain label {
+				width: auto;
+				padding-right: 0;
+			}
+			
+			.field-contain input[type='text'] {
+				width: 40px;
+				height: 30px;
+				padding: 5px 0;
+				float: none;
+				text-align: center;
+			}
+			
+			#Save-btn {
+				margin-top: 12px;
+			}
+			
+			.mui-plus .plus {
+				display: inline;
+			}
+			
+			.plus {
+				display: none;
+			}
+			
+			#topPopover {
+				position: fixed;
+				top: 16px;
+				right: 6px;
+			}
+			
+			#topPopover .mui-popover-arrow {
+				left: auto;
+				right: 6px;
+			}
+			
+			p {
+				text-indent: 22px;
+			}
+			
+			span.mui-icon {
+				font-size: 14px;
+				color: #007aff;
+				margin-left: -15px;
+				padding-right: 10px;
+			}
+			
+			.mui-popover {
+				height: 250px;
+			}
+			
+			.mui-content {
+				padding: 10px;
+			}
+		</style>
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<a class="mui-icon mui-icon-bars mui-pull-right" href="#topPopover"></a>
+			<h1 id="title" class="mui-title">快捷签名--签名确认</h1>
+		</header>
+		<div class="mui-content">
+			<div class="mui-scroll-wrapper">
+				<div class="image-control mui-input-row mui-input-range field-contain">
+					<div class="mui-input-row mui-input-range field-contain">
+						<div style="float:left">
+							<label>签名：</label>
+							<input type="text" id='field-range-input' value='3'>
+							<input id="SignX" value="0" hidden="hidden" />
+							<!---->
+							<input id="SignY" value="0" hidden="hidden" />
+							<!---->
+							<input id="FormX" value="0" hidden="hidden" />
+							<!---->
+							<input id="FormY" value="0" hidden="hidden" />
+							<!---->
+							<input id="SignWidth" value="0" hidden="hidden" />
+							<!---->
+							<input id="SignHeight" value="0" hidden="hidden" />
+							<!---->
+
+						</div>
+						<div style="margin-left:121px;">
+							<input type="range" id='field-range' value="3" min="1" max="6" />
+						</div>
+					</div>
+				</div>
+				<div class="image-view">
+					<canvas class="js-signature" id="backgcanvas" style="display:block;margin:0 auto;border:1px solid #aaa;">
+                        <span>抱歉，您的手机不支持此控件</span>
+                    </canvas>
+					<canvas id="signcanvas" style="display:none;margin:0 auto;border:1px solid #aaa;"></canvas>
+				</div>
+			</div>
+			<div class="mui-scroll-wrapper panes wrapper" hidden="hidden">
+                <div class="pinch-zoom" id="ImgPack">
+                    <div class="panes" id="ImgPlace">
+                        <!--<div class="pane">
+                            <img class='paneImg' src='http://112.74.34.150:8080/TongXinweb/images/0b5c5b47-0927-48ec-a336-9b925881ec54/fcc99838-b70d-4e5f-a270-7ef508d4e1f3/(1).png' />
+                            <img class="PlaceSvg" style="width:20%;top:100px;left:50px;" src="http://192.168.0.199:8081/zsPC/signUpload/55/1537326518620.svg" />
+                        </div>-->
+                        <!--<div class="pane">
+                            <img class='paneImg' src='http://112.74.34.150:8080/TongXinweb/images/0b5c5b47-0927-48ec-a336-9b925881ec54/fcc99838-b70d-4e5f-a270-7ef508d4e1f3/(1).png' />
+                            <img class='PlaceSvg' style='width:25.64102564102564px;height:15.384615384615383px;top:328.2051282051282px;left:191.79487179487177px;' src='http://192.168.0.199:8081/zsPC/signUpload/55/1537326518620.svg' />
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+		</div>
+		<!--右上角弹出菜单-->
+		<div id="topPopover" class="mui-popover">
+			<div class="mui-popover-arrow"></div>
+			<div class="mui-scroll-wrapper">
+				<div class="mui-scroll">
+					<ul class="mui-table-view">
+						<li class="mui-table-view-cell" id="Save-sgin-btn">
+							<a href="#">保存</a>
+						</li>
+						<!--<li class="mui-table-view-cell" id="Save-btn">
+							<a href="#">返回预览</a>
+						</li>-->
+						<li class="mui-table-view-cell"><span style="color: red;">双击选中页数</span></li>
+					</ul>
+					<hr />
+					<ul class="mui-table-view" id="pageList"></ul>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/service.js"></script>
+		<script src="../../js/signature/pdf.js"></script>
+		<script src="../../js/signature/hammer.js"></script>
+        <!--<script src="../../js/self/SignShow.js"></script>-->
+		<script type="text/javascript" charset="utf-8">
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration: 0.0005, //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+			mui.init();
+			/*
+			 * 关于滑块
+			 */
+			//监听input事件，获取range的value值，也可以直接element.value获取该range的值
+			var rangeList = document.querySelectorAll('input[type="range"]');
+			for(var i = 0, len = rangeList.length; i < len; i++) {
+				rangeList[i].addEventListener('input', function() {
+					if(this.id.indexOf('field') >= 0) {
+						document.getElementById(this.id + '-input').value = this.value;
+					} else {
+						document.getElementById(this.id + '-val').innerHTML = this.value;
+					}
+					ShowImg()
+				});
+			}
+			$('#field-range-input').on('input', function() {
+				$(this).attr('value', $('#field-range').val())
+			})
+			canvasWidth = 385
+            canvasHeight = 458
+			/*
+             * 关于canvas定义 
+             *
+            */
+			//快捷签名页面,获取已定义的快捷签名和位置
+			imgTab = localStorage.getItem('imgUrl');
+			$('#SignX').val(localStorage.getItem('SignPX1')),
+			$('#SignY').val(localStorage.getItem('SignPY1')),
+			$('#FormX').val(localStorage.getItem('FormX1')),
+			$('#FormY').val(localStorage.getItem('FormY1')),
+			$('#SignWidth').val(localStorage.getItem('SignWidth1')),
+			$('#SignHeight').val(localStorage.getItem('SignHeight1')),
+			page = localStorage.getItem('page');
+			imgSign = UrlImage + localStorage.getItem('SignUrl1');
+			CId = localStorage.getItem('CId')
+		    CirSmp = localStorage.getItem('CirSmp');
+			console.log(localStorage)
+			// alert('323')
+			/*
+			 * 显示页数
+			 */
+			for(var i = 0; i < page; i++) {
+				//删去'(1).png'七个字符
+				var imgRote = imgTab.substr(0, imgTab.length - 7);
+				var EleTextKey = imgRote + '(' + (i + 1) + ').png';
+				var EleText = "<li class='mui-table-view-cell' data-url = '" + EleTextKey + "'><a href='#'>第" + (i + 1) + "页</a></li>"
+				$('#pageList').append(EleText);
+			}
+			/* 
+			 * 选页
+			 */
+			$('#pageList').find('li').on('tap', function() {
+				localStorage.setItem('imgUrl', $(this).attr('data-url'))
+				location.reload()
+			})
+			/*
+			 * 保存操作
+			 */
+			$('#Save-sgin-btn').on('tap', function() {
+				console.log(CId)
+				$.ajax({
+                        type:"post",
+                        url:url+"action_sign/SignSave_Svg.php",
+//                      async:true,
+						dataType:'json',
+                        data:{
+                            //FormMes
+                            formId:CId,
+                            //SignMes
+                                //位置等信息
+                                SignPX : $('#SignX').val(),
+                                SignPY : $('#SignY').val(),
+                                FormW : $('#FormX').val(),
+                                FormH : $('#FormY').val(),
+                                SignW : $('#SignWidth').val(),
+                                SignH : $('#SignHeight').val(),
+                                CirSmp : CirSmp,
+                                //页数信息
+                                PageFinal : imgTab.substr(imgTab.length - 6, 1),
+                                //签名信息
+                                SignFinal : localStorage.getItem('SignUrl1'),
+                                //备注
+//                              msg:$('#msg-text').val()
+                        },
+                        success:function(data){
+                            //返回父页面刷新
+			                var target = plus.webview.getWebviewById("detail/form_signIn");
+							target.reload(true);
+			                mui.back()	    
+							// setTimeout(function(){
+							// 	mui.openWindow({
+							// 	   url:'detail/form_signIn.html',
+							// 	   id:'detail/form_signIn', 
+							// 	})
+							// },1000)
+							
+                        },
+                        error:function(s,e,t){
+                            alert('出现错误，错误类型0：'+e);
+                        }
+                    })
+			})
+			
+			
+			$('#Save-btn').on('tap', function() {
+				//保存横纵坐标，签名宽高
+				localStorage.setItem('SignPX', $('#SignX').val()); //签名距离表单的水平距离
+				localStorage.setItem('SignPY', $('#SignY').val()); //签名距离表单的垂直距离
+
+				localStorage.setItem('FormX', $('#FormX').val()); //表单的宽
+				localStorage.setItem('FormY', $('#FormY').val()); //表单的高
+
+				localStorage.setItem('SignWidth', $('#SignWidth').val()); //签名的宽
+				localStorage.setItem('SignHeight', $('#SignHeight').val()); //签名的高
+				//保存页数
+				var pageFinal = imgTab.substr(imgTab.length - 6, 1)
+				localStorage.setItem('PageFinal', pageFinal);
+				//保存表单id
+				localStorage.setItem('CIdFinal', localStorage.getItem('CId'))
+				//返回签批页面
+				var target = plus.webview.getWebviewById('detail/form_signIn');
+				target.reload(true);
+				mui.back();
+			})
+			//定义背景
+			canvas = document.getElementById("backgcanvas");
+			context = canvas.getContext('2d');
+			imageBg = new Image();
+			imageBg.src = imgTab
+			//定义签名
+			canvasSign = document.getElementById("signcanvas");
+			contextSign = canvasSign.getContext('2d');
+			imageSign = new Image();
+			imageSign.src = imgSign
+			ShowImgSign()
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				var type = self.type;//获得参数
+				if(type=='quickly'){
+					setTimeout(function(){
+						var btn = document.getElementById("Save-sgin-btn");
+						//触发submit按钮的点击事件
+						mui.trigger(btn,'tap');
+					},500);
+					
+				}
+				//关于签名的移动
+				document.body.ontouchmove = function(e) {
+					loc = windowToCanvas(canvas, e.touches[0].pageX, e.touches[0].pageY);
+//					console.log(loc.x)
+					$('#SignX').val(loc.x)
+					$('#SignY').val(loc.y)
+
+					ShowImg()
+				}
+				canvas.onmousedown = function(e) {
+					loc = windowToCanvas(canvas, e.pageX, e.pageY);
+//					console.log(loc.x)
+					$('#SignX').val(loc.x)
+					$('#SignY').val(loc.y)
+
+					ShowImg()
+				}
+				ShowImg()
+				canvas.ontouchend = function(e) {};
+			})
+			
+			//绘制签名
+			function ShowImgSign() {
+				//清除旧签名
+				var WidthSign = canvasSign.width
+				var HeightSign = canvasSign.height
+				// contextSign.clearRect(0, 0, WidthSign, HeightSign)
+				//控制签名宽度
+				var canvasSignWidth = imageSign.width
+				var canvasSignHeitht = imageSign.height
+
+				//关于签名的缩放
+				var scaleSign = $('#field-range-input').val()
+				var WidthSignShow = canvasSignWidth * scaleSign * 0.01
+				var HeightSignShow = canvasSignHeitht * scaleSign * 0.01
+
+				//绘制签名
+				canvasSign.width = WidthSignShow * PIXEL_RATIO * 2
+				canvasSign.height = HeightSignShow * PIXEL_RATIO * 2
+				canvasSign.style.width = WidthSignShow + 'px'
+				canvasSign.style.height = HeightSignShow + 'px'
+				$('#SignWidth').val(WidthSignShow)
+				$('#SignHeight').val(HeightSignShow)
+				contextSign.setTransform(PIXEL_RATIO, 0, 0, PIXEL_RATIO, 0, 0);
+				contextSign.drawImage(imageSign, 0, 0, WidthSignShow * 2, HeightSignShow * 2)
+			}
+
+			//绘制背景
+			function ShowImg() {
+				ShowImgSign()
+				var scaleSign = $('#field-range-input').val()//签名大小
+//				console.log(scaleSign)
+				//控制背景宽度
+				var imgWidth = imageBg.width
+				var imgHeight = imageBg.height
+				var canvasWidth = Math.min(imgWidth, $(window).width() - 10)
+
+				//计算缩放比
+				var scale = canvasWidth / imgWidth
+				//解决模糊问题
+				var showWidth = imgWidth * scale
+				var showHight = imgHeight * scale
+				canvas.width = showWidth * PIXEL_RATIO * 2
+				canvas.height = showHight * PIXEL_RATIO * 2
+				canvas.style.width = showWidth + 'px'
+				canvas.style.height = showHight + 'px'
+				//获取表单的宽高
+				$('#FormX').val(showWidth)
+				$('#FormY').val(showHight)
+				//获取签名绘制位置
+				var SignPX = $('#SignX').val()
+				var SignPY = $('#SignY').val() 
+
+				context.setTransform(PIXEL_RATIO, 0, 0, PIXEL_RATIO, 0, 0);
+				context.drawImage(imageBg, 0, 0, showWidth * 2, showHight * 2)
+				var i= scaleSign;
+//				var n ="1.94"+i
+				// console.log(context)
+				if(i==6){
+					context.drawImage(canvasSign, SignPX *1.935, SignPY * 1.987)
+				}else if(i==5){
+					context.drawImage(canvasSign, SignPX *1.905, SignPY * 1.987)
+				}else if(i==4){
+					context.drawImage(canvasSign, SignPX *1.905, SignPY * 1.987)
+				}else if(i==3){
+					context.drawImage(canvasSign, SignPX *1.945, SignPY * 1.977)
+				}else if(i==2){
+					context.drawImage(canvasSign, SignPX * 1.98, SignPY * 1.98)
+				}else if(i==1){
+					context.drawImage(canvasSign, SignPX * 2, SignPY * 2)
+				}
+				
+			}
+			//获取设备像素比
+			var PIXEL_RATIO = (function() {
+				var ctx = document.createElement('canvas').getContext('2d'),
+					dpr = window.devicePixelRatio || 1,
+					bsr = ctx.webkitBackingStorePixelRatio ||
+					ctx.mozBackingStorePixelRatio ||
+					ctx.msBackingStorePixelRatio ||
+					ctx.oBackingStorePixelRatio ||
+					ctx.backingStorePixelRatio || 1;
+				return dpr / bsr;
+			})();
+			//获取坐标
+			function windowToCanvas(canvas, x, y) {
+				var bbox = canvas.getBoundingClientRect()
+				return {
+					x: Math.round(x - bbox.left),
+					y: Math.round(y - bbox.top)
+				}
+			}		
+		</script>
+	</body>
+
+</html>

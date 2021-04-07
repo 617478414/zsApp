@@ -21,7 +21,7 @@
 	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 	            	<a href="project_type.html">
 	                    <span class="mui-icon mui-icon-location"></span>
-	                    <div class="mui-media-body">表单签收</div>
+	                    <div class="mui-media-body">表单签批</div>
 	                    <span class="href" hidden="hidden">project_type.html</span>
 	            	</a>
 	            </li>
@@ -43,7 +43,7 @@
 	            <li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
 	            	<a href="project_document_list.html">
 	                    <span class="mui-icon mui-icon-home"></span>
-	                    <div class="mui-media-body">文档答复</div>
+	                    <div class="mui-media-body">文档签发</div>
 	                    <span class="href" hidden="hidden">project_document_list.html</span>
 	            	</a>
 	            </li>
@@ -60,7 +60,14 @@
 	                    <div class="mui-media-body">文档记录</div>
 	                    <span class="href" hidden="hidden">project_document_count.html</span>
 	            	</a>
-	            </li>	       	            
+	            </li>
+				<li class="mui-table-view-cell mui-media mui-col-xs-4 mui-col-sm-3">
+					<a href="project_index_new.html">
+				        <span class="mui-icon mui-icon-chatbubble"></span>
+				        <div class="mui-media-body">32323</div>
+				        <span class="href" hidden="hidden">project_document_count.html</span>
+					</a>
+				</li>						
 	        </ul>
 		</div>
 		<script src="../js/mui.min.js"></script>
@@ -88,7 +95,7 @@
 
 				 //主列表点击事件 ,把项目id传到所有子页面中
 			mui('#my_list').on('tap', 'a', function() {
-				//alert("测试");
+				// alert("测试");
 				var id = this.getAttribute('href');
 				var href = this.href;
 				var webview_style = {

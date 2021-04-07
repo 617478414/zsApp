@@ -211,9 +211,9 @@
                             //表单id
                         var CIdFinal = localStorage.getItem('CIdFinal')
                             //签名信息
-                        var SignFinal = localStorage.getItem('SignUrl')
-                        
-//                      console.log(CIdFinal)
+                        var SignFinal =UrlImage + localStorage.getItem('SignUrl')
+//                      console.log(SignFinal)
+//                      console.log(CIdFinal) 
 //                      console.log(CId)
                         //显示签名【本次的，当前流程的】
                         if(CIdFinal == CId)
@@ -223,16 +223,15 @@
                         
                         //显示数据库已存在的签名
                         for (var i=0;i<dataSignDB.length;i++) {
-                            var SinSignPa  = dataSignDB[i]['SignPa']
-                            var SinSignPX  = dataSignDB[i]['SignPX']
-                            var SinSignPY  = dataSignDB[i]['SignPY']
-                            var SinFormW  = dataSignDB[i]['FormW']
-                            var SinFormH  = dataSignDB[i]['FormH']
-                            var SinSignW  = dataSignDB[i]['SignW']
-                            var SinSignH  = dataSignDB[i]['SignH']
-                            var SinPageFinal  = dataSignDB[i]['PageFinal']
-                            
-                            showSignSvg(SinSignPX,SinSignPY,SinFormW,SinFormH,SinSignW,SinSignH,SinPageFinal,SinSignPa,'ImgPlace')
+                            var SignPX  = dataSignDB[i]['SignPX']
+                            var SignPY  = dataSignDB[i]['SignPY']
+                            var FormW  = dataSignDB[i]['FormW']
+                            var FormH  = dataSignDB[i]['FormH']
+                            var SignW  = dataSignDB[i]['SignW']
+                            var SignH  = dataSignDB[i]['SignH']
+                            var PageFinal  = dataSignDB[i]['PageFinal']
+                            var SignFinal  =UrlImage + dataSignDB[i]['SignPa']                      
+                            showSignSvg(SignPX,SignPY,FormW,FormH,SignW,SignH,PageFinal,SignFinal,'ImgPlace') 
                             
                         }
 //                      showSignSvg('166','322','351','496','40','24','1','http://192.168.0.199:8081/zsPC/signUpload/55/1537403106837.svg','ImgPlace')
@@ -252,98 +251,100 @@
              * HAMMER
              */
             //定义实例
-            var el = document.querySelector("#ImgPlace");
-            var transform = {
-                translate: {
-                    x: 0,
-                },
-                scale: 1,
-            };
-            //添加事件
-            var mc = new Hammer.Manager(el);
-            mc.add(new Hammer.Pinch({
-                threshold: 0
-            }));
-            mc.get('pinch').set({ enable: true });
-            mc.add(new Hammer.Pan({
-                threshold: 0,
-                pointers: 0
-            }));
-            var ImgScale = 1;
-            //捏放后
-            mc.on("pinchstart pinchmove", function(ev) {
-                //获取原放大比例
-                var ImgScaleOld = ImgScale
-                
-                if(canvasWidth*ev.scale < canvasWidth){
-                    $('#ImgPack').addClass('pinch-zoom')
-                    ImgScale = 1;
-                }else{
-                    ImgScale = ev.scale;
-                    $('#ImgPack').removeClass('pinch-zoom')
-                }
-                transform.scale = ImgScale;
-                //表单变化
-                $('.paneImg').attr('width',canvasWidth*ImgScale)
-                $('.paneImg').attr('height',canvasHeight*ImgScale)
-                
-                //签名变化
-                var PlaceSvg = document.getElementsByClassName("PlaceSvg")
-                for (var i=0;i<PlaceSvg.length;i++) {
-                	var PlaceSvgW = document.getElementsByClassName('PlaceSvg')[i].width/ImgScaleOld
-                    var PlaceSvgH = document.getElementsByClassName('PlaceSvg')[i].height/ImgScaleOld
-                    var PlaceSvgT = document.getElementsByClassName('PlaceSvg')[i].offsetTop/ImgScaleOld
-                    var PlaceSvgL = document.getElementsByClassName('PlaceSvg')[i].offsetLeft/ImgScaleOld
-                    document.getElementsByClassName('PlaceSvg')[i].style.width = PlaceSvgW*ImgScale +'px'
-                    document.getElementsByClassName('PlaceSvg')[i].style.height = PlaceSvgH*ImgScale +'px'
-                    document.getElementsByClassName('PlaceSvg')[i].style.top = PlaceSvgT*ImgScale +'px'
-                    document.getElementsByClassName('PlaceSvg')[i].style.left = PlaceSvgL*ImgScale +'px'
-                }
-                
-            });
-            //平移后
-            mc.on("panstart panmove", function(ev){
-                if (!(ImgScale ==1)) {
-                	transform.translate = {
-                        x:ev.deltaX,
-                    };
-                } else{
-                	transform.translate = {
-                        x:0
-                    };
-                }
-                el.style.transform = 'translate(' + transform.translate.x + 'px )';
-            });
-            
-//          showTab(localStorage.getItem('imgUrl'),localStorage.getItem('page'))
-//          mui.plusReady(function(){
-//              /*
-//               * check status
-//               */
-//              if(localStorage.getItem('CIdFinal') == localStorage.getItem('CId')){
-//                  var ImgChangePage = localStorage.getItem('PageFinal')-1
-//                  $('.pinch-zoom').find('img').eq(ImgChangePage).attr('src',localStorage.getItem('SignFinal'))
-//              }
-//          })
-            //show tab
-//          function showTab(filePic,page) {
-//              $('div.pinch-zoom').each(function () {
-//                  new RTP.PinchZoom($(this), {});
-//              });
-//              page ++;
-//              for (var i=1;i<page;i++) {
-////                  filePic = filePic.substr(0,filePic.length-4);
-//                  var filePicArr = filePic.split('(')
-//                  var imgDataText = filePicArr[0]+'('+i+')'+'.png';
-//                  var imgText = "<img class='PicShow' src='"+imgDataText+"' />";
-//                  $('div.pinch-zoom').append(imgText);
-//              }
-//              PageSta = localStorage.getItem('PageStaMes')
-//              if(PageSta=='0'){
-//                  localStorage.setItem('PageSta','1');
-//                  location.reload()
-//              }
-//          }
+            function point2D(x,y){
+				return {x : x,y : y};
+			}
+			
+			var reqAnimationFrame = (function () {
+			    return window[Hammer.prefixed(window, 'requestAnimationFrame')] || function (callback) {
+			        window.setTimeout(callback, 1000 / 60);
+			    };
+			})();
+			
+			
+			var tMatrix = [1,0,0,1,0,0]//x缩放，无，无，y缩放，x平移，y平移
+			
+			var initScale = 1;//初始化scale
+			var el =  document.getElementById("ImgPlace");//获取元素
+			var mc = new Hammer.Manager(el)
+			var ticking = false
+			var poscenter = point2D(0,0);//缓存双指的中心坐标
+			var duration = '';//设置过渡效果，用于双击缩放效果
+			var lastTranslate = point2D(0,0);//记录上次的偏移值
+			var lastcenter= point2D(el.offsetWidth/2,el.offsetHeight/2)//图像的中心点，用于对比双指中心点
+			
+			var center = lastcenter
+			mc.add(new Hammer.Pan({ threshold: 0, pointers: 1 }))
+			mc.add(new Hammer.Pinch({ threshold: 0 }))
+			mc.add( new Hammer.Tap({ event: 'doubletap', taps: 2 }) );
+			mc.on("panmove", onPan);
+			mc.on("panstart",onPanStart)
+			mc.on("pinchmove", onPinch);
+			mc.on("pinchstart",onPinchStart);
+			mc.on("doubletap",onDoubleTap);
+			
+			function onPanStart(ev){
+				lastTranslate = point2D(tMatrix[4],tMatrix[5])//缓存上一次的偏移值
+			}
+			function onPan(ev){	
+					duration = ''
+					el.className = ''			
+					tMatrix[4] = lastTranslate.x + ev.deltaX
+					tMatrix[5] = lastTranslate.y + ev.deltaY
+					requestElementUpdate('onpan');
+				
+			}
+			function onPinchStart(ev){
+				duration = '';
+				lastTranslate = point2D(tMatrix[4],tMatrix[5])//记录上一次的偏移值
+				initScale = tMatrix[0] || 1;
+				poscenter = point2D(ev.center.x, ev.center.y)
+				
+				lastcenter = point2D(center.x + lastTranslate.x,center.y + lastTranslate.y)//重新计算放大后的中心坐标
+				poscenter = point2D(ev.center.x - lastcenter.x, ev.center.y-lastcenter.y)
+//				console.log("center",lastcenter.x,lastcenter.y)
+				
+				requestElementUpdate('onpinchStart');
+			}
+			function onPinch(ev){
+				var nowScale = tMatrix[0] = tMatrix[3] = initScale * ev.scale;
+				var composscal = (1 - ev.scale) 
+				tMatrix[4] = (1 - ev.scale) * poscenter.x + lastTranslate.x
+				tMatrix[5] = (1 - ev.scale) * poscenter.y + lastTranslate.y
+				requestElementUpdate('onpinch');	
+			}
+			
+			function onDoubleTap(ev){
+				duration = ".3s ease all";
+				var nowScale = tMatrix[0];
+				if(nowScale != 1 || tMatrix[4]!= 0){
+					//scale不等于1，要重回1
+					tMatrix[0] = tMatrix[3] = 1;
+					tMatrix[4] = tMatrix[5] = 0;
+				}else{
+					var pointer = ev.center
+					var scale = 2
+					tMatrix[0] = tMatrix[3] = scale
+					tMatrix[4] = (1 - scale) * ( pointer.x - center.x) 
+					tMatrix[5] = (1 - scale) * ( pointer.y - center.y)
+				}
+				requestElementUpdate('doubleTap');
+			}
+			
+			function updateElementTransform() {
+				el.style.transition = duration
+			    var tmp = tMatrix.join(',')
+			//  console.log(tmp)
+			    el.style.transform = 'matrix(' + tmp + ')';
+			    ticking = false;
+			}
+			function requestElementUpdate() {
+			    if(!ticking) {
+			        reqAnimationFrame(updateElementTransform);
+			        ticking = true;
+			    }
+			}
+			requestElementUpdate();
         </script>
     </body>
 </html>

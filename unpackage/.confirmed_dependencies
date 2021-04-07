@@ -34,7 +34,8 @@
     "refer": [
       "homepage.html",
       "setting.html",
-      "todo.html"
+      "todo.html",
+      "info.html"
     ]
   },
   "homepage.html": {
@@ -45,7 +46,11 @@
       "my_plus/statistics.html",
       "my_plus/my_setting.html",
       "my_project/project_zhenggai.html",
-      "my_project/project_sign_his.html"
+      "my_project/project_sign_his.html",
+      "my_project/project_sign_index.html",
+      "my_project/project_xxlb_list.html",
+      "my_project/project_mes.html",
+      "my_project/project_message.html"
     ],
     "resources": [
       "images/F\u001aýQ.png"
@@ -137,7 +142,9 @@
       "my_project/detail/sign_audio.html",
       "my_project/project_document_select.html",
       "my_project/detail/SignView_1.html",
-      "my_project/detail/attachment.html"
+      "my_project/detail/attachment.html",
+      "my_project/detail/Tack_mark.html",
+      "my_project/detail/signPlace.html"
     ]
   },
   "my_project/project_form_select.html": {
@@ -274,8 +281,8 @@
   },
   "excel_form/formtest.html": {
     "resources": [
-      "excel_form/\bGD-C5-7111\t \u001f\u0001p\u001f0ýýýy(Ì6ýU1-5_files/img_03.svg",
-      "excel_form/\bGD-C5-7111\t \u001f\u0001p\u001f0ýýýy(Ì6ýU1-5_files/style.css"
+      "excel_form/\bGD-C5-7111\t \u001f\u0001p\u001f0ýýýy(ý6ýU1-5_files/img_03.svg",
+      "excel_form/\bGD-C5-7111\t \u001f\u0001p\u001f0ýýýy(ý6ýU1-5_files/style.css"
     ]
   },
   "my_plus/my_setting.html": {
@@ -350,7 +357,8 @@
   },
   "my_project/project_sign_his.html": {
     "refer": [
-      "my_project/project_sign_mes.html"
+      "my_project/project_sign_mes.html",
+      "my_project/project_sign_index.html"
     ]
   },
   "my_project/project_sign_mes.html": {
@@ -361,13 +369,50 @@
   "my_project/detail/SignView_1.html": {
     "refer": [
       "my_project/detail/signPlace.html",
-      "my_project/detail/Sign_new_sqr.html"
+      "my_project/detail/Sign_new_sqr.html",
+      "my_project/detail/text_test.html"
     ]
   },
   "my_project/detail/Sign_new_sqr.html": {
     "refer": [
       "my_plus/my_setting.html",
       "my_project/detail/SignView.html"
+    ]
+  },
+  "my_project/detail/Tack_mark.html": {
+    "refer": [
+      "my_project/detail/content.html"
+    ]
+  },
+  "my_project/project_sign_index.html": {
+    "refer": [
+      "my_project/project_sign_his.html"
+    ]
+  },
+  "my_project/detail/text_test.html": {
+    "refer": [
+      "my_project/detail/signPlace.html"
+    ]
+  },
+  "my_project/project_xxlb_list.html": {
+    "refer": [
+      "my_project/detail/form_signIn.html"
+    ]
+  },
+  "my_project/project_message.html": {
+    "refer": [
+      "my_project/detail/form_signIn.html"
+    ]
+  },
+  "my_project/detail/sign_recoder.html": {
+    "refer": [
+      "my_project/detail/sign_audio.html"
+    ]
+  },
+  "my_project/count/my_count_ck.html": {
+    "refer": [
+      "my_project/project_form_count.html",
+      "my_project/detail/form_mes.html"
     ]
   }
 }

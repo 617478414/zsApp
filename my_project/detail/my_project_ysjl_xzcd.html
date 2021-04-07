@@ -26,50 +26,25 @@
 				<div class="mui-input-row">
 					<label style="font-size: 0.85em;">新增方式：</label>
 					<select id="xzfs">
-						<option value="单个增加">单个增加</option>
-						<option value="批量增加" selected="selected">批量增加</option>
+						<option value="单个增加" selected="selected">单个增加</option>
+						<option value="批量增加" >批量增加</option>
 					</select>
 				</div> 
 			</form>
 			<form class="mui-input-group">
 				<div class="mui-input-row">
 					<label style="font-size: 0.85em;">创建个数：</label>
-					<input id="cdgs" type="number" placeholder="图钉个数" value="10">
+					<input id="cdgs" type="number" placeholder="图钉个数" value="1">
 				</div>
-				<div class="mui-input-row">
+				<div class="mui-input-row" hidden="hidden">
 					<label style="font-size: 0.85em;">类型编号：</label>
-					<select id="cdlxbh"> 
-                      <option value="A" selected="selected">A</option>
-                      <option value="B" >B</option>
-                      <option value="C" >C</option>
-                      <option value="D" >D</option>
-                      <option value="E" >E</option>
-                      <option value="F" >F</option>
-                      <option value="G" >G</option>
-                      <option value="H" >H</option>
-                      <option value="I" >I</option>
-                      <option value="J" >J</option>
-                      <option value="K" >K</option>
-                      <option value="L" >L</option>
-                      <option value="M" >M</option>
-                      <option value="N" >N</option>
-                      <option value="O" >O</option>
-                      <option value="P" >P</option>
-                      <option value="Q" >Q</option>
-                      <option value="R" >R</option>
-                      <option value="S" >S</option>
-                      <option value="T" >T</option>
-                      <option value="U" >U</option>
-                      <option value="V" >V</option>
-                      <option value="W" >W</option>
-                      <option value="X" >X</option>
-                      <option value="Y" >Y</option>
-                      <option value="Z" >Z</option>
+					<select id="cdlxbh" > 
+                      <option value="0" selected="selected"></option>                     
 					</select>
 				</div>
-				<div class="mui-input-row">
-					<label style="font-size: 0.85em;">类型名称：</label>
-					<input id="cdlx" type="text" class="" readonly="readonly" value="默认类型" placeholder="请输入类型名称">
+				<div class="mui-input-row" hidden="hidden">
+					<label style="font-size: 0.85em;" >类型名称：</label>
+					<input id="cdlx" type="text" class="" readonly="readonly" value="默认类型"  placeholder="请输入类型名称">
 					
 					</input>
 				</div>
@@ -82,12 +57,6 @@
 					<input id="zzbh" type="text" class="" placeholder="后台自动生成" readonly="readonly">
 				</div>				
 			</form>
-			<!--<form class="mui-input-group">
-				<div class="my_style3">
-					<label style="font-size: 0.85em;">说明：</label>
-					<textarea id="sm" class="mui-input-clear" rows="2" placeholder="" readonly="readonly"></textarea>
-				</div>
-			</form>-->
 			<div class="mui-button-row">
 				<button id="no" type="button" class="mui-btn mui-btn-primary">关闭</button>
 				<button id="ok" type="button" class="mui-btn mui-btn-primary">确定</button>

@@ -169,15 +169,21 @@
 			//接收时间戳  判断签名为空  提示请签名
 			location.reload();
 		})
+		
 		mui.plusReady(function() {
 			var self = plus.webview.currentWebview();
 			var fatherPage = self.fatherPage;
 			var sjc = self.sjc;
 			//alert(sjc)
-
+			
 			//点击键盘输入，返回上个页面
 			$('#Popover').on('tap', function() {
-				mui.back();
+				mui.openWindow({
+					url: 'text_test.html',
+					id: 'text_test.html',
+					createNew:true,
+					})
+				return;
 			})
 			//签名保存
 			$('#signIng').on('change', function() {
@@ -233,25 +239,26 @@
 				//返回值
 				var dataUrl = $('.js-signature').eq(0).jqSignature('getDataURL');
 				//clesr old sign
-				//localStorage.setItem('SignPic','');
+				// localStorage.setItem('SignPic','');
 				//set new sign
-				//localStorage.setItem('SignPic',dataUrl);
+				// localStorage.setItem('SignPic',dataUrl);
 
 				//创建svg格式文件，并上传到服务器，创建历史数据
 				document.getElementById("imgPlace").src = dataUrl
 				imageSign = document.getElementById("imgPlace")
+				console.log(imageSign)
 				var text = "ctx.drawImage(imageSign,0,0,500,300)"
 				var drawFunction = new Function("ctx", text);
 
 				var svg = document.getElementById("svg"); 
 				
-				var sqr = document.getElementById("sqr").value;
+//				var sqr = document.getElementById("sqr").value;
 //				console.log(sqr)
 				
 				// remove the latest svg (children[0] is the wrapped canvas element)
-				if(svg.children.length > 1) {
-					svg.removeChild(svg.children[1]);
-				}
+//				if(svg.children.length > 1) {
+//					svg.removeChild(svg.children[1]);
+//				}
 				var otherCanvas = document.getElementById("wrapped_canvas");
 				var wrappedCtx = otherCanvas.getContext("2d");
 				var c2s = new C2S({
@@ -263,6 +270,7 @@
 				drawFunction(c2s);
 				svg.innerHTML = '';
 				svg.appendChild(c2s.getSvg());
+				console.log(CId)
 				//保存签名svg
 				$.ajax({
 					url: url + 'action_sign/MesSave_Svg.php',
@@ -280,55 +288,59 @@
 //							alert(signUrl)
 							//将地址存进本地存储
 							localStorage.setItem('SignUrl', signUrl)
+							
 							var Sign_imgurl =  signUrl;
-							if(sqr==""){
+//							console.log(Sign_imgurl)							
+							//暂不开发
+//							if(sqr==""){
 								//未选择授权人
 //								alert("不将签名存到授权人表")
-							}else{
-								var sjc = sqr;//选择授权人后获取其sjc
-								//传入时间戳,如果签名为空,则保存签名
-								mui.ajax(url + 'action_sign/MesShow_sqr.php', {
-									data: {
-										sjc:sjc,										
-									},
-									dataType:'json',
-									type: 'post',  
-									timeout: 10000,
-									success: function(data) {
-										if(data[0].SignSvg==""){
-											console.log(Sign_imgurl+'||'+sjc)
-											//授权人时间戳为条件值保存签名svg
-											mui.ajax(url + 'action_sign/MesSave_sqr.php', {
-												data: {
-													sjc:sjc,
-													Sign_imgurl:Sign_imgurl
-												},
-												dataType:'json',
-												type: 'post',  
-												timeout: 10000,
-												success: function(data) {
-													alert("保存签名成功!")
-												},
-												error: function(xhr, type, errorThrown) { 
-													return callback('ajax错误' + type + errorThrown);
-												}
-											});
-										}else{
-											var Sign_url = data[0].SignSvg;
-											localStorage.setItem('SignUrl', Sign_url)
-										}
-										
-									},
-									error: function(xhr, type, errorThrown) { 
-										return callback('ajax错误' + type + errorThrown);
-									}
-								});																
-							}							
+//							}else{
+//								var sjc = sqr;//选择授权人后获取其sjc
+//								//传入时间戳,如果签名为空,则保存签名
+//								mui.ajax(url + 'action_sign/MesShow_sqr.php', {
+//									data: {
+//										sjc:sjc,										
+//									},
+//									dataType:'json',
+//									type: 'post',  
+//									timeout: 10000,
+//									success: function(data) {
+//										if(data[0].SignSvg==""){
+//											console.log(Sign_imgurl+'||'+sjc)
+//											//授权人时间戳为条件值保存签名svg
+//											mui.ajax(url + 'action_sign/MesSave_sqr.php', {
+//												data: {
+//													sjc:sjc,
+//													Sign_imgurl:Sign_imgurl
+//												},
+//												dataType:'json',
+//												type: 'post',  
+//												timeout: 10000,
+//												success: function(data) {
+//													alert("保存签名成功!")
+//												},
+//												error: function(xhr, type, errorThrown) { 
+//													return callback('ajax错误' + type + errorThrown);
+//												}
+//											});
+//										}else{
+//											var Sign_url = data[0].SignSvg;
+//											localStorage.setItem('SignUrl', Sign_url)
+//										}
+//										
+//									},
+//									error: function(xhr, type, errorThrown) { 
+//										return callback('ajax错误' + type + errorThrown);
+//									}
+//								});																
+//							}							
 							//$('#test').attr('src',url+signUrl)
 							//进入放置签名页面
 							mui.openWindow({
 								url: 'signPlace.html',
 								id: 'signPlace.html',
+								createNew:true,
 							})
 							return;
 						}
@@ -339,37 +351,38 @@
 						alert('出现错误，错误类型：' + e)
 					}
 				})
+				
 			})
 
 			if($('.js-signature').length) {
 				$('.js-signature').jqSignature();
 			}
 			//异步获取授权人名单
-			mui.ajax(url + 'action_sign/MesShow_sqr.php', {
-				data: {
-//					flag: '2',
-					sjc : 1
-				},
-				dataType:'json',
-				type: 'post',  
-				timeout: 10000,
-				success: function(data) {
-//					alert(data);
-					var length = data.length;
-					for(var i = 0; i < length - 1; i++) {
-						var id = data[i].id;
-						var ProNam = data[i].ProNam;
-						var name = data[i].name;
-						var phone = data[i].phone;
-						var job = data[i].job;
-						var sjc = data[i].sjc;
-						found(name,ProNam,phone,job,sjc);
-					}
-				},
-				error: function(xhr, type, errorThrown) { 
-					return callback('ajax错误' + type + errorThrown);
-				}
-			});
+//			mui.ajax(url + 'action_sign/MesShow_sqr.php', {
+//				data: {
+////					flag: '2',
+//					sjc : 1
+//				},
+//				dataType:'json',
+//				type: 'post',  
+//				timeout: 10000,
+//				success: function(data) {
+////					alert(data);
+//					var length = data.length;
+//					for(var i = 0; i < length - 1; i++) {
+//						var id = data[i].id;
+//						var ProNam = data[i].ProNam;
+//						var name = data[i].name;
+//						var phone = data[i].phone;
+//						var job = data[i].job;
+//						var sjc = data[i].sjc;
+//						found(name,ProNam,phone,job,sjc);
+//					}
+//				},
+//				error: function(xhr, type, errorThrown) { 
+//					return callback('ajax错误' + type + errorThrown);
+//				}
+//			});
 			//动态创建工程名称
 			function found(name,ProNam,phone,job,sjc) {
 				var mysqr = document.getElementById("sqr");
@@ -378,7 +391,13 @@
 				option.innerHTML = name+'||'+ProNam+'||'+phone+'||'+job;
 				mysqr.appendChild(option);
 			};			
-			
+//			window.addEventListener('json_1', function(event) {
+//				location.reload()
+////				plus.nativeUI.toast("保存成功！")
+//				var target=plus.webview.currentWebview().opener();
+//	            target.reload(true);
+//	            mui.back();
+//			})
 		});
 		//保存上一步图像
 		function canvas_copy() {

@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html>
+
+	<head>
+		<meta charset="utf-8">
+		<title>表单签批-查询</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1,maximum-scale=1,user-scalable=no">
+		<meta name="apple-mobile-web-app-capable" content="yes">
+		<meta name="apple-mobile-web-app-status-bar-style" content="black">
+
+		<link rel="stylesheet" href="../../css/mui.min.css">
+		<link rel="stylesheet" href="../../css/my_css.css" />
+	</head>
+
+	<body>
+		<header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">同欣科技大厦A区项目-表单统计</h1>
+		</header>
+		<div class="mui-content">
+			<div style="padding-top: 10px;">
+				<div id="search" class="mui-input-row mui-search">
+					<input type="search" class="mui-input-clear" readonly="readonly" placeholder="">
+				</div>
+			</div>
+
+			<div id="item1" class="mui-control-content mui-active">
+				<div class="mui-scroll-wrapper">
+					<div id="ulContent" class="mui-control-content-body-a"></div>
+				</div>
+			</div>
+			<div id="item2" class="mui-control-content">
+				<div class="mui-scroll-wrapper">
+					<div id="ulContent" class="mui-control-content-body-b"></div>
+				</div>
+			</div>
+			<div id="item3" class="mui-control-content">
+				<div class="mui-scroll-wrapper">
+					<div id="ulContent" class="mui-control-content-body-c"></div>
+				</div>
+			</div>
+			<div id="item4" class="mui-control-content">
+				<div class="mui-scroll-wrapper">
+					<div id="ulContent" class="mui-control-content-body-d"></div>
+				</div>
+			</div>
+		</div>
+		<script src="../../js/mui.min.js"></script>
+		<script src="../../js/service.js"></script>
+		<script src="../../js/webviewGroup.js" type="text/javascript" charset="utf-8"></script>
+		<script src="../../js/jquery-1.11.0.min.js"></script>
+		<script src="../../js/self/creat_card_tj.js"></script>
+		<script>
+			//区域滚动,需手动初始化scroll控件
+			mui('.mui-scroll-wrapper').scroll({
+				deceleration: 0.0005 //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+			});
+			mui.init();
+
+			mui.plusReady(function() {
+				//get pro Mes
+				var projectId = localStorage.getItem('projectId');
+				var projectName = localStorage.getItem('projectName');
+				var TypeName = localStorage.getItem('TypeName');
+				var TypeId = plus.storage.getItem("TypeId")
+
+				//var TypeId = getQueryString('TypeId')
+				$('#TypeName').text(TypeName);
+				localStorage.setItem('PageSta', '0');
+				//console.log(projectId)
+				
+				function geturl(name) {
+					var reg = new RegExp("(^|&)" + name + "=([^&]*)(&|$)");
+					var r = window.location.search.substr(1).match(reg);
+					if(r != null) return unescape(r[2]);
+					return null;
+				}
+				var CSSta = geturl("CSSta");
+//				console.log(CSSta)
+				var starttimevalue = geturl("starttimevalue");//开始时间
+				var endtimevalue = geturl("endtimevalue");//结束时间
+				//show type mes
+				$.ajax({ 
+					type: "post",
+					url: url + 'action_ins/ListShow.php',
+					async: true,
+					dataType: 'json',  
+					data: {
+						falg: 'listMesType_deta_Tj', 
+						TypeId: TypeId,
+						projectId: projectId, 
+						starttimevalue : starttimevalue,
+						endtimevalue : endtimevalue,
+						CSSta : CSSta
+					},  
+					success: function(data) {
+//						console.log(data) 
+						if(data['status'] == 'success') {
+//							alert(data['data'][0]['TabMNa'])
+							if(data['row'] == 0) {
+								alert('无相关数据') 
+							}  
+							for(var i = 0; i < data['row']; i++) {
+								var CId = data['data'][i]['id'];
+								var CType = 0;  
+								var CUrl = '#'; 
+								//var CUrl = 'detail/form_list.html';
+								var CName = data['data'][i]['TabNam'];
+								var CSUTm = data['data'][i]['TabCTm'];
+//								var CSSta = data['data'][i]['TabSta'];
+								var CSDLine = data['data'][i]['TabDTm'];
+								var TabMNa = data['data'][i]['TabMNa'];
+//								console.log(CSSta)
+								ListShow(CId, CType, CUrl, CName, CSUTm, CSSta, CSDLine, TabMNa);
+							}
+							$('.mui-card').on('tap', function() {
+								localStorage.setItem('CId', $(this).find('.CId').text());
+								localStorage.setItem('PageSta', '0');
+								mui.openWindow({
+									url: '../detail/form_mes.html',
+									id: 'detail/form_mes',
+								})
+							})
+						} else {
+							alert('无相关数据')
+						}
+					},
+					error: function(s, e, t) {
+						alert('出现错误，错误类型：' + e);
+					}
+				});
+
+				//返回父页面刷新
+				//              var old_back = mui.back;   
+				//              mui.back = function() {   
+				//                  var target = plus.webview.getWebviewById("project_type");
+				//                  target.reload(true);
+				//                  old_back()
+				//              }
+
+				//监听搜索按钮
+				var ulContent = document.getElementById("ulContent");
+				var search = document.getElementById("search");
+				search.addEventListener('click', function() {
+					//alert("搜索");
+					var bts = ["确认", "取消"];
+					plus.nativeUI.prompt(" ", function(e) {
+						var i = e.index;
+//						alert(e.value);
+						if(i == 0) {
+							searchDate(e.value);
+							//alert(mobile);
+						}
+					}, "请输入表单名称", "内容", bts);
+				});
+				//获取搜索后内容
+				var searchDate = function(SearchVal) {
+					ulContent.innerHTML = "";
+					$.ajax({
+						type: "post",
+						url: url + 'action_ins/ListShow.php',
+						async: true,
+						dataType: 'json',
+						data: {
+							falg: 'listMesType_search_Tj',
+							SearchVal: SearchVal,
+							TypeId: TypeId,
+							projectId: projectId,
+							starttimevalue : starttimevalue,
+							endtimevalue : endtimevalue 
+						},   
+						success: function(data) {
+							//console.log(data)
+							if(data['status'] == 'success') {
+								if(data['row'] == 0) {
+									alert('无相关数据')
+								}
+								for(var i = 0; i < data['row']; i++) {var CId = data['data'][i]['id'];
+								var CType = 0;
+								var CUrl = '#';
+								//var CUrl = 'detail/form_list.html';
+								var CName = data['data'][i]['TabNam'];
+								var CSUTm = data['data'][i]['TabCTm'];
+//								var CSSta = data['data'][i]['TabSta'];
+								var CSDLine = data['data'][i]['TabDTm'];
+								var TabMNa = data['data'][i]['TabMNa'];
+								ListShow(CId, CType, CUrl, CName, CSUTm, CSSta, CSDLine, TabMNa);
+								}
+								$('.mui-card').on('tap', function() {
+									localStorage.setItem('CId', $(this).find('.CId').text());
+									localStorage.setItem('PageSta', '0');
+									mui.openWindow({
+										url: '../detail/form_mes.html',
+										id: 'detail/form_mes',
+									})
+								})
+							} else {
+								alert('无相关数据')
+							}
+						},
+						error: function(xhr, type, errorThrown) {
+							//alert('ajax错误'+type+'---'+errorThrown);
+							alert('ajax错误' + type + errorThrown);
+						}
+					});
+				};
+
+			});
+		</script>
+	</body>
+
+</html>

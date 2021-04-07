@@ -1,0 +1,349 @@
+<!doctype html>
+<html>
+
+	<head>
+		<meta charset="UTF-8">
+		<title>建筑文件流转系统-工程详情</title>
+		<meta name="viewport" content="width=device-width,initial-scale=1,minimum-scale=1,maximum-scale=1,user-scalable=no" />
+        <meta name="apple-mobile-web-app-capable" content="yes">
+        <meta name="apple-mobile-web-app-status-bar-style" content="black">
+		<!--css-->
+        <link rel="stylesheet" href="../css/mui.min.css">
+        <link rel="stylesheet" href="../css/mui.picker.min.css">
+	</head>
+ 
+	<body>
+		<header class="mui-bar mui-bar-nav">
+            <a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left "></a>
+            <h1 class="mui-title"><span id="ProNam"></span></h1>
+        </header>
+		<style type="text/css">
+			.iconFont{
+				font-size: 8vw
+			}
+			.top0{
+				z-index: 0 !important;
+				position: relative;
+			}
+			.top1{
+				position: absolute;
+				right: 7vw;
+				top: 7vw;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				color: #fff;
+				font-size: 4.5vw !important; 
+			}
+			.top1 .title{
+				color: #fff;
+			}
+			.top2{
+				position: absolute;
+				top: 48vw;
+				left: 10vw;
+				display: flex;
+			}
+			.topText{
+				margin-right: 10vw;
+				font-size: 4.5vw;
+				color: #fff;
+				font-weight: bold;
+			}
+			#bot0,#mid0{
+				background:#fff;
+				width: 96%;
+				margin: -3vw 2% 0 2%;
+				z-index: 999;
+				height: 40vw;
+				position: relative;
+				border-radius: 5px;
+			}
+			#bot0{
+				margin-top: 5vw;
+				height: 50vw;
+			}
+			#bot1,#mid1{
+				height: 30%;
+				padding: 5%;
+				border-bottom: 1px solid lightgray;
+				font-size: 4.5vw;
+			}
+			#bot1{
+				
+			}
+			#bot2{
+				display: flex;
+				flex-direction: column;
+				padding
+			}
+			#mid2{
+				display: flex;
+				height: 70%;
+				align-items: center;
+			}
+			.mid3{
+				width: 25% !important;
+				display: flex;
+				flex-direction: column;
+				align-items: center;
+				font-size: 3.5vw;
+				color: #0062CC;
+				position: relative;
+			}
+			#mid-box{
+				height: 100%;
+			}
+			.mid4{
+				display: flex;
+				padding: 2vw;
+			}
+			.mui-scroll-wrapper{
+				margin-top: 8vw;
+			}
+			.iconBadge{
+				position: absolute;
+				right: 10%;
+				top: 0;
+			}
+			.isActive{
+				color: gray;
+			}
+		</style>
+		<div  class="mui-scroll-wrapper">
+		    <div class="mui-content mui-scroll rwdiv">
+		<!-- <div class="mui-content"> -->
+			<div class="top0">
+				<div class="mui-card-header mui-card-media" style="height:60vw;background-image:url(../images/cbd.jpg)"></div>
+				<div class="top1" id="changeProject" >
+					<span class="iconFont mui-icon mui-icon-location"></span>
+					<div class="title">切换工程</div>
+				</div>
+				<div class="top2">
+					<div  class="topText">
+						已签表单 
+						<span id="done">
+							
+						</span>
+					</div>
+					<div  class="topText">
+						待签表单 
+						<span class="textStY" id="none">
+							
+						</span>
+					</div>
+				</div>
+			</div>
+			<div id="mid-box">
+				
+			
+				<div id="mid0">
+					<div id="mid1">
+						资料管理  
+					</div>
+					<div id="mid2">
+						<a href="project_type.html" class="mid3 isActive" disabled="true">
+							<!-- <span class="mui-badge mui-badge-danger iconBadge">12</span> -->
+							<span class="iconFont mui-icon mui-icon-location"></span>
+							<div class="">表单签批</div>
+						</a> 
+						<a href="project_form_select.html" class="mid3">
+							<!-- <span class="mui-badge mui-badge-danger iconBadge">12</span> -->
+							<span class="iconFont mui-icon mui-icon-search"></span>
+							<div  class="">表单查询</div>
+						</a> 
+						<a href="project_sign_select.html" class="mid3 ">
+							<!-- <span class="mui-badge mui-badge-danger iconBadge">12</span> -->
+							<span class="iconFont mui-icon mui-icon-bars"></span>
+							<div class="">签批查询</div>
+						</a>
+						<a class="mid3 isActive">
+							<!-- <span class="mui-badge mui-badge-danger iconBadge">12</span> -->
+							<span class="iconFont mui-icon mui-icon-flag"></span>
+							<div class="" id="bao">施工日报</div>
+						</a>
+					</div>
+				</div>
+				<div id="bot0"> 
+					<div id="bot1"> 
+						试件管理
+					</div> 
+					<div id="bot2">  
+						<div class="mid4">
+							<div class="mid3 isActive">
+								<span class="iconFont mui-icon mui-icon-location"></span>
+								<div class="">表单签批</div>
+							</div>
+							<div class="mid3 isActive">
+								<span class="iconFont mui-icon mui-icon-search"></span>
+								<div class="">表单查询</div>
+							</div>
+							<div class="mid3 isActive">
+								<span class="iconFont mui-icon mui-icon-bars"></span>
+								<div class="">签批查询</div>
+							</div>
+							<div class="mid3 isActive">
+								<span class="iconFont mui-icon mui-icon-flag"></span>
+								<div class="">施工日报</div>
+							</div>
+						</div>
+						
+						<div class="mid4">
+							<div class="mid3 isActive">
+								<span class="iconFont mui-icon mui-icon-bars"></span>
+								<div class="">签批查询</div>
+							</div>
+							<div class="mid3 isActive">
+								<span class="iconFont mui-icon mui-icon-flag"></span>
+								<div class="">施工日报</div>
+							</div>
+							<div class="mid3 isActive">
+								<span class="iconFont mui-icon mui-icon-bars "></span>
+								<div class="">签批查询</div>
+							</div>
+							<div class="mid3 isActive">
+								<span class="iconFont mui-icon mui-icon-flag"></span>
+								<div class="">施工日报</div>
+							</div>
+						</div>
+						
+					</div>
+				</div>
+			</div>
+		</div>
+		</div>
+		<script src="../js/mui.min.js"></script>
+		<script src="../js/service.js"></script>
+		<script src="../js/self/creat_card.js"></script>
+		<script src="../js/jquery-1.11.0.min.js"></script>
+		<script src="../js/mui.picker.min.js"></script>
+		<script type="text/javascript">		
+		    mui.init();
+		    mui('.mui-scroll-wrapper').scroll({
+		        deceleration: 0.0006, //flick 减速系数，系数越大，滚动速度越慢，滚动距离越小，默认值0.0006
+		    });
+		    mui.init({
+		        gestureConfig:{
+		            doubletap: true
+		        }
+		    });
+			mui.plusReady(function() {
+			//get pro Mes
+			var projectId = localStorage.getItem('projectId');
+//		        alert(projectId)
+			var projectName = localStorage.getItem('projectName');
+			$('#ProNam').text(projectName);
+		        
+			$.ajax({
+			    type:"post", 
+			    url:url+'action_ins/ListShow.php',
+			    async:true,
+			    dataType:'json',
+			    data:{ 
+			        falg:'getFormData',
+			        projectId:projectId,
+			        RolId:localStorage.getItem('RolId')//
+			    },
+			    success:function(data){
+					$('#done').text(data.DoneRow)
+					$('#none').text(data.NoneRow)
+			    }, 
+			    error:function(s,e,t){
+			        alert('出现错误，错误类型：'+e);
+			    }
+			});	
+			
+			$('#changeProject').on('tap', function() {
+				
+				console.log(localStorage)
+				var picker = new mui.PopPicker();
+				var dataPho = localStorage.getItem('AccPh')
+// 				
+				picker.show(function (selectItems) {
+				localStorage.setItem('projectId',selectItems[0].value)
+				localStorage.setItem('projectName',selectItems[0].text)
+				location.reload()
+			   })
+			});
+			
+// 			$.ajax({
+// 				type:"get",
+// 				url:urlAPI+"TongXinweb/project/AllPro",
+// 				async:true,
+// 				dataType:'json',
+// 				success:function(data){
+// 					//check status
+// 					if(data['success'])
+// 					{
+// 						//check UsePhone
+// 						var Mes  = '['
+// 						for (var i=0;i<data['data'].length;i++) {
+// 						 // if(data['data'][i]['mobile'] == dataPho)
+// 						 // {
+// 								Mes += JSON.stringify(data['data'][i])
+// 								Mes += ','
+// 						 // }  
+// 						}
+// 						Mes = Mes.substr(0,Mes.length-1)
+// 						Mes += ']'
+// 						var MesObj = eval('(' + Mes + ')');
+// 						console.log(MesObj);
+// 						//get proId 
+// 						var arrProId = new Array()
+// // 							$.ajax({
+// // 								type:"post",
+// // 								url:url+"action_ins/GetProId.php",
+// // 								async:true,
+// // 								dataType:'json',
+// // 								success:function(data){
+// // 									if(data['status'] == 'success'){
+// // 										for(var i=0;i<data['data'].length;i++){
+// // 											arrProId[i] = data['data'][i]
+// // //                          	            console.log(arrProId[i])
+// // 										}
+// // 										//show Card
+// // 										for (var i=0;i<MesObj.length;i++) {
+// // 											var ProId = MesObj[i]['projectId'];
+// // 											if($.inArray(ProId, arrProId) >= 0){
+// // 												var ProName = MesObj[i]['projectName'];
+// // 												var ProCTm = MesObj[i]['createTime'];
+// // 												var ProSTm = MesObj[i]['startDate'];
+// // 												var ProUTm = MesObj[i]['uploadTime'];
+// // 												var ProSupunits = MesObj[i]['supUnits'];
+// // 												var ProBuild = MesObj[i]['builder'];
+// // 												var ProMobile = MesObj[i]['mobile'];
+// // 												var ProCCode = MesObj[i]['prjNo'];
+// // 												var ProCName = MesObj[i]['cityName'];
+// // 												var Phone = MesObj[i]['mobile'];
+// // 												var DateBegin = MesObj[i]['startDate'];
+// // 												ListShow_Project(ProId,ProName,ProCName,ProCCode,DateBegin,Phone,ProBuild,ProSupunits);
+// // 											}
+// // 										}
+// // 										return 0;
+// // 									}
+// // 									if(data['status'] == 'none'){
+// // 										alert('暂无需签批工程')
+// // 										return 0;
+// // 									}
+// // 									alert('出现错误，请联系管理员；错误类型：获取数据出现错误')
+// // 								},
+// // 								error:function(s,e,t){
+// // 									alert('出现错误，请联系管理员；错误类型：'+e)
+// // 								}
+// // 							});
+// 						return 0
+// 					}
+// 					alert('出现错误，错误类型：连接数据出现错误');
+// 				},
+// 				error:function(s,e,t){
+// 					alert('出现错误，错误类型：'+e);
+// 				}
+// 			});
+		}) 
+		    
+		   
+			
+		</script>
+	</body>
+
+</html>

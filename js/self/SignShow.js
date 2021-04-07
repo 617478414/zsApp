@@ -2,14 +2,13 @@
 function showSignSvg(SignPX,SignPY,FormW,FormH,SignW,SignH,PageFinal,SignFinal,placeImg){
     PageFinal --;
     var imgArr = document.getElementsByClassName("paneImg")
-//              alert(imgArr[0].width)
     //计算表单缩放比
     var scaleFromX = (imgArr[0].width)/FormW
     var scaleFromY = (imgArr[0].height)/FormH
     //签名缩放
     var SignSvg = new Image()
     var SignWidth = SignW*scaleFromX*2
-    var SignHeight = SignH*scaleFromY*2
+    var SignHeight = SignH*scaleFromY*2 
 //              SignSvg.width = SignWidth
 //              SignSvg.height = SignHeight
     SignSvg.src = SignFinal
@@ -28,7 +27,7 @@ function showSignSvg(SignPX,SignPY,FormW,FormH,SignW,SignH,PageFinal,SignFinal,p
         $('.pane').eq(PageFinal).append(EleSvgText)
 //                  console.log(SignWidth)
 //                  console.log(SignHeight)
-//                  console.log(SignSvg.src)
+//                  console.log(SignSvg.src) 
     }
 }
 

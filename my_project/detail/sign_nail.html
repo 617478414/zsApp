@@ -1,12 +1,14 @@
 <!DOCTYPE html>
 <html>
-<head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
-    <link rel="stylesheet" href="../../css/mui.min.css" />
-    <title></title>
-    <style>
-    	html,body{
+
+	<head>
+		<meta charset="utf-8">
+		<meta name="viewport" content="initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+		<link rel="stylesheet" href="../../css/mui.min.css" />
+		<link rel="stylesheet" href="../../css/my_css.css">
+		<title></title>
+		<style>
+			html,body{
     		position:relative;
     		height: 100%;
     		width:100%; 
@@ -22,25 +24,26 @@
     	}
     	#myCanvas,#my_Canvas{
     		overflow:hidden;
-    		margin-top: 10px;
-    		border: 1px solid #d3d3d3;
+    		margin-top: 50px;
+    		border: 1px solid #d3d3d3; 
     		position: absolute;
     		background-color: #f7f7f7;
     	}
     	.port{
     		position: absolute;
-    		margin-top: 256px;
+    		margin-top: 296px;
     		background-color: #FFFFFF;
-    		margin-left: 5%;
+    		padding: 5px;
     		width: 90%;
     		height: 40px;
+    		margin-left: 50%;
+    		left: -45%;
     		border: 1px solid #000000;
     		word-break: break-all;
     	}
     	.point{
-    		width: 60px;
+    		width: 100%;
     		height: 40px;
-    		margin-left: 70px;
     	}
     	.bar{
     		float: left;
@@ -51,112 +54,206 @@
     		z-index: 99;
     	}
     	.box{
-    		position: absolute;
-    		margin-top: 560px;
+    		width: 80%;
+    		display: flex;
+    		flex-direction: row;
+    		margin-top: 590px;
+    		margin-left: 10%; 
     	}
-    </style>
-</head>
-<body>
-	<div class="container">
-		<p id="zb" style="padding: 0;margin: 0;">坐标：</p>
-		<a id="my_popover" style="top:-20px;right:10px;position: relative;" class="mui-icon mui-icon-bars mui-pull-right"></a>
-		<div> 
-			<img id="pic" src="../../images/cad.jpg" width="320.5px" height="226.5px" hidden="hidden" /> 
-			<canvas id="myCanvas" style="margin-left: 10px;"></canvas> 
-		</div>
-		<div class="port" id="dian">
-			<span id="port" class="mui-badge mui-badge-warning bar" style="position: absolute;z-index: -1;">0</span>
-			<!--<span id="F3" title="x" class="mui-badge mui-badge-warning bar" style="display: block;" onclick="put(this)">F3</span>-->
-			<!--<span id="E" title="x" class="mui-badge mui-badge-warning bar" style="display: block;" onclick="put(this)">E</span>
-			<span id="F" title="x" class="mui-badge mui-badge-warning bar" style="display: block;" onclick="put(this)">F</span>-->
-		</div>
-		<div class="">
-			<img id="pic_biger" src="../../images/cad.jpg" width="1602.5px" height="1132.5" hidden="hidden"/>
-			<canvas id="my_Canvas" style="margin-top: 300px;margin-left: 10px;"></canvas>
-		</div>
-		<div id="smalldiv" style="position: absolute; width:30px; background-color: rgba(0,0,0,0.5); height:30px; border:1px solid gray; display: none;" ></div>
-		<div class="box">
-			<button class="point" style="top: -15px;" id="save_point">保存</button>
-			<!--<button class="point">布点</button>-->
-		</div>
-		<div id="middlePopover" class="mui-popover">
-			<div class="mui-popover-arrow"></div>
-			<div class="mui-scroll-wrapper">
-				<div class="mui-scroll">
-					<textarea id="content" readonly="readonly" rows="10" placeholder="多行文本框" onkeyup='this.value=this.value.replace(/[&\|\\\/……*~^<>%$￥@#@\-]/g,"").replace(/\s/g, "")'></textarea>
-				</div>
+    	.mui-popover{
+    		height: 300px;
+    	}
+		.textone {
+	        overflow: hidden;
+	        text-overflow: ellipsis;
+	        display: -webkit-box;
+	        line-height: 35px;    
+	        max-height: 40px;
+	        -webkit-line-clamp: 1;
+	        -webkit-box-orient: vertical;
+	    }
+			
+			.A_color {
+				background-color: #CF2D28;
+			}
+			
+			.B_color {
+				background-color: #6641E2;
+			}
+			
+			.C_color {
+				background-color: #FFC107;
+			}
+			
+			.D_color {
+				background-color: #00BFFF;
+			}
+			
+			.E_color {
+				background-color: #0CAF2D;
+			}
+			
+			.wxj_color {
+				background-color: #D3D3D3;
+			}
+		</style>
+	</head>
+
+	<body>
+		<div class="container">
+			<header class="mui-bar mui-bar-nav">
+				<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a> 
+				<!--<a id="my_popover" class="mui-icon mui-icon-bars mui-pull-right"></a>-->
+				<h1 class="mui-title">图钉标注</h1>
+			</header>
+			<p id="zb" style="padding: 0;margin: 0;display: none;">坐标：</p>
+			<div>
+				<img id="pic" src="../../images/null_pic.jpg"  hidden="hidden" />  
+				<canvas id="myCanvas"></canvas>  
+			</div>
+			<div class="port" id="dian" style="margin-top: 290px;left:10px;height: 238px;width: 161px;top: -240px;"> 
+				<span id="port" class="mui-badge mui-badge-warning bar" style="position: absolute;z-index: -1;">0</span>
+			</div>
+			<!--底部-->
+			<nav class="mui-bar mui-bar-tab " >
+				<!--<a class="mui-tab-item" id="Popover_2">清屏</a>-->
+				<a class="mui-tab-item" id="Popover_3">新建图钉</a>
+				<a class="mui-tab-item" id="save_point" style="background-color: #1E90FF;color: #000000;">保存</a>
+			</nav>
+			<div class="">
+				<img id="pic_biger" src="../../images/null_pic.jpg" width="1602.5px" height="1132.5" hidden="hidden"/>
+				<canvas id="my_Canvas" style="margin-top: 285px;"></canvas>
+			</div>
+			<div id="smalldiv" style="position: absolute; width:30px; background-color: rgba(63,10,217,0.5); height:30px; border:1px solid gray; display: none;" ></div>
+			<div class="box"> 
+				<!--<button class="point my_none" style="position:relative;bottom: 10px;" id="save_point">保存</button>-->
 			</div>
 		</div>
 	</div>
-<script src="../../js/mui.min.js"></script>
-<script type="text/javascript" src="../../js/service.js" ></script>
-<script type="text/javascript" src="../../js/jquery-1.10.2.min.js" ></script>
-<script type="text/javascript" src="../../js/picture_biger.js" ></script>
-<script>
-	mui.plusReady(function(){
-		//接收上一个页面的值
-		var self = plus.webview.currentWebview();
-		var sjc = self.CirSmp;
-		var CSdA = self.CSdA;
-		
-//		alert(sjc+'  '+CSdA)
-		ctx.drawImage(img,0,0,img_w,img_h,0,0,300,150);
-		plus.nativeUI.toast("请先创建图钉后进行标注！");
-		
-		//右上角按钮监听
-		my_popover.addEventListener('tap', function() {
-			var btnArray = [{
-				title: "创建图钉"
-			}, ];
-			plus.nativeUI.actionSheet({
-				title: "操作",
-				cancel: "取消",
-				buttons: btnArray
-			}, function(e) {
-				var index = e.index;
-				switch(index) {
-					case 0: //取消								
-						break;
-					case 1: //新增测点
-						//遮罩效果
-						ws = null;
-						ws = plus.webview.currentWebview();
-						// 显示遮罩层
-						ws.setStyle({
-							mask: "rgba(0,0,0,0.7)"
-						});
-						// 点击关闭遮罩层
-						ws.addEventListener("maskClick", function() {
-							ws.setStyle({
-								mask: "none"
-							});
-						}, false);
-						//打开新webview，模仿弹窗
-						mui.openWindow({
-							url: 'my_project_ysjl_xzcd.html',
-							id: 'my_project_ysjl_xzcd',
-							styles: {
-								width: '80%',
-								height: '60%',
-								margin: 'auto'
-							},
-							extras: {
-								sjc:sjc
-							},
-							show: {
-								autoShow: true, //页面loaded事件发生后自动显示
-								aniShow: 'slide-in-right', //页面显示动画
-								duration: '100' //页面动画持续时间
-							},
-							waiting: {
-								autoShow: false, //自动显示等待框
-							},
-						});
-						break;
+	</body>
+		<script type="text/javascript" src="../../js/mui.min.js"></script>
+		<script src="../../js/service.js"></script>
+		<script src="../../js/jquery-1.10.2.min.js"></script>
+		<script src="../../js/picture_biger.js"></script>
+		<script>   
+			mui.init({ 
+				gestureConfig: {
+					longtap: true, //长按默认为false
+					doubletap: true
 				}
+			}); 
+			//接收图纸
+			var taburl = localStorage.getItem('tab_url');
+//			console.log(taburl)
+			 
+			$("#pic").attr("src", taburl );
+			$("#pic_biger").attr("src", taburl );
+			mui.plusReady(function() {
+				var self = plus.webview.currentWebview();
+				CSdA = self.CSdA;
+				sjc = self.CirSmp;
+//				console.log(sjc+' '+CSdA)
+				ctx.drawImage(img, 0, 0, img_w, img_h, 0, 0, 1030, 745);
+
+				mui.ajax(url + 'action_ins/point_get.php', {
+					data: {
+						sjc: sjc
+					},
+					type: "post",
+					dataType: "json",
+					timeout: 10000,
+					success: function(data) {
+//						alert(data)
+						var length = data.length;
+						if(length > 1) {
+							for(var i = 0; i < length - 1; i++) {
+								var id = data[i].id;
+								var X_zb = data[i].X;
+								var Y_zb = data[i].Y;
+								var X_father = data[i].X_father;
+								var Y_father = data[i].Y_father;
+//								var riskLevel = data[i].风险等级;
+								var num = data[i].num;
+								draw_poin(X_father, Y_father, X_zb, Y_zb, length, i,num);
+							}
+						}
+					},
+					error: function(xhr, type, errorThrown) {
+						console.log(type);
+					} 
+				});
+
+				function draw_poin(X, Y, x, y, length, i ,num) {
+					var c = document.getElementById("myCanvas");
+					var phone_width = $(window).width() * 0.95; //canvas的宽度
+					var img = document.getElementById("pic");
+					var img_w = img.naturalWidth;//1282 2567
+					var img_h = img.naturalHeight;//906 1814
+					var set_height = phone_width * 0.7067;
+					var bbox = c.getBoundingClientRect();
+					var point_x = (parseFloat(X) + parseFloat(phone_width * x * 0.2)) * (300 / phone_width);
+					var point_y = (parseFloat(Y) + parseFloat(set_height * y * 0.2)) * (150 / set_height);
+					var context = c.getContext("2d");
+					context.fillStyle = "#CF2D28";
+
+					context.beginPath(); 
+//					alert(Y)
+					context.arc(point_x*1.75,point_y*2.45,10,Math.PI*2,0,true);
+					context.fill();
+					context.font="15px Arial";
+					context.fillStyle="#ff0000"; 
+					context.fillText(num,(point_x*1.75)+10,(point_y*2.45)-6);				
+					//console.log(i+"||"+(length-1));
+					if(i == (length - 2)) {
+//						save_pic(c);     
+					} 
+				}
+
+				function save_pic(c) {
+					var base64 = c.toDataURL("image/png", 1);  
+					mui.ajax(url + "my_plus/scbd/pic_upload.php", { 
+						data: {
+							gcid: gcid,  
+							cardId: carid,   
+							pic: base64   
+						}, 
+						type: "post",
+						dataType: "json",  
+						timeout: 10000,
+						success: function(data) {},
+						error: function() {}
+					});
+				}
+				Popover_3.onclick = function(){
+					ws = null;
+					ws = plus.webview.currentWebview();
+					// 显示遮罩层
+					ws.setStyle({
+						mask: "rgba(0,0,0,0.7)"
+					});
+					mui.openWindow({
+						url:'my_project_ysjl_xzcd.html',
+						id:'my_project_ysjl_xzcd',
+						extras:{
+							sjc:sjc
+						},
+						styles: {
+							width: '80%',
+							height: '60%',
+							margin: 'auto'
+						},
+						show: {
+							autoShow: true, //页面loaded事件发生后自动显示
+							aniShow: 'slide-in-right', //页面显示动画
+							duration: '100' //页面动画持续时间
+						},
+						waiting: {
+							autoShow: false, //自动显示等待框
+						},
+					})
+				};				
 			});
-		});
-	});
-</script>
-</body>
+		</script>
+	
+
 </html>

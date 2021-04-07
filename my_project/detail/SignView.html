@@ -242,7 +242,7 @@
 						if(data['status'] == 'success') {
 							var signUrl = data['path']
 							//将地址存进本地存储
-//							localStorage.setItem('SignUrl', UrlImage + signUrl)
+							localStorage.setItem('SignUrl', UrlImage + signUrl)
 							var Sign_imgurl =  signUrl;
 							var target = plus.webview.currentWebview().opener();
 							mui.fire(target, 'json', {
